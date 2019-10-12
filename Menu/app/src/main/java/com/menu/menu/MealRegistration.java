@@ -1,6 +1,11 @@
 package com.menu.menu;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +19,9 @@ import android.widget.TextView;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MealRegistration extends AppCompatActivity
 {
@@ -29,24 +37,30 @@ public class MealRegistration extends AppCompatActivity
         m_previousPage = previousPage;
     }
 
+    TextView m_txt_error = null;
+    ImageView m_img_image = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_registration);
 
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
+        final DatabaseCommunicator dbComms = new DatabaseCommunicator();
 
-        ImageButton btn_uploadImage = findViewById(R.id.btn_upload);
-        ImageView img_image = findViewById(R.id.img_image);
+        m_txt_error = findViewById(R.id.txt_error);
+        m_txt_error.setVisibility(View.INVISIBLE);
+
+        m_img_image = findViewById(R.id.img_image);
+        final ImageButton btn_uploadImage = findViewById(R.id.btn_upload);
         final EditText input_name = findViewById(R.id.input_name);
-        EditText input_maxNumberOfDishes = findViewById(R.id.input_maxMeals);
-        EditText input_price = findViewById(R.id.input_price);
-        EditText input_ingredients = findViewById(R.id.input_ingredients);
+        final EditText input_maxNumberOfDishes = findViewById(R.id.input_maxMeals);
+        final EditText input_price = findViewById(R.id.input_price);
+        final EditText input_ingredients = findViewById(R.id.input_ingredients);
         final RadioButton toggle_onSale = findViewById(R.id.toggle_onSale);
-        Button btn_add = findViewById(R.id.btn_add);
-        Button btn_quit = findViewById(R.id.btn_quit);
+        final Button btn_add = findViewById(R.id.btn_add);
+        final Button btn_quit = findViewById(R.id.btn_quit);
+        final Button btn_delete = findViewById(R.id.btn_delete);
 
         if (m_currentMeal != null)
         {
@@ -55,7 +69,7 @@ public class MealRegistration extends AppCompatActivity
             input_maxNumberOfDishes.setText(m_currentMeal.MaxQuantity);
             input_price.setText(m_currentMeal.Price);
             toggle_onSale.setActivated(m_currentMeal.OnSale);
-            img_image.setImageBitmap(m_currentMeal.Image);
+            m_img_image.setImageBitmap(m_currentMeal.Image);
         }
 
         m_currentMeal.OwnerUsername = LocalSettings.LocalUser.Username;
@@ -65,7 +79,7 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), 3);
             }
         });
 
@@ -76,24 +90,28 @@ public class MealRegistration extends AppCompatActivity
             {
                 m_currentMeal.OnSale = toggle_onSale.isActivated();
                 m_currentMeal.Name = input_name.getText().toString();
+                m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
+                m_currentMeal.Ingredients = input_ingredients.getText().toString();
+                m_currentMeal.MaxQuantity = Integer.parseInt(input_maxNumberOfDishes.getText().toString());
+                m_currentMeal.Price = input_price.getText().toString();
 
                 String errorString = ValidateMeal(m_currentMeal);
                 if (errorString == "NO-ERROR")
                 {
-                    if (new DatabaseCommunicator().AddMeal(m_currentMeal))
+                    if (dbComms.AddMeal(m_currentMeal))
                     {
-                        startActivity(new Intent(MealRegistration.this, m_previousPage.getClass()));
+                        NavigateToPreviousPage();
                     }
                     else
                     {
-                        txt_error.setText("Failed to add meal. Check internet connection.");
-                        txt_error.setVisibility(View.VISIBLE);
+                        m_txt_error.setText("Failed to add meal. Check internet connection.");
+                        m_txt_error.setVisibility(View.VISIBLE);
                     }
                 }
                 else
                 {
-                    txt_error.setText(errorString);
-                    txt_error.setVisibility(View.VISIBLE);
+                    m_txt_error.setText(errorString);
+                    m_txt_error.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -103,14 +121,65 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(MealRegistration.this, m_previousPage.getClass()));
+                NavigateToPreviousPage();
+            }
+        });
+
+        btn_delete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if (dbComms.DeleteMeal(m_currentMeal))
+                {
+                    NavigateToPreviousPage();
+                }
+                else
+                {
+                    m_txt_error.setText("Failed to remove meal. Check internet connection.");
+                    m_txt_error.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
 
+    private void NavigateToPreviousPage()
+    {
+        startActivity(new Intent(MealRegistration.this, m_previousPage.getClass()));
+    }
+
     private String ValidateMeal(Meal meal)
     {
+        //todo validation...
+        //name should be unique
         return "NO-ERROR";
+    }
+
+    //Overridden so we can get the uploaded image
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //GET_FROM_GALLERY = 3
+        if(requestCode==3 && resultCode == Activity.RESULT_OK)
+        {
+            Uri selectedImage = data.getData();
+            try
+            {
+                m_currentMeal.Image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                m_img_image.setImageBitmap(m_currentMeal.Image);
+            }
+            catch (FileNotFoundException e)
+            {
+                m_txt_error.setText("Image file could not be found");
+                m_txt_error.setVisibility(View.VISIBLE);
+            }
+            catch (IOException e)
+            {
+                m_txt_error.setText("An I/O error occured while acquiring the image");
+                m_txt_error.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
 

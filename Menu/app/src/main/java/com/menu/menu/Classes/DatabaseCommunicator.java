@@ -79,6 +79,11 @@ public class DatabaseCommunicator
         return true;
     }
 
+    public boolean DeleteMeal(Meal meal)
+    {
+        return true;
+    }
+
     private User GetUser(String selectStatement)
     {
         return new User();

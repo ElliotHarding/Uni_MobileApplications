@@ -74,8 +74,7 @@ public class AddressEdit extends AppCompatActivity
 
     private String ValidateUserAddress(User user)
     {
-        //todo
-
+        //todo validation...
         return "NO ERROR";
     }
 

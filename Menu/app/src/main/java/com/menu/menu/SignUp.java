@@ -91,7 +91,7 @@ public class SignUp extends AppCompatActivity
 
     public static String ValidateSettings(User u)
     {
-        //todo
+        //todo validation...
         return "NO-ERROR";
     }
 }
