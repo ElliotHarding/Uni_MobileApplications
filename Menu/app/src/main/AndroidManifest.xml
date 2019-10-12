@@ -20,7 +20,13 @@
         <activity android:name=".Home" />
         <activity android:name=".Settings" />
         <activity android:name=".ChefSettings" />
-        <activity android:name=".MealRegistration"></activity>
+        <activity android:name=".MealRegistration" />
+        <activity android:name=".Map" />
+        <activity android:name=".SearchResults" />
+        <activity android:name=".MealView" />
+        <activity android:name=".PaymentProcessing" />
+        <activity android:name=".MealOrder" />
+        <activity android:name=".MeetupChat"></activity>
     </application>
 
 </manifest>
