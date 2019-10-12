@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -12,14 +13,20 @@ import com.menu.menu.Classes.User;
 
 public class Settings extends AppCompatActivity
 {
+    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    User m_currentUser = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        final DatabaseCommunicator dbComms = new DatabaseCommunicator();
-        final User currentUser = dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+
+        m_currentUser = m_dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+
+        final TextView txt_error = findViewById(R.id.txt_error);
+        txt_error.setVisibility(View.INVISIBLE);
 
         final EditText input_email = findViewById(R.id.input_addressLine1);
         final EditText input_phone = findViewById(R.id.input_addressLine2);
@@ -27,33 +34,41 @@ public class Settings extends AppCompatActivity
         final EditText input_last = findViewById(R.id.input_postCode);
         final EditText input_password = findViewById(R.id.input_password);
 
-        input_email.setText(currentUser.Email);
-        input_phone.setText(currentUser.Phone);
-        input_first.setText(currentUser.FirstName);
-        input_last.setText(currentUser.LastName);
-        input_password.setText(currentUser.Password);
+        input_email.setText(m_currentUser.Email);
+        input_phone.setText(m_currentUser.Phone);
+        input_first.setText(m_currentUser.FirstName);
+        input_last.setText(m_currentUser.LastName);
+        input_password.setText(m_currentUser.Password);
 
         findViewById(R.id.btn_saveSettigns).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                currentUser.Email = input_email.getText().toString();
-                currentUser.Phone = input_phone.getText().toString();
-                currentUser.FirstName = input_first.getText().toString();
-                currentUser.LastName = input_last.getText().toString();
-                currentUser.Password = input_password.getText().toString();
+                m_currentUser.Email = input_email.getText().toString();
+                m_currentUser.Phone = input_phone.getText().toString();
+                m_currentUser.FirstName = input_first.getText().toString();
+                m_currentUser.LastName = input_last.getText().toString();
+                m_currentUser.Password = input_password.getText().toString();
 
-                String errorString = SignUp.ValidateSettings(currentUser);
-                if (errorString == "NO ERROR")
+                String errorString = SignUp.ValidateSettings(m_currentUser);
+                if (errorString == "NO-ERROR")
                 {
-                    dbComms.UpdateUser(currentUser);
-                    LocalSettings.UpdateLocalUser(currentUser);
-                    NavigateHome();
+                    if (m_dbComms.UpdateUser(m_currentUser))
+                    {
+                        LocalSettings.UpdateLocalUser(m_currentUser);
+                        NavigateHome();
+                    }
+                    else
+                    {
+                        txt_error.setText("Failed to add user! Check network.");
+                        txt_error.setVisibility(View.VISIBLE);
+                    }
                 }
                 else
                 {
-                    //todo... errorString
+                    txt_error.setText(errorString);
+                    txt_error.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -64,6 +79,19 @@ public class Settings extends AppCompatActivity
             public void onClick(View view)
             {
                 NavigateHome();
+            }
+        });
+
+        findViewById(R.id.btn_addressSettings).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AddressEdit.Setup(this, m_currentUser);
+
+                startActivity(new Intent(Settings.this, AddressEdit.class));
+
+                m_currentUser = AddressEdit.GetUpdatedUser();
             }
         });
     }

@@ -6,7 +6,8 @@ public class LocalSettings
 
     public static void LoadSettings()
     {
-
+        //todo...
+        LocalUser = new User();
     }
 
     public static void UpdateLocalUser(User u)

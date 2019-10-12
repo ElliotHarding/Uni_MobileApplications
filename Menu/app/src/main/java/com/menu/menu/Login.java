@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -28,9 +29,13 @@ public class Login extends AppCompatActivity
         {
             if (m_dbComms.TryLogin(LocalSettings.LocalUser.Username, LocalSettings.LocalUser.Password, DatabaseCommunicator.LoginOption.Username))
             {
+                LocalSettings.LocalUser.LoggedIn = true;
                 NavigateToHome();
             }
         }
+
+        final TextView txt_error = findViewById(R.id.txt_error);
+        txt_error.setVisibility(View.INVISIBLE);
 
         final Button btn_login = findViewById(R.id.btn_login);
         final Button btn_signUp = findViewById(R.id.btn_signUp);

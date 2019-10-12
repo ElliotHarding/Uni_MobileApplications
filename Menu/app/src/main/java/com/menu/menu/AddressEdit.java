@@ -5,19 +5,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.menu.menu.Classes.User;
 
 public class AddressEdit extends AppCompatActivity
 {
-    public static Object m_returnPage;
-    public static User m_currentUser;
+    private static Object m_returnPage;
+    private static User m_currentUser;
+
+    public static void Setup(Object returnPage, User currentUser)
+    {
+        m_currentUser = currentUser;
+        m_returnPage = returnPage;
+    }
+
+    public static User GetUpdatedUser()
+    {
+        return m_currentUser;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_edit);
+
+        final TextView txt_error = findViewById(R.id.txt_error);
+        txt_error.setVisibility(View.INVISIBLE);
 
         final EditText input_addressLine1 = findViewById(R.id.input_addressLine1);
         final EditText input_addressLine2 = findViewById(R.id.input_addressLine2);
@@ -41,7 +56,8 @@ public class AddressEdit extends AppCompatActivity
                 }
                 else
                 {
-                    //todo... errorString
+                    txt_error.setText(errorString);
+                    txt_error.setVisibility(View.VISIBLE);
                 }
             }
         });

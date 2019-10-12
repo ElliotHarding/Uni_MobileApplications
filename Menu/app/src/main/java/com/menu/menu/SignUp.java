@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity
+{
+    User m_currentUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,7 +22,10 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         final DatabaseCommunicator dbComms = new DatabaseCommunicator();
-        final User currentUser = dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+        m_currentUser = dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+
+        final TextView txt_error = findViewById(R.id.txt_error);
+        txt_error.setVisibility(View.INVISIBLE);
 
         final EditText input_email = findViewById(R.id.input_addressLine1);
         final EditText input_phone = findViewById(R.id.input_addressLine2);
@@ -32,28 +38,30 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                currentUser.Email = input_email.getText().toString();
-                currentUser.Phone = input_phone.getText().toString();
-                currentUser.FirstName = input_first.getText().toString();
-                currentUser.LastName = input_last.getText().toString();
-                currentUser.Password = input_password.getText().toString();
+                m_currentUser.Email = input_email.getText().toString();
+                m_currentUser.Phone = input_phone.getText().toString();
+                m_currentUser.FirstName = input_first.getText().toString();
+                m_currentUser.LastName = input_last.getText().toString();
+                m_currentUser.Password = input_password.getText().toString();
 
-                String errorString = ValidateSettings(currentUser);
+                String errorString = ValidateSettings(m_currentUser);
                 if (errorString == "NO-ERROR")
                 {
-                    if (dbComms.AddUser(currentUser))
+                    if (dbComms.AddUser(m_currentUser))
                     {
-                        LocalSettings.UpdateLocalUser(currentUser);
+                        LocalSettings.UpdateLocalUser(m_currentUser);
                         startActivity(new Intent(SignUp.this, Home.class));
                     }
                     else
                     {
-                        //todo error
+                        txt_error.setText("Failed to add user! Check network.");
+                        txt_error.setVisibility(View.VISIBLE);
                     }
                 }
                 else
                 {
-                    //todo... errorString
+                    txt_error.setText(errorString);
+                    txt_error.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -64,6 +72,19 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View view)
             {
                 startActivity(new Intent(SignUp.this, Login.class));
+            }
+        });
+
+        findViewById(R.id.btn_addressSettings).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AddressEdit.Setup(this, m_currentUser);
+
+                startActivity(new Intent(SignUp.this, AddressEdit.class));
+
+                m_currentUser = AddressEdit.GetUpdatedUser();
             }
         });
     }

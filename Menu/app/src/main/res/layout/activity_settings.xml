@@ -113,6 +113,19 @@
         app:layout_constraintTop_toBottomOf="@+id/input_postCode"
         tools:layout_editor_absoluteX="16dp" />
 
+    <TextView
+        android:id="@+id/txt_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginStart="72dp"
+        android:text="Error!"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_saveSettigns"
+        app:layout_constraintStart_toEndOf="@+id/btn_quit" />
+
     <Button
         android:id="@+id/btn_addressSettings"
         android:layout_width="wrap_content"
