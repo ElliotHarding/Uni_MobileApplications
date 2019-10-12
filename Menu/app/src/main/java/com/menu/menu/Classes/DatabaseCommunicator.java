@@ -132,7 +132,27 @@ public class DatabaseCommunicator
         return o;
     }
 
+    public List<Meal> GetFilteredMeals(String searchString)
+    {
+        ArrayList<Meal> meals = new ArrayList<Meal>();
 
+        //Test data:
+        for (int i = 0; i < 4; i++)
+        {
+            Meal m = new Meal();
+            m.Name = "Meal " + Integer.toString(i);
+            m.OnSale = true;
+            m.Takeaway = true;
+            m.EatIn = i == 2;
+            m.Price = "6.10";
+            m.MaxQuantity = 10;
+            m.Ingredients = "A \n B \n C";
+            m.OwnerUsername = "Elliot";
+            meals.add(m);
+        }
+
+        return meals;
+    }
 
 
 

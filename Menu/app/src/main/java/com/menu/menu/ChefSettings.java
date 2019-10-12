@@ -70,9 +70,6 @@ public class ChefSettings extends AppCompatActivity
 
     private void UpdateList()
     {
-        //todo might be able to get rid o this:
-        //m_mealInfoArray.clear(    );
-
         m_mealInfoArray = m_dbComms.GetChefsMeals(LocalSettings.LocalUser.Username);
         m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
     }
