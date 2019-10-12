@@ -11,8 +11,8 @@
         android:id="@+id/input_name"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,8 +23,8 @@
         android:id="@+id/input_phone"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:ems="10"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,11 +35,10 @@
         android:id="@+id/input_firstName"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_ingredients" />
@@ -48,11 +47,10 @@
         android:id="@+id/input_lastName"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_lastName" />
@@ -61,58 +59,68 @@
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Address Line 1"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txt_numberMeals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Address Line 2"
-        app:layout_constraintTop_toBottomOf="@+id/input_name"
-        tools:layout_editor_absoluteX="16dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_name" />
 
     <TextView
         android:id="@+id/txt_ingredients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Address Line 3"
-        app:layout_constraintTop_toBottomOf="@+id/input_phone"
-        tools:layout_editor_absoluteX="16dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_phone" />
 
     <TextView
         android:id="@+id/txt_lastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Post Code"
-        app:layout_constraintTop_toBottomOf="@+id/input_firstName"
-        tools:layout_editor_absoluteX="16dp" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_firstName" />
 
     <TextView
         android:id="@+id/txt_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="106dp"
-        android:layout_marginStart="112dp"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="186dp"
+        android:layout_marginStart="155dp"
         android:text="Error!"
         android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintEnd_toStartOf="@+id/btn_save"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btn_back"
-        tools:layout_editor_absoluteY="466dp" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
         android:text="Save"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -120,9 +128,10 @@
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
         android:text="Quit"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

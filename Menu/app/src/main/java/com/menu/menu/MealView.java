@@ -53,8 +53,8 @@ public class MealView extends AppCompatActivity
 
         if (m_meal != null)
         {
-            txt_name.setText(m_meal.Name);
-            txt_pricePerDish.setText(m_meal.Price);
+            txt_name.setText("Meal : " + m_meal.Name);
+            txt_pricePerDish.setText("Price Per Dish : " + m_meal.Price + "£");
             txt_ingredients.setText(m_meal.Ingredients);
             txt_numberMeals.setText("Number of dishes (Max : " + Integer.toString(m_meal.MaxQuantity) + ")");
             //todo img_image.setImageBitmap(m_meal.Image);
