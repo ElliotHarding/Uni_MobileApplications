@@ -7,7 +7,7 @@
     tools:context="com.menu.menu.SignUp">
 
     <EditText
-        android:id="@+id/input_addressLine1"
+        android:id="@+id/input_name"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -16,10 +16,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_addresLine1" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
     <EditText
-        android:id="@+id/input_addressLine2"
+        android:id="@+id/input_phone"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -28,7 +28,7 @@
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_addresLine2" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_maxMeals" />
 
     <EditText
         android:id="@+id/input_password"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_password" />
 
     <EditText
-        android:id="@+id/input_addressLine3"
+        android:id="@+id/input_firstName"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -53,10 +53,10 @@
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_addresLine3" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_ingredients" />
 
     <EditText
-        android:id="@+id/input_postCode"
+        android:id="@+id/input_lastName"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -66,10 +66,10 @@
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_postCode" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_lastName" />
 
     <TextView
-        android:id="@+id/txt_addresLine1"
+        android:id="@+id/txt_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -78,30 +78,30 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
-        android:id="@+id/txt_addresLine2"
+        android:id="@+id/txt_maxMeals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Phone"
-        app:layout_constraintTop_toBottomOf="@+id/input_addressLine1"
+        app:layout_constraintTop_toBottomOf="@+id/input_name"
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
-        android:id="@+id/txt_addresLine3"
+        android:id="@+id/txt_ingredients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="First Name"
-        app:layout_constraintTop_toBottomOf="@+id/input_addressLine2"
+        app:layout_constraintTop_toBottomOf="@+id/input_phone"
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
-        android:id="@+id/txt_postCode"
+        android:id="@+id/txt_lastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Last Name"
-        app:layout_constraintTop_toBottomOf="@+id/input_addressLine3"
+        app:layout_constraintTop_toBottomOf="@+id/input_firstName"
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Password"
-        app:layout_constraintTop_toBottomOf="@+id/input_postCode"
+        app:layout_constraintTop_toBottomOf="@+id/input_lastName"
         tools:layout_editor_absoluteX="16dp" />
 
     <Button

@@ -34,10 +34,10 @@ public class AddressEdit extends AppCompatActivity
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
 
-        final EditText input_addressLine1 = findViewById(R.id.input_addressLine1);
-        final EditText input_addressLine2 = findViewById(R.id.input_addressLine2);
-        final EditText input_addressLine3 = findViewById(R.id.input_addressLine3);
-        final EditText input_postCode = findViewById(R.id.input_postCode);
+        final EditText input_addressLine1 = findViewById(R.id.input_name);
+        final EditText input_addressLine2 = findViewById(R.id.input_phone);
+        final EditText input_addressLine3 = findViewById(R.id.input_firstName);
+        final EditText input_postCode = findViewById(R.id.input_lastName);
 
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener()
         {

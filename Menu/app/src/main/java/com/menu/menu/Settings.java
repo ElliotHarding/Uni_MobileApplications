@@ -28,10 +28,10 @@ public class Settings extends AppCompatActivity
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
 
-        final EditText input_email = findViewById(R.id.input_addressLine1);
-        final EditText input_phone = findViewById(R.id.input_addressLine2);
-        final EditText input_first = findViewById(R.id.input_addressLine3);
-        final EditText input_last = findViewById(R.id.input_postCode);
+        final EditText input_email = findViewById(R.id.input_name);
+        final EditText input_phone = findViewById(R.id.input_phone);
+        final EditText input_first = findViewById(R.id.input_firstName);
+        final EditText input_last = findViewById(R.id.input_lastName);
         final EditText input_password = findViewById(R.id.input_password);
 
         input_email.setText(m_currentUser.Email);
