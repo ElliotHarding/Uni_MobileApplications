@@ -2,7 +2,6 @@ package com.menu.menu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -31,12 +30,6 @@ public class MealRegistration extends AppCompatActivity
         m_currentMeal = meal;
     }
 
-    private static Object m_previousPage = null;
-    private static void SetPreviousPage(Object previousPage)
-    {
-        m_previousPage = previousPage;
-    }
-
     TextView m_txt_error = null;
     ImageView m_img_image = null;
 
@@ -54,12 +47,12 @@ public class MealRegistration extends AppCompatActivity
         m_img_image = findViewById(R.id.img_image);
         final ImageButton btn_uploadImage = findViewById(R.id.btn_upload);
         final EditText input_name = findViewById(R.id.input_name);
-        final EditText input_maxNumberOfDishes = findViewById(R.id.input_maxMeals);
+        final EditText input_maxNumberOfDishes = findViewById(R.id.input_numerOfDishes);
         final EditText input_price = findViewById(R.id.input_price);
         final EditText input_ingredients = findViewById(R.id.input_ingredients);
         final RadioButton toggle_onSale = findViewById(R.id.toggle_onSale);
-        final Button btn_add = findViewById(R.id.btn_add);
-        final Button btn_quit = findViewById(R.id.btn_quit);
+        final Button btn_add = findViewById(R.id.btn_order);
+        final Button btn_quit = findViewById(R.id.btn_back);
         final Button btn_delete = findViewById(R.id.btn_delete);
 
         if (m_currentMeal != null)
@@ -70,6 +63,11 @@ public class MealRegistration extends AppCompatActivity
             input_price.setText(m_currentMeal.Price);
             toggle_onSale.setActivated(m_currentMeal.OnSale);
             m_img_image.setImageBitmap(m_currentMeal.Image);
+        }
+        else
+        {
+            //Since the meal is new, don't need to delete it...
+            btn_delete.setVisibility(View.INVISIBLE);
         }
 
         m_currentMeal.OwnerUsername = LocalSettings.LocalUser.Username;
@@ -145,7 +143,7 @@ public class MealRegistration extends AppCompatActivity
 
     private void NavigateToPreviousPage()
     {
-        startActivity(new Intent(MealRegistration.this, m_previousPage.getClass()));
+        startActivity(new Intent(MealRegistration.this, ChefSettings.class));
     }
 
     private String ValidateMeal(Meal meal)
@@ -181,7 +179,5 @@ public class MealRegistration extends AppCompatActivity
             }
         }
     }
-
-
 }
  

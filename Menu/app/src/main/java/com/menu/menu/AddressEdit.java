@@ -62,7 +62,7 @@ public class AddressEdit extends AppCompatActivity
             }
         });
 
-        findViewById(R.id.btn_quit).setOnClickListener(new View.OnClickListener()
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)

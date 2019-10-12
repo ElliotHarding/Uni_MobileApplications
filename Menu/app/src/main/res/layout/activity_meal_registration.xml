@@ -17,10 +17,10 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_email" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_name" />
 
     <TextView
-        android:id="@+id/txt_email"
+        android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -29,7 +29,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
-        android:id="@+id/txt_maxMeals"
+        android:id="@+id/txt_numberMeals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Ingredients"
-        app:layout_constraintTop_toBottomOf="@+id/input_maxMeals"
+        app:layout_constraintTop_toBottomOf="@+id/input_numerOfDishes"
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/input_maxMeals"
+        android:id="@+id/input_numerOfDishes"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -70,7 +70,7 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_maxMeals" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_numberMeals" />
 
     <EditText
         android:id="@+id/input_ingredients"
@@ -115,7 +115,7 @@
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <TextView
-        android:id="@+id/txt_price"
+        android:id="@+id/txt_pricePerDish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -134,10 +134,10 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_price" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_pricePerDish" />
 
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -147,7 +147,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/btn_quit"
+        android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -172,7 +172,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="16dp"
         android:text="Delete"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add"
+        app:layout_constraintBottom_toTopOf="@+id/btn_order"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

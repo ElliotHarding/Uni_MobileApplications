@@ -15,4 +15,6 @@ public class Meal
     public String OwnerUsername = null;
     public int MaxQuantity = 0;
     public Bitmap Image;
+    public boolean EatIn = false;
+    public boolean Takeaway = !EatIn;
 }

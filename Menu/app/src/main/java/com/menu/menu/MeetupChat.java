@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MeetupChat extends AppCompatActivity {
+public class MeetupChat extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_chat);
 
