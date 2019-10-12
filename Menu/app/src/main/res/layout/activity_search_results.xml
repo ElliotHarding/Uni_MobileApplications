@@ -7,6 +7,16 @@
     tools:context="com.menu.menu.SearchResults">
 
     <Button
+        android:id="@+id/btn_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/btn_simClickedResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

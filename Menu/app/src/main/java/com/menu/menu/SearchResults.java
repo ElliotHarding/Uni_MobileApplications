@@ -34,5 +34,15 @@ public class SearchResults extends AppCompatActivity {
                 startActivity(new Intent(SearchResults.this, MealView.class));
             }
         });
+
+        Button btn_home = findViewById(R.id.btn_home);
+        btn_home.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(SearchResults.this, Home.class));
+            }
+        });
     }
 }
