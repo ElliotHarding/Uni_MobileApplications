@@ -56,6 +56,16 @@ public class ChefSettings extends AppCompatActivity
                 startActivity(new Intent(ChefSettings.this, MealRegistration.class));
             }
         });
+
+        Button btn_home = findViewById(R.id.btn_home);
+        btn_home.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(ChefSettings.this, Home.class));
+            }
+        });
     }
 
     private void UpdateList()

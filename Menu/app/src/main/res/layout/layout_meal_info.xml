@@ -5,22 +5,23 @@
     <TextView
         android:id="@+id/listItem_Text"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_margin="10dp"
         android:layout_below="@+id/listItem_OnSale"
+        android:layout_margin="10dp"
         android:text="Text"
         android:textAlignment="viewStart"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/listItem_OnSale"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="25dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
         android:text="Username"
-        android:textAlignment="textEnd" />
+        android:textAlignment="textEnd"
+        android:textSize="24sp" />
 
 </RelativeLayout>

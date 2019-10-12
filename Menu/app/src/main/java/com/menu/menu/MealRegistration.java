@@ -159,6 +159,24 @@ public class MealRegistration extends AppCompatActivity
                 }
             }
         });
+
+        radio_takeaway.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                radio_takeaway.setChecked(!radio_takeaway.isChecked());
+            }
+        });
+
+        radio_eatIn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                radio_eatIn.setChecked(!radio_eatIn.isChecked());
+            }
+        });
     }
 
     private void NavigateToPreviousPage()

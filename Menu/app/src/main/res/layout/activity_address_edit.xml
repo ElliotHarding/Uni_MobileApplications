@@ -102,8 +102,9 @@
         android:text="Error!"
         android:textColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toStartOf="@+id/btn_save"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
-        tools:layout_editor_absoluteY="518dp" />
+        tools:layout_editor_absoluteY="466dp" />
 
     <Button
         android:id="@+id/btn_save"

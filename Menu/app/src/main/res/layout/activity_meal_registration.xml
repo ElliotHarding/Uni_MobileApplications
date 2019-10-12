@@ -23,9 +23,9 @@
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:text="Name"
-        app:layout_constraintTop_toBottomOf="@+id/btn_upload"
+        app:layout_constraintTop_toBottomOf="@+id/radio_eatIn"
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Maximum number of dishes"
+        android:text="Max Number Of Dishes"
         app:layout_constraintTop_toBottomOf="@+id/input_name"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -41,34 +41,34 @@
         android:id="@+id/txt_ingredients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:text="Ingredients"
-        app:layout_constraintTop_toBottomOf="@+id/input_numerOfDishes"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_numerOfDishes" />
 
     <TextView
         android:id="@+id/txt_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="84dp"
         android:layout_marginEnd="175dp"
         android:layout_marginStart="175dp"
         android:text="Error!"
         android:textColor="@android:color/holo_red_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_numerOfDishes"
-        android:layout_width="349dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
         android:layout_marginStart="17dp"
         android:ems="10"
         android:inputType="number"
         android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_numberMeals" />
 
@@ -85,29 +85,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_ingredients" />
 
-    <TextView
-        android:id="@+id/txt_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageButton
         android:id="@+id/btn_upload"
         android:layout_width="62dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_image"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/img_image"
         app:srcCompat="@android:drawable/ic_menu_upload"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteY="84dp" />
 
     <ImageView
         android:id="@+id/img_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,20 +110,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Price Per Dish"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/input_name"
+        tools:layout_editor_absoluteX="206dp" />
 
     <EditText
         android:id="@+id/input_price"
-        android:layout_width="344dp"
+        android:layout_width="161dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
-        android:layout_marginStart="17dp"
         android:ems="10"
         android:inputType="numberDecimal"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_pricePerDish" />
 
     <Button
@@ -160,37 +148,40 @@
         android:id="@+id/toggle_onSale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:text="On Sale"
-        app:layout_constraintTop_toBottomOf="@+id/input_price"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
 
     <Button
         android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:text="Delete"
-        app:layout_constraintBottom_toTopOf="@+id/btn_order"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <RadioButton
         android:id="@+id/radio_takeaway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:text="Takeaway"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="150dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioButton
         android:id="@+id/radio_eatIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="8dp"
         android:text="Eat In"
-        app:layout_constraintTop_toBottomOf="@+id/radio_takeaway"
-        tools:layout_editor_absoluteX="150dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_takeaway" />
 
 </android.support.constraint.ConstraintLayout>
