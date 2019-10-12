@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.menu.menu.SearchResults">
 
+    <Button
+        android:id="@+id/btn_simClickedResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="93dp"
+        android:layout_marginStart="94dp"
+        android:layout_marginTop="256dp"
+        android:text="Simulate Clicked Reult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/txt_error"
         android:layout_width="wrap_content"

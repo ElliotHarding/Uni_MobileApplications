@@ -38,15 +38,13 @@ public class PaymentProcessing extends AppCompatActivity
 
         if (m_meal != null)
         {
-            txt_name.setText("Name : " + m_meal.Name);
+            txt_name.setText("Meal : " + m_meal.Name);
             txt_price.setText("Price : " + Double.toString(m_numberOfMeals * Double.parseDouble(m_meal.Price)));
         }
         else
         {
             txt_error.setText("Meal not found! Check internet?");
             txt_error.setVisibility(View.VISIBLE);
-
-            //todo... something else...
         }
 
         btn_pay.setOnClickListener(new View.OnClickListener()
@@ -68,6 +66,4 @@ public class PaymentProcessing extends AppCompatActivity
             }
         });
     }
-
-
 }

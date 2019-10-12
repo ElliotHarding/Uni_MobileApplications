@@ -57,17 +57,19 @@ public class MealView extends AppCompatActivity
             txt_pricePerDish.setText(m_meal.Price);
             txt_ingredients.setText(m_meal.Ingredients);
             txt_numberMeals.setText("Number of dishes (Max : " + Integer.toString(m_meal.MaxQuantity) + ")");
-            img_image.setImageBitmap(m_meal.Image);
+            //todo img_image.setImageBitmap(m_meal.Image);
 
             if (!m_meal.Takeaway)
             {
                 m_radio_takeaway.setVisibility(View.INVISIBLE);
-                m_radio_takeaway.setActivated(false);
+                m_radio_takeaway.setChecked(false);
+                m_radio_eatIn.setChecked(true);
             }
-            if (!m_meal.EatIn)
+            else if (!m_meal.EatIn)
             {
                 m_radio_eatIn.setVisibility(View.INVISIBLE);
-                m_radio_eatIn.setActivated(false);
+                m_radio_eatIn.setChecked(false);
+                m_radio_takeaway.setChecked(true);
             }
             RadioChange(true);
         }
@@ -82,10 +84,22 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                final int numDishesOrdered = Integer.parseInt(input_numDishesOrdered.getText().toString());
-                if (numDishesOrdered < m_meal.MaxQuantity)
+
+                int numDishesOrdered = 0;
+                try
                 {
-                    if (m_radio_takeaway.isActivated())
+                    numDishesOrdered = Integer.parseInt(input_numDishesOrdered.getText().toString());
+                }
+                catch (Exception e)
+                {
+                    txt_error.setText("Number of dishes to order is empty or invalid");
+                    txt_error.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                if (numDishesOrdered < m_meal.MaxQuantity && numDishesOrdered > 0 && m_meal != null)
+                {
+                    if (m_radio_takeaway.isChecked())
                     {
                         PaymentProcessing.Setup(m_meal, numDishesOrdered);
                         startActivity(new Intent(MealView.this, PaymentProcessing.class));
@@ -117,7 +131,7 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                RadioChange(m_radio_takeaway.isActivated());
+                RadioChange(m_radio_takeaway.isChecked());
             }
         });
 
@@ -126,7 +140,7 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                RadioChange(!m_radio_eatIn.isActivated());
+                RadioChange(!m_radio_eatIn.isChecked());
             }
         });
     }
@@ -137,13 +151,13 @@ public class MealView extends AppCompatActivity
         {
             if (takeaway)
             {
-                m_radio_takeaway.setActivated(true);
-                m_radio_eatIn.setActivated(false);
+                m_radio_takeaway.setChecked(true);
+                m_radio_eatIn.setChecked(false);
             }
             else
             {
-                m_radio_takeaway.setActivated(false);
-                m_radio_eatIn.setActivated(true);
+                m_radio_takeaway.setChecked(false);
+                m_radio_eatIn.setChecked(true);
             }
         }
     }

@@ -81,6 +81,20 @@ public class DatabaseCommunicator
         return meals;
     }
 
+    public Meal GetMeal(String s)
+    {
+        Meal m = new Meal();
+        m.Name = "Meal " + Integer.toString(1);
+        m.OnSale = true;
+        m.Takeaway = true;
+        m.EatIn = true;
+        m.Price = "6.10";
+        m.MaxQuantity = 10;
+        m.Ingredients = "A \n B \n C";
+        m.OwnerUsername = "Elliot";
+        return  m;
+    }
+
     public boolean AddMeal(Meal meal)
     {
         return true;

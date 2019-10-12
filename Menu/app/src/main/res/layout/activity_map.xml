@@ -19,4 +19,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btn_simMapClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="226dp"
+        android:text="Simulate Map Click"
+        app:layout_constraintBottom_toTopOf="@+id/txt_error"
+        tools:layout_editor_absoluteX="108dp" />
+
+    <Button
+        android:id="@+id/btn_gotoSearchBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginStart="108dp"
+        android:text="Goto Search Bar"
+        app:layout_constraintBottom_toTopOf="@+id/btn_simMapClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

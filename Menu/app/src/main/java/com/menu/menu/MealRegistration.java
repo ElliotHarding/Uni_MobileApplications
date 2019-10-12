@@ -65,8 +65,8 @@ public class MealRegistration extends AppCompatActivity
             input_price.setText(m_currentMeal.Price);
             toggle_onSale.setActivated(m_currentMeal.OnSale);
             //todo m_img_image.setImageBitmap(m_currentMeal.Image);
-            radio_takeaway.setActivated(m_currentMeal.Takeaway);
-            radio_eatIn.setActivated(m_currentMeal.EatIn);
+            radio_takeaway.setChecked(m_currentMeal.Takeaway);
+            radio_eatIn.setChecked(m_currentMeal.EatIn);
 
             btn_add.setVisibility(View.INVISIBLE);
         }
@@ -110,8 +110,8 @@ public class MealRegistration extends AppCompatActivity
                 //todo m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
                 m_currentMeal.Ingredients = input_ingredients.getText().toString();
                 m_currentMeal.Price = input_price.getText().toString();
-                m_currentMeal.EatIn = radio_eatIn.isActivated();
-                m_currentMeal.Takeaway = radio_takeaway.isActivated();
+                m_currentMeal.EatIn = radio_eatIn.isChecked();
+                m_currentMeal.Takeaway = radio_takeaway.isChecked();
 
                 String errorString = ValidateMeal(m_currentMeal);
                 if (errorString == "NO-ERROR")
