@@ -26,7 +26,8 @@
         <activity android:name=".MealView" />
         <activity android:name=".PaymentProcessing" />
         <activity android:name=".MealOrder" />
-        <activity android:name=".MeetupChat"></activity>
+        <activity android:name=".MeetupChat" />
+        <activity android:name=".AddressEdit"></activity>
     </application>
 
 </manifest>
