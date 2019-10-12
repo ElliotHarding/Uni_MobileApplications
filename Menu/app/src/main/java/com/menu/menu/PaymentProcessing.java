@@ -11,16 +11,15 @@ import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.Order;
+import com.menu.menu.Classes.ReturnPage;
 
 public class PaymentProcessing extends AppCompatActivity
 {
     private static Meal m_meal = null;
-    private static Object m_previousPage = null;
     private static int m_numberOfMeals = 0;
-    public static void Setup(Meal meal, final int numberOfMeals, Object previousPage)
+    public static void Setup(Meal meal, final int numberOfMeals)
     {
         m_meal = meal;
-        m_previousPage = previousPage;
         m_numberOfMeals = numberOfMeals;
     }
 

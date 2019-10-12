@@ -69,6 +69,12 @@ public class DatabaseCommunicator
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
             m.OnSale = true;
+            m.Takeaway = true;
+            m.EatIn = i == 2;
+            m.Price = "6.10";
+            m.MaxQuantity = 10;
+            m.Ingredients = "A \n B \n C";
+            m.OwnerUsername = "Elliot";
             meals.add(m);
         }
 

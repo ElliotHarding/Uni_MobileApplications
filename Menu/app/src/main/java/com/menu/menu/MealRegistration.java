@@ -61,20 +61,23 @@ public class MealRegistration extends AppCompatActivity
         {
             input_name.setText(m_currentMeal.Name);
             input_ingredients.setText(m_currentMeal.Ingredients);
-            input_maxNumberOfDishes.setText(m_currentMeal.MaxQuantity);
+            input_maxNumberOfDishes.setText(Integer.toString(m_currentMeal.MaxQuantity));
             input_price.setText(m_currentMeal.Price);
             toggle_onSale.setActivated(m_currentMeal.OnSale);
-            m_img_image.setImageBitmap(m_currentMeal.Image);
+            //todo m_img_image.setImageBitmap(m_currentMeal.Image);
             radio_takeaway.setActivated(m_currentMeal.Takeaway);
             radio_eatIn.setActivated(m_currentMeal.EatIn);
+
+            btn_add.setVisibility(View.INVISIBLE);
         }
         else
         {
             //Since the meal is new, don't need to delete it...
             btn_delete.setVisibility(View.INVISIBLE);
-        }
 
-        m_currentMeal.OwnerUsername = LocalSettings.LocalUser.Username;
+            m_currentMeal = new Meal();
+            m_currentMeal.OwnerUsername = LocalSettings.LocalUser.Username;
+        }
 
         btn_uploadImage.setOnClickListener(new View.OnClickListener()
         {
@@ -90,11 +93,22 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+
+                try
+                {
+                    m_currentMeal.MaxQuantity = Integer.parseInt(input_maxNumberOfDishes.getText().toString());
+                }
+                catch (Exception e)
+                {
+                    m_txt_error.setText("Max quantity is either empty or invalid");
+                    m_txt_error.setVisibility(View.VISIBLE);
+                    return;
+                }
+
                 m_currentMeal.OnSale = toggle_onSale.isActivated();
                 m_currentMeal.Name = input_name.getText().toString();
-                m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
+                //todo m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
                 m_currentMeal.Ingredients = input_ingredients.getText().toString();
-                m_currentMeal.MaxQuantity = Integer.parseInt(input_maxNumberOfDishes.getText().toString());
                 m_currentMeal.Price = input_price.getText().toString();
                 m_currentMeal.EatIn = radio_eatIn.isActivated();
                 m_currentMeal.Takeaway = radio_takeaway.isActivated();

@@ -80,7 +80,7 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                AddressEdit.Setup(this, m_currentUser);
+                AddressEdit.Setup(false, m_currentUser);
 
                 startActivity(new Intent(SignUp.this, AddressEdit.class));
 

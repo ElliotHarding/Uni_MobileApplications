@@ -11,13 +11,13 @@ import com.menu.menu.Classes.User;
 
 public class AddressEdit extends AppCompatActivity
 {
-    private static Object m_returnPage;
     private static User m_currentUser;
+    private static boolean m_returnSettingsPage = false;
 
-    public static void Setup(Object returnPage, User currentUser)
+    public static void Setup(boolean returnSettings, User currentUser)
     {
         m_currentUser = currentUser;
-        m_returnPage = returnPage;
+        m_returnSettingsPage = returnSettings;
     }
 
     public static User GetUpdatedUser()
@@ -80,6 +80,6 @@ public class AddressEdit extends AppCompatActivity
 
     private void NavigateOut()
     {
-        startActivity(new Intent(AddressEdit.this, m_returnPage.getClass()));
+        startActivity(new Intent(AddressEdit.this, m_returnSettingsPage ? Settings.class : SignUp.class));
     }
 }

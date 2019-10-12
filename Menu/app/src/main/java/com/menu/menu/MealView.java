@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.ReturnPage;
 
 import org.w3c.dom.Text;
 
@@ -20,11 +21,11 @@ import org.w3c.dom.Text;
 public class MealView extends AppCompatActivity
 {
     private static Meal m_meal = null;
-    private static Object m_previousPage = null;
-    public static void Setup(Meal meal, Object previousPage)
+    private static ReturnPage m_previousPage = null;
+    public static void Setup(Meal meal, ReturnPage returnPage)
     {
         m_meal = meal;
-        m_previousPage = previousPage;
+        m_previousPage = returnPage;
     }
 
     RadioButton m_radio_takeaway = null;
@@ -86,7 +87,7 @@ public class MealView extends AppCompatActivity
                 {
                     if (m_radio_takeaway.isActivated())
                     {
-                        PaymentProcessing.Setup(m_meal, numDishesOrdered, m_previousPage);
+                        PaymentProcessing.Setup(m_meal, numDishesOrdered);
                         startActivity(new Intent(MealView.this, PaymentProcessing.class));
                     }
                     else
@@ -107,7 +108,7 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(MealView.this, m_previousPage.getClass()));
+                startActivity(new Intent(MealView.this, m_previousPage == ReturnPage.PAGE_MAP ? Map.class : SearchResults.class));
             }
         });
 

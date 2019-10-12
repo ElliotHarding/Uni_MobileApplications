@@ -87,7 +87,7 @@ public class Settings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                AddressEdit.Setup(this, m_currentUser);
+                AddressEdit.Setup(true, m_currentUser);
 
                 startActivity(new Intent(Settings.this, AddressEdit.class));
 
