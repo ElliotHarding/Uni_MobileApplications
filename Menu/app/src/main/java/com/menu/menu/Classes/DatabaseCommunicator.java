@@ -3,6 +3,7 @@ package com.menu.menu.Classes;
 import com.menu.menu.Login;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DatabaseCommunicator
@@ -84,11 +85,40 @@ public class DatabaseCommunicator
         return true;
     }
 
+    //Returns null if failed
+    public Order AddOrder(Meal meal, User localUser)
+    {
+        Order o = new Order();
+
+        //Test Data:
+        o.CurrentETA = new Date(2019, 10, 3, 3, 3, 3);
+        o.Id = "SKNEIOENFE";
+        o.NumberOfMeals = 2;
+        o.CurrentState = Order.State.OnRoute;
+
+        return o;
+    }
+
+    public Order GetOrderUpdate(String id)
+    {
+        Order o = new Order();
+
+        //Test Data:
+        o.CurrentETA = new Date(2019, 10, 3, 3, 3, 3);
+        o.Id = id;
+        o.NumberOfMeals = 2;
+        o.CurrentState = Order.State.OnRoute;
+
+        return o;
+    }
+
+
+
+
+
     private User GetUser(String selectStatement)
     {
         return new User();
     }
-
-
 
 }

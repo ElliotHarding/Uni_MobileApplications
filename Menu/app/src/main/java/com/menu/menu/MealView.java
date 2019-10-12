@@ -63,13 +63,11 @@ public class MealView extends AppCompatActivity
                 m_radio_takeaway.setVisibility(View.INVISIBLE);
                 m_radio_takeaway.setActivated(false);
             }
-
             if (!m_meal.EatIn)
             {
                 m_radio_eatIn.setVisibility(View.INVISIBLE);
                 m_radio_eatIn.setActivated(false);
             }
-
             RadioChange(true);
         }
         else
@@ -83,11 +81,12 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                if (Integer.parseInt(input_numDishesOrdered.getText().toString()) < m_meal.MaxQuantity)
+                final int numDishesOrdered = Integer.parseInt(input_numDishesOrdered.getText().toString());
+                if (numDishesOrdered < m_meal.MaxQuantity)
                 {
-                    if (m_meal.Takeaway)
+                    if (m_radio_takeaway.isActivated())
                     {
-                        PaymentProcessing.Setup(m_meal, m_previousPage);
+                        PaymentProcessing.Setup(m_meal, numDishesOrdered, m_previousPage);
                         startActivity(new Intent(MealView.this, PaymentProcessing.class));
                     }
                     else
@@ -108,7 +107,7 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(MealView.this, ChefSettings.class));
+                startActivity(new Intent(MealView.this, m_previousPage.getClass()));
             }
         });
 

@@ -54,6 +54,8 @@ public class MealRegistration extends AppCompatActivity
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_quit = findViewById(R.id.btn_back);
         final Button btn_delete = findViewById(R.id.btn_delete);
+        final RadioButton radio_takeaway = findViewById(R.id.radio_takeaway);
+        final RadioButton radio_eatIn = findViewById(R.id.radio_eatIn);
 
         if (m_currentMeal != null)
         {
@@ -63,6 +65,8 @@ public class MealRegistration extends AppCompatActivity
             input_price.setText(m_currentMeal.Price);
             toggle_onSale.setActivated(m_currentMeal.OnSale);
             m_img_image.setImageBitmap(m_currentMeal.Image);
+            radio_takeaway.setActivated(m_currentMeal.Takeaway);
+            radio_eatIn.setActivated(m_currentMeal.EatIn);
         }
         else
         {
@@ -92,6 +96,8 @@ public class MealRegistration extends AppCompatActivity
                 m_currentMeal.Ingredients = input_ingredients.getText().toString();
                 m_currentMeal.MaxQuantity = Integer.parseInt(input_maxNumberOfDishes.getText().toString());
                 m_currentMeal.Price = input_price.getText().toString();
+                m_currentMeal.EatIn = radio_eatIn.isActivated();
+                m_currentMeal.Takeaway = radio_takeaway.isActivated();
 
                 String errorString = ValidateMeal(m_currentMeal);
                 if (errorString == "NO-ERROR")
