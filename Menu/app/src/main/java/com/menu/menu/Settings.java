@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
+import com.menu.menu.Classes.ReturnPage;
 import com.menu.menu.Classes.User;
 
 public class Settings extends AppCompatActivity
 {
+    public static User m_currentUser = null;
+
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    User m_currentUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,8 +24,14 @@ public class Settings extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-
-        m_currentUser = m_dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+        if (AddressEdit.m_updatedAddress)
+        {
+            AddressEdit.m_updatedAddress = false;
+        }
+        else
+        {
+            m_currentUser = m_dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+        }
 
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
@@ -87,11 +95,12 @@ public class Settings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                AddressEdit.Setup(true, m_currentUser);
+                AddressEdit.m_currentUser = m_currentUser;
+                AddressEdit.m_returnPage = ReturnPage.PAGE_SETTINGS;
 
                 startActivity(new Intent(Settings.this, AddressEdit.class));
 
-                m_currentUser = AddressEdit.GetUpdatedUser();
+                //todo get message
             }
         });
     }

@@ -7,23 +7,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.menu.menu.Classes.LocalSettings;
+import com.menu.menu.Classes.ReturnPage;
 import com.menu.menu.Classes.User;
 
 public class AddressEdit extends AppCompatActivity
 {
-    private static User m_currentUser;
-    private static boolean m_returnSettingsPage = false;
-
-    public static void Setup(boolean returnSettings, User currentUser)
-    {
-        m_currentUser = currentUser;
-        m_returnSettingsPage = returnSettings;
-    }
-
-    public static User GetUpdatedUser()
-    {
-        return m_currentUser;
-    }
+    public static User m_currentUser = null;
+    public static ReturnPage m_returnPage = null;
+    public static boolean m_updatedAddress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,6 +44,7 @@ public class AddressEdit extends AppCompatActivity
                 String errorString = ValidateUserAddress(m_currentUser);
                 if (errorString == "NO ERROR")
                 {
+                    m_updatedAddress = true;
                     NavigateOut();
                 }
                 else
@@ -80,6 +73,6 @@ public class AddressEdit extends AppCompatActivity
 
     private void NavigateOut()
     {
-        startActivity(new Intent(AddressEdit.this, m_returnSettingsPage ? Settings.class : SignUp.class));
+        startActivity(new Intent(AddressEdit.this, (m_returnPage == ReturnPage.PAGE_SETTINGS) ? Settings.class : SignUp.class));
     }
 }

@@ -15,13 +15,8 @@ import com.menu.menu.Classes.ReturnPage;
 
 public class PaymentProcessing extends AppCompatActivity
 {
-    private static Meal m_meal = null;
-    private static int m_numberOfMeals = 0;
-    public static void Setup(Meal meal, final int numberOfMeals)
-    {
-        m_meal = meal;
-        m_numberOfMeals = numberOfMeals;
-    }
+    public static Meal m_meal = null;
+    public static int m_numberOfMeals = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,7 +50,7 @@ public class PaymentProcessing extends AppCompatActivity
                 Order newOrder = new DatabaseCommunicator().AddOrder(m_meal, LocalSettings.LocalUser);
                 if (newOrder != null)
                 {
-                    MealOrder.Setup(newOrder);
+                    MealOrder.m_order = newOrder;
                     startActivity(new Intent(PaymentProcessing.this, MealOrder.class));
                 }
                 else

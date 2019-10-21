@@ -20,13 +20,8 @@ import org.w3c.dom.Text;
 
 public class MealView extends AppCompatActivity
 {
-    private static Meal m_meal = null;
-    private static ReturnPage m_previousPage = null;
-    public static void Setup(Meal meal, ReturnPage returnPage)
-    {
-        m_meal = meal;
-        m_previousPage = returnPage;
-    }
+    public static Meal m_meal = null;
+    public static ReturnPage m_previousPage = null;
 
     RadioButton m_radio_takeaway = null;
     RadioButton m_radio_eatIn = null;
@@ -101,7 +96,8 @@ public class MealView extends AppCompatActivity
                 {
                     if (m_radio_takeaway.isChecked())
                     {
-                        PaymentProcessing.Setup(m_meal, numDishesOrdered);
+                        PaymentProcessing.m_meal = m_meal;
+                        PaymentProcessing.m_numberOfMeals = numDishesOrdered;
                         startActivity(new Intent(MealView.this, PaymentProcessing.class));
                     }
                     else

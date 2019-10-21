@@ -2,6 +2,7 @@ package com.menu.menu;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -78,11 +79,12 @@ public class ChefSettings extends AppCompatActivity
     //These UI elements are then added into m_displayList
     private class MealListAdaptor extends ArrayAdapter<Meal>
     {
-        public MealListAdaptor()
+        MealListAdaptor()
         {
             super(ChefSettings.this, R.layout.layout_meal_info, m_mealInfoArray);
         }
 
+        @NonNull
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {

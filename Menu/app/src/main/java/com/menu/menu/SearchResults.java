@@ -71,7 +71,8 @@ public class SearchResults extends AppCompatActivity
         {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                MealView.Setup(m_mealInfoArray.get(position), ReturnPage.PAGE_SEARCHRESULTS);
+                MealView.m_previousPage = ReturnPage.PAGE_SEARCHRESULTS;
+                MealView.m_meal = m_mealInfoArray.get(position);
                 startActivity(new Intent(SearchResults.this, MealView.class));
             }
         });

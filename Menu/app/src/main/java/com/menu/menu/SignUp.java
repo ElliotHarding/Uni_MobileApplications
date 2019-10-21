@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
+import com.menu.menu.Classes.ReturnPage;
 import com.menu.menu.Classes.User;
 
 public class SignUp extends AppCompatActivity
@@ -22,7 +23,15 @@ public class SignUp extends AppCompatActivity
         setContentView(R.layout.activity_sign_up);
 
         final DatabaseCommunicator dbComms = new DatabaseCommunicator();
-        m_currentUser = dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+
+        if (AddressEdit.m_updatedAddress)
+        {
+            AddressEdit.m_updatedAddress = false;
+        }
+        else
+        {
+            m_currentUser = dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+        }
 
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
@@ -80,11 +89,11 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                AddressEdit.Setup(false, m_currentUser);
+
+                AddressEdit.m_returnPage = ReturnPage.PAGE_SIGNUP;
+                AddressEdit.m_currentUser = m_currentUser;
 
                 startActivity(new Intent(SignUp.this, AddressEdit.class));
-
-                m_currentUser = AddressEdit.GetUpdatedUser();
             }
         });
     }

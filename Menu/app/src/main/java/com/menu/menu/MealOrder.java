@@ -11,11 +11,7 @@ import com.menu.menu.Classes.Order;
 
 public class MealOrder extends AppCompatActivity
 {
-    private static Order m_order = null;
-    public static void Setup(Order order)
-    {
-        m_order = order;
-    }
+    public static Order m_order = null;
 
     TextView m_txt_state;
     TextView m_txt_eta;

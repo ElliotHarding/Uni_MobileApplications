@@ -30,8 +30,8 @@ public class Map extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Meal clickedMeal = dbComms.GetMeal("");
-                MealView.Setup(clickedMeal, ReturnPage.PAGE_MAP);
+                MealView.m_meal = dbComms.GetMeal("");
+                MealView.m_previousPage = ReturnPage.PAGE_MAP;
                 startActivity(new Intent(Map.this, MealView.class));
             }
         });
