@@ -1,0 +1,16 @@
+So gearhost will host the webservice & the database.
+the app will use the webservice to connect to the database.
+
+https://my.gearhost.com/Websites/Publish/themenuapp
+GearHost
+Email		: MeNU.contact.us@gmail.com
+User		:
+Password	: PeterGay69_
+
+den1.mssql7.gear.host
+menudatabase
+Ss6y7-?5dgjN
+
+Hostname: ftp.gear.host
+Username: themenuapp\$themenuapp
+Password: XBXTjybnxkWumgFmGwjfJgHbsxwM3f8T99XBspJa3eoRf7RtHdHwBFq9xMXP

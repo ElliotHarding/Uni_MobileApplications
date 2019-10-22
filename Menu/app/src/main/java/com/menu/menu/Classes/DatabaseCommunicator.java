@@ -10,6 +10,7 @@ import java.util.List;
 public class DatabaseCommunicator
 {
     FirebaseDatabase m_db;
+    DatabaseReference m_mealImages;
 
     public enum LoginOption
     {
@@ -20,43 +21,48 @@ public class DatabaseCommunicator
     public DatabaseCommunicator()
     {
         m_db = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = m_db.getReference().child("users");
-        myRef.setValue("1");
+
     }
 
     public boolean TryLogin(String usernameOrEmail, String pass, LoginOption option)
     {
-        String statement = "SELECT * FROM USERS WHERE Password = " + pass + " AND ";
+        User u = null;
 
         switch (option)
         {
             case Username:
-                statement += "Username = ";
+                u = GetUserViaUsername(usernameOrEmail);
                 break;
             case Email:
-                statement += "Email = ";
+                u = GetUserViaEmail(usernameOrEmail);
                 break;
         }
 
-        statement += usernameOrEmail;
-
-        User u = GetUser(statement);
         if (u == null)
             return false;
 
-        u.LoggedIn = true;
+        if (u.Password.equals(pass))
+        {
+            u.LoggedIn = true;
+            return UpdateUser(u);
+        }
 
-        return UpdateUser(u);
+        return false;
     }
 
     public User GetUserViaUsername(String username)
     {
-        return GetUser("Select * FROM USERS WHERE id = " + username);
+        return GetUserViaSelect("SELECT * FROM USERS WHERE username = '" + username + "';");
     }
 
     public User GetUserViaEmail(String email)
     {
-        return GetUser("Select * FROM USERS WHERE id = " + email);
+        return GetUserViaSelect("SELECT * FROM USERS WHERE email = '" + email + "';");
+    }
+
+    private User GetUserViaSelect(String select)
+    {
+        return new User();
     }
 
     public boolean UpdateUser(User u)
@@ -103,6 +109,28 @@ public class DatabaseCommunicator
         m.Ingredients = "A \n B \n C";
         m.OwnerUsername = "Elliot";
         return  m;
+    }
+
+    public ArrayList<Meal> GetNearbyMeals(User user)
+    {
+        ArrayList<Meal> meals = new ArrayList<Meal>();
+
+        //Test data:
+        for (int i = 0; i < 4; i++)
+        {
+            Meal m = new Meal();
+            m.Name = "Meal " + Integer.toString(i);
+            m.OnSale = true;
+            m.Takeaway = true;
+            m.EatIn = i == 2;
+            m.Price = "6.10";
+            m.MaxQuantity = 10;
+            m.Ingredients = "A \n B \n C";
+            m.OwnerUsername = "Elliot";
+            meals.add(m);
+        }
+
+        return meals;
     }
 
     public boolean AddMeal(Meal meal)
@@ -162,13 +190,6 @@ public class DatabaseCommunicator
         }
 
         return meals;
-    }
-
-
-
-    private User GetUser(String selectStatement)
-    {
-        return new User();
     }
 
 }

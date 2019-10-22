@@ -8,11 +8,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
+import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.ReturnPage;
 
+import java.util.ArrayList;
+
 public class Map extends AppCompatActivity
 {
+    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,15 +27,13 @@ public class Map extends AppCompatActivity
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
 
-        final DatabaseCommunicator dbComms = new DatabaseCommunicator();
-
         Button btn_simMapClick = findViewById(R.id.btn_simMapClick);
         btn_simMapClick.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                MealView.m_meal = dbComms.GetMeal("");
+                MealView.m_meal = m_dbComms.GetMeal("");
                 MealView.m_previousPage = ReturnPage.PAGE_MAP;
                 startActivity(new Intent(Map.this, MealView.class));
             }
@@ -55,5 +58,11 @@ public class Map extends AppCompatActivity
                 startActivity(new Intent(Map.this, Home.class));
             }
         });
+    }
+
+    void RefreshMap()
+    {
+        ArrayList<Meal> meals = m_dbComms.GetNearbyMeals(LocalSettings.LocalUser);
+        //todo...
     }
 }
