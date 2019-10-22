@@ -1,6 +1,7 @@
 package com.menu.menu.Classes;
 
-import com.menu.menu.Login;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,10 +9,19 @@ import java.util.List;
 
 public class DatabaseCommunicator
 {
+    FirebaseDatabase m_db;
+
     public enum LoginOption
     {
         Username,
         Email
+    }
+
+    public DatabaseCommunicator()
+    {
+        m_db = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = m_db.getReference().child("users");
+        myRef.setValue("1");
     }
 
     public boolean TryLogin(String usernameOrEmail, String pass, LoginOption option)
