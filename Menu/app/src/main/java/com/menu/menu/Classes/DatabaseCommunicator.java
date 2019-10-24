@@ -1,8 +1,17 @@
 package com.menu.menu.Classes;
 
+import android.os.AsyncTask;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +20,11 @@ public class DatabaseCommunicator
 {
     FirebaseDatabase m_db;
     DatabaseReference m_mealImages;
+
+    final String m_userTable = "[menudatabase].[dbo].[User]";
+    final String m_orderTable = "[menudatabase].[dbo].[Order]";
+    final String m_mealTable = "[menudatabase].[dbo].[Meal]";
+    final String m_databaseUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
 
     public enum LoginOption
     {
@@ -21,7 +35,6 @@ public class DatabaseCommunicator
     public DatabaseCommunicator()
     {
         m_db = FirebaseDatabase.getInstance();
-
     }
 
     public boolean TryLogin(String usernameOrEmail, String pass, LoginOption option)
@@ -52,17 +65,38 @@ public class DatabaseCommunicator
 
     public User GetUserViaUsername(String username)
     {
-        return GetUserViaSelect("SELECT * FROM USERS WHERE username = '" + username + "';");
+        return GetUserViaSelect("SELECT * FROM " + m_userTable + " WHERE username = '" + username + "';");
     }
 
     public User GetUserViaEmail(String email)
     {
-        return GetUserViaSelect("SELECT * FROM USERS WHERE email = '" + email + "';");
+        return GetUserViaSelect("SELECT * FROM " + m_userTable + " WHERE email = '" + email + "';");
     }
 
     private User GetUserViaSelect(String select)
     {
-        return new User();
+        new getData().execute(select);
+
+    }
+
+    private class getData extends AsyncTask<String, Void, Void>
+    {
+        @Override
+        protected String doInBackground(String... params)
+        {
+            try
+            {
+                URLConnection connection = new URL(m_databaseUrl + params[0]).openConnection();
+                InputStream res = connection.getInputStream();
+
+                String result = IOUtils.toString(res, StandardCharsets.UTF_8);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return "failed";
+            }
+        }
     }
 
     public boolean UpdateUser(User u)

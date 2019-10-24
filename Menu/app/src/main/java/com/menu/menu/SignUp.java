@@ -15,6 +15,7 @@ import com.menu.menu.Classes.User;
 public class SignUp extends AppCompatActivity
 {
     User m_currentUser = null;
+    final DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,15 +23,13 @@ public class SignUp extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        final DatabaseCommunicator dbComms = new DatabaseCommunicator();
-
         if (AddressEdit.m_updatedAddress)
         {
             AddressEdit.m_updatedAddress = false;
         }
         else
         {
-            m_currentUser = dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
+            m_currentUser = m_dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
         }
 
         final TextView txt_error = findViewById(R.id.txt_error);
@@ -56,7 +55,7 @@ public class SignUp extends AppCompatActivity
                 String errorString = ValidateSettings(m_currentUser);
                 if (errorString == "NO-ERROR")
                 {
-                    if (dbComms.AddUser(m_currentUser))
+                    if (m_dbComms.AddUser(m_currentUser))
                     {
                         LocalSettings.UpdateLocalUser(m_currentUser);
                         startActivity(new Intent(SignUp.this, Home.class));
