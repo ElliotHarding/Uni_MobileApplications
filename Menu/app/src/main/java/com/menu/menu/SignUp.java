@@ -79,7 +79,7 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(SignUp.this, Login.class));
+                NavigateLogin();
             }
         });
 
@@ -101,5 +101,16 @@ public class SignUp extends AppCompatActivity
     {
         //todo validation...
         return "NO-ERROR";
+    }
+
+    private void NavigateLogin()
+    {
+        startActivity(new Intent(SignUp.this, Login.class));
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        NavigateLogin();
     }
 }

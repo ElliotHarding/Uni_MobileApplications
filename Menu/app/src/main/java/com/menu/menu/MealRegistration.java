@@ -52,7 +52,6 @@ public class MealRegistration extends AppCompatActivity
         final EditText input_ingredients = findViewById(R.id.input_ingredients);
         final RadioButton toggle_onSale = findViewById(R.id.toggle_onSale);
         final Button btn_add = findViewById(R.id.btn_order);
-        final Button btn_quit = findViewById(R.id.btn_back);
         final Button btn_delete = findViewById(R.id.btn_delete);
         final RadioButton radio_takeaway = findViewById(R.id.radio_takeaway);
         final RadioButton radio_eatIn = findViewById(R.id.radio_eatIn);
@@ -131,15 +130,6 @@ public class MealRegistration extends AppCompatActivity
                     m_txt_error.setText(errorString);
                     m_txt_error.setVisibility(View.VISIBLE);
                 }
-            }
-        });
-
-        btn_quit.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                NavigateToPreviousPage();
             }
         });
 

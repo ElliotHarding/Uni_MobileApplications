@@ -55,7 +55,7 @@ public class Map extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(Map.this, Home.class));
+                NavigateHome();
             }
         });
     }
@@ -64,5 +64,16 @@ public class Map extends AppCompatActivity
     {
         ArrayList<Meal> meals = m_dbComms.GetNearbyMeals(LocalSettings.LocalUser);
         //todo...
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        NavigateHome();
+    }
+
+    private void NavigateHome()
+    {
+        startActivity(new Intent(Map.this, Home.class));
     }
 }
