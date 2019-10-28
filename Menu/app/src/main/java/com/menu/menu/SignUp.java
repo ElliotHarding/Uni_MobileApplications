@@ -53,7 +53,7 @@ public class SignUp extends AppCompatActivity
                 m_currentUser.Password = input_password.getText().toString();
 
                 String errorString = ValidateSettings(m_currentUser);
-                if (errorString == "NO-ERROR")
+                if (errorString.equals("NO-ERROR"))
                 {
                     if (m_dbComms.AddUser(m_currentUser))
                     {
@@ -88,8 +88,6 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
-                AddressEdit.m_returnPage = ReturnPage.PAGE_SIGNUP;
                 AddressEdit.m_currentUser = m_currentUser;
 
                 startActivity(new Intent(SignUp.this, AddressEdit.class));

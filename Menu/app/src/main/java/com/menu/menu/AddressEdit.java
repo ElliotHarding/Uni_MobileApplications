@@ -11,10 +11,11 @@ import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.ReturnPage;
 import com.menu.menu.Classes.User;
 
+import java.util.Objects;
+
 public class AddressEdit extends AppCompatActivity
 {
     public static User m_currentUser = null;
-    public static ReturnPage m_returnPage = null;
     public static boolean m_updatedAddress = false;
 
     @Override
@@ -25,6 +26,8 @@ public class AddressEdit extends AppCompatActivity
 
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
+
+        m_updatedAddress = false;
 
         final EditText input_addressLine1 = findViewById(R.id.input_name);
         final EditText input_addressLine2 = findViewById(R.id.input_phone);
@@ -42,10 +45,10 @@ public class AddressEdit extends AppCompatActivity
                 m_currentUser.AddressPostCode = input_postCode.getText().toString();
 
                 String errorString = ValidateUserAddress(m_currentUser);
-                if (errorString == "NO ERROR")
+                if (errorString.equals("NO-ERROR"))
                 {
                     m_updatedAddress = true;
-                    NavigateOut();
+                    onBackPressed();
                 }
                 else
                 {
@@ -54,25 +57,12 @@ public class AddressEdit extends AppCompatActivity
                 }
             }
         });
-
-        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                NavigateOut();
-            }
-        });
     }
 
     private String ValidateUserAddress(User user)
     {
         //todo validation...
-        return "NO ERROR";
+        return "NO-ERROR";
     }
 
-    private void NavigateOut()
-    {
-        startActivity(new Intent(AddressEdit.this, (m_returnPage == ReturnPage.PAGE_SETTINGS) ? Settings.class : SignUp.class));
-    }
 }

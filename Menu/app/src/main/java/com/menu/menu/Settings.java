@@ -60,7 +60,7 @@ public class Settings extends AppCompatActivity
                 m_currentUser.Password = input_password.getText().toString();
 
                 String errorString = SignUp.ValidateSettings(m_currentUser);
-                if (errorString == "NO-ERROR")
+                if (errorString.equals("NO-ERROR"))
                 {
                     if (m_dbComms.UpdateUser(m_currentUser))
                     {
@@ -96,11 +96,7 @@ public class Settings extends AppCompatActivity
             public void onClick(View view)
             {
                 AddressEdit.m_currentUser = m_currentUser;
-                AddressEdit.m_returnPage = ReturnPage.PAGE_SETTINGS;
-
                 startActivity(new Intent(Settings.this, AddressEdit.class));
-
-                //todo get message
             }
         });
     }
