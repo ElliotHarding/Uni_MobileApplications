@@ -47,6 +47,10 @@ public class Login extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+
+                //todo remove test
+                NavigateToHome();
+
                 String usernameOrEmail = input_usernameOrEmail.getText().toString();
                 String password = input_password.getText().toString();
 
@@ -75,7 +79,7 @@ public class Login extends AppCompatActivity
 
     private void NavigateToHome()
     {
-        startActivity(new Intent(Login.this, Home.class));
+        startActivity(new Intent(Login.this, MainHub.class));
     }
 
     @Override
