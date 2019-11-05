@@ -1,16 +1,8 @@
 package com.menu.menu.Classes;
 
-import android.os.AsyncTask;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

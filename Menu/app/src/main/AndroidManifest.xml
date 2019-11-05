@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainHub"
+            android:label="@string/title_activity_main_hub"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +31,7 @@
         <activity android:name=".PaymentProcessing" />
         <activity android:name=".MealOrder" />
         <activity android:name=".MeetupChat" />
-        <activity android:name=".AddressEdit"></activity>
+        <activity android:name=".AddressEdit" />
     </application>
 
 </manifest>
