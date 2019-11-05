@@ -34,6 +34,11 @@ public class AddressEdit extends AppCompatActivity
         final EditText input_addressLine3 = findViewById(R.id.input_firstName);
         final EditText input_postCode = findViewById(R.id.input_lastName);
 
+        input_addressLine1.setText(m_currentUser.AddressLine1);
+        input_addressLine2 .setText(m_currentUser.AddressLine2);
+        input_addressLine3.setText(m_currentUser.AddressLine3);
+        input_postCode.setText(m_currentUser.AddressPostCode);
+
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener()
         {
             @Override

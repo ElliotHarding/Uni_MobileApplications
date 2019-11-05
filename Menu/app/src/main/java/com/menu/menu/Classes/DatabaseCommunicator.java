@@ -224,28 +224,7 @@ public class DatabaseCommunicator
 
     public boolean TryLogin(String usernameOrEmail, String pass, LoginOption option)
     {
-        User u = null;
-
-        switch (option)
-        {
-            case Username:
-                u = GetUserViaUsername(usernameOrEmail);
-                break;
-            case Email:
-                u = GetUserViaEmail(usernameOrEmail);
-                break;
-        }
-
-        if (u == null)
-            return false;
-
-        if (u.Password.equals(pass))
-        {
-            u.LoggedIn = true;
-            return UpdateUser(u);
-        }
-
-        return false;
+        return true;
     }
 
     public User GetUserViaUsername(String username)
@@ -260,12 +239,26 @@ public class DatabaseCommunicator
 
     private User GetUserViaSelect(String select)
     {
-        //new getData().execute(select);
-        return null;
+        return ReturnFakeUser();
     }
 
 
-
+    private User ReturnFakeUser()
+    {
+        User elliot = new User();
+        elliot.AddressLine1 = "aaaaaa";
+        elliot.AddressLine2 = "bbbbbb";
+        elliot.AddressLine3 = "cccccc";
+        elliot.Email = "elliot.test@test.com";
+        elliot.AddressPostCode = "666565";
+        elliot.FirstName = "elliot";
+        elliot.LastName = "harding";
+        elliot.LoggedIn = true;
+        elliot.Password = "password";
+        elliot.Phone = "07450232555";
+        elliot.Username = "elliot";
+        return elliot;
+    }
 
 
     public boolean UpdateUser(User u)

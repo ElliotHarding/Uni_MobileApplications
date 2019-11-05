@@ -48,9 +48,6 @@ public class Login extends AppCompatActivity
             public void onClick(View view)
             {
 
-                //todo remove test
-                NavigateToHome();
-
                 String usernameOrEmail = input_usernameOrEmail.getText().toString();
                 String password = input_password.getText().toString();
 
