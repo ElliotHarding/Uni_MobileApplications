@@ -49,7 +49,7 @@ public class SearchResults extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(SearchResults.this, Home.class));
+                startActivity(new Intent(SearchResults.this, MainHub.class));
             }
         });
 

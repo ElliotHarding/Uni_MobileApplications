@@ -64,7 +64,7 @@ public class ChefSettings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(ChefSettings.this, Home.class));
+                startActivity(new Intent(ChefSettings.this, MainHub.class));
             }
         });
     }

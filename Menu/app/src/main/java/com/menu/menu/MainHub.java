@@ -7,14 +7,17 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
-public class MainHub extends AppCompatActivity {
+public class MainHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+{
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -51,5 +54,23 @@ public class MainHub extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+    {
+        switch (menuItem.getItemId())
+        {
+            case R.id.nav_chefSettigns:
+                break;
+            case R.id.nav_signOut:
+                break;
+            case R.id.nav_settings:
+                break;
+            case R.id.nav_home:
+                break;
+
+        }
+        return false;
     }
 }

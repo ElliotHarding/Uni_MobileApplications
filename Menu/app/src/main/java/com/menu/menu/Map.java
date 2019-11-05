@@ -74,6 +74,6 @@ public class Map extends AppCompatActivity
 
     private void NavigateHome()
     {
-        startActivity(new Intent(Map.this, Home.class));
+        startActivity(new Intent(Map.this, MainHub.class));
     }
 }

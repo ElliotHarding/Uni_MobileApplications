@@ -58,7 +58,7 @@ public class SignUp extends AppCompatActivity
                     if (m_dbComms.AddUser(m_currentUser))
                     {
                         LocalSettings.UpdateLocalUser(m_currentUser);
-                        startActivity(new Intent(SignUp.this, Home.class));
+                        startActivity(new Intent(SignUp.this, MainHub.class));
                     }
                     else
                     {

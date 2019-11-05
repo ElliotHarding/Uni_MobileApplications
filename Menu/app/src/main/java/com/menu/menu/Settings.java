@@ -103,6 +103,6 @@ public class Settings extends AppCompatActivity
 
     private void NavigateHome()
     {
-        startActivity(new Intent(Settings.this, Home.class));
+        startActivity(new Intent(Settings.this, MainHub.class));
     }
 }
