@@ -1,5 +1,6 @@
 package com.menu.menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.navigation.NavController;
@@ -15,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.menu.menu.Classes.DatabaseCommunicator;
 
 public class MainHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -62,15 +65,23 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         switch (menuItem.getItemId())
         {
             case R.id.nav_chefSettigns:
+                startActivity(new Intent(MainHub.this, SignUp.class));
                 break;
             case R.id.nav_signOut:
+                //todo
+                if (new DatabaseCommunicator().TryLogout())
+                {
+                    startActivity(new Intent(MainHub.this, Login.class));
+                }
                 break;
             case R.id.nav_settings:
+                startActivity(new Intent(MainHub.this, Settings.class));
                 break;
             case R.id.nav_home:
+                startActivity(new Intent(MainHub.this, MainHub.class));
                 break;
 
         }
-        return false;
+        return true;
     }
 }

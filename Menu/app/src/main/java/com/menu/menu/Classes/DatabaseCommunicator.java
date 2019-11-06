@@ -227,6 +227,11 @@ public class DatabaseCommunicator
         return true;
     }
 
+    public boolean TryLogout()
+    {
+        return true;
+    }
+
     public User GetUserViaUsername(String username)
     {
         return GetUserViaSelect("SELECT * FROM " + m_userTable + " WHERE username = '" + username + "';");
