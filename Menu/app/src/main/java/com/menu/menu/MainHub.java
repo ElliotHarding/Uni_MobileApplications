@@ -1,5 +1,7 @@
 package com.menu.menu;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,6 +12,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +25,7 @@ import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
+import com.menu.menu.ui.home.HomeFragment;
 
 public class MainHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -47,6 +52,12 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        android.support.v4.app.FragmentManager fmm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ftt = fmm.beginTransaction();
+        Fragment home = new HomeFragment();
+        ftt.replace(R.id.fragmentHolder, home);
+        ftt.commit();
     }
 
     @Override
