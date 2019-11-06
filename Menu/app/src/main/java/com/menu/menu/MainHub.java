@@ -42,6 +42,11 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
     }
 
     @Override
+    public void onBackPressed()
+    {
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,10 +68,9 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         switch (menuItem.getItemId())
         {
             case R.id.nav_chefSettigns:
-                startActivity(new Intent(MainHub.this, SignUp.class));
+                startActivity(new Intent(MainHub.this, ChefSettings.class));
                 break;
             case R.id.nav_signOut:
-                //todo
                 if (new DatabaseCommunicator().TryLogout())
                 {
                     startActivity(new Intent(MainHub.this, Login.class));
@@ -78,7 +82,6 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
             case R.id.nav_home:
                 startActivity(new Intent(MainHub.this, MainHub.class));
                 break;
-
         }
         return true;
     }
