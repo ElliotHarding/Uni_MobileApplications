@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
@@ -36,10 +38,7 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_hub);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -49,15 +48,19 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         TextView subTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_subTitle);
         subTitle.setText(LocalSettings.LocalUser.Email);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        android.support.v4.app.FragmentManager fmm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ftt = fmm.beginTransaction();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment home = new HomeFragment();
-        ftt.replace(R.id.fragmentHolder, home);
-        ftt.commit();
+        ft.replace(R.id.fragmentHolder, home);
+        ft.commit();
+
+        //final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        findViewById(R.id.drawerToggle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     @Override

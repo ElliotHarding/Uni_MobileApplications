@@ -11,6 +11,7 @@ import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.ReturnPage;
 import com.menu.menu.Classes.User;
+import com.menu.menu.Classes.UsersCallback;
 
 public class Settings extends AppCompatActivity
 {
