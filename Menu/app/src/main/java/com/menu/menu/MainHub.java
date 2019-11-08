@@ -1,7 +1,5 @@
 package com.menu.menu;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,13 +11,10 @@ import androidx.navigation.ui.NavigationUI;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +35,33 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main_hub);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.nav_chefSettigns:
+                        startActivity(new Intent(MainHub.this, ChefSettings.class));
+                        break;
+                    case R.id.nav_signOut:
+                        if (new DatabaseCommunicator().TryLogout())
+                        {
+                            startActivity(new Intent(MainHub.this, Login.class));
+                        }
+                        break;
+                    case R.id.nav_settings:
+                        startActivity(new Intent(MainHub.this, Settings.class));
+                        break;
+                    case R.id.nav_home:
+                        startActivity(new Intent(MainHub.this, MainHub.class));
+                        break;
+                }
+                return true;
+            }
+        });
+
+
 
         TextView title = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
         title.setText(LocalSettings.LocalUser.Username);
@@ -50,17 +71,15 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
 
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment home = new HomeFragment();
-        ft.replace(R.id.fragmentHolder, home);
-        ft.commit();
-
-        //final DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        findViewById(R.id.drawerToggle).setOnClickListener(new View.OnClickListener() {
+        ((HomeFragment)home).SetDrawerButtonListner(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
             }
         });
+        ft.replace(R.id.fragmentHolder, home);
+        ft.commit();
     }
 
     @Override

@@ -23,6 +23,12 @@ public class HomeFragment extends Fragment
     private MapView m_MapView;
     private GoogleMap m_googleMap;
     private HomeViewModel m_homeViewModel;
+    private View.OnClickListener m_drawerListener;
+
+    public void SetDrawerButtonListner(View.OnClickListener listener)
+    {
+        m_drawerListener = listener;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -61,6 +67,8 @@ public class HomeFragment extends Fragment
                 m_googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
+
+        root.findViewById(R.id.drawerToggle).setOnClickListener(m_drawerListener);
 
         return root;
     }
