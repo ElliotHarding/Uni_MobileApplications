@@ -24,7 +24,7 @@ import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.ui.home.HomeFragment;
 
-public class MainHub extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+public class MainHub extends AppCompatActivity
 {
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -34,8 +34,11 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_hub);
 
+        //Deal with fragment management
+        final String homeFragmentTag = "HOME_FRAGMENT";
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
             {
@@ -54,14 +57,17 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
                         startActivity(new Intent(MainHub.this, Settings.class));
                         break;
                     case R.id.nav_home:
-                        startActivity(new Intent(MainHub.this, MainHub.class));
+                        //Check not already on that fragment
+                        Fragment hf = getSupportFragmentManager().findFragmentByTag(homeFragmentTag);
+                        if (hf == null || !hf.isVisible())
+                        {
+                            startActivity(new Intent(MainHub.this, MainHub.class));
+                        }
                         break;
                 }
                 return true;
             }
         });
-
-
 
         TextView title = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
         title.setText(LocalSettings.LocalUser.Username);
@@ -71,14 +77,15 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
 
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment home = new HomeFragment();
-        ((HomeFragment)home).SetDrawerButtonListner(new View.OnClickListener() {
+        ((HomeFragment)home).SetDrawerButtonListner(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
                 ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
             }
         });
-        ft.replace(R.id.fragmentHolder, home);
+        ft.replace(R.id.fragmentHolder, home, homeFragmentTag);
         ft.commit();
     }
 
@@ -101,29 +108,5 @@ public class MainHub extends AppCompatActivity implements NavigationView.OnNavig
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
-    {
-        switch (menuItem.getItemId())
-        {
-            case R.id.nav_chefSettigns:
-                startActivity(new Intent(MainHub.this, ChefSettings.class));
-                break;
-            case R.id.nav_signOut:
-                if (new DatabaseCommunicator().TryLogout())
-                {
-                    startActivity(new Intent(MainHub.this, Login.class));
-                }
-                break;
-            case R.id.nav_settings:
-                startActivity(new Intent(MainHub.this, Settings.class));
-                break;
-            case R.id.nav_home:
-                startActivity(new Intent(MainHub.this, MainHub.class));
-                break;
-        }
-        return true;
     }
 }

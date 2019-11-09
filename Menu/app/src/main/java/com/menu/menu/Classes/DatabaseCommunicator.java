@@ -1,8 +1,16 @@
 package com.menu.menu.Classes;
 
+import android.os.AsyncTask;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,38 +36,15 @@ public class DatabaseCommunicator
         m_db = FirebaseDatabase.getInstance();
     }
 
-    /*
-    private enum UploadStatus
+    public void RequestUserData(UsersCallback usersCallback)
     {
-        UPLOADING,
-        FAILED,
-        SUCEEDED
-    }
-    UploadStatus m_uploadStatus = UploadStatus.FAILED;
-
-    private ArrayList<User> m_currentUserData = null;
-    public ArrayList<User> RequestUserData(String select)
-    {
-        m_currentUserData = null;
-        new ReqUserData().execute(select);
-
-        while (m_currentUserData == null)
-        {
-        }
-
-        return m_currentUserData;
+        new ReqUserData().execute(usersCallback);
     }
 
-    public boolean UploadUserData(ArrayList<User> users)
+    public void UploadUserData(ArrayList<User> users, UploadCallback uploadCallback)
     {
-        m_uploadStatus = UploadStatus.UPLOADING;
-        new UploadData().execute(UserDataToString(users));
-
-        while (m_uploadStatus == UploadStatus.UPLOADING)
-        {
-        }
-
-        return (m_uploadStatus == UploadStatus.SUCEEDED);
+        uploadCallback.SetMessage(UserDataToString(users));
+        new UploadData().execute(uploadCallback);
     }
 
     private String UserDataToString(ArrayList<User> users)
@@ -68,29 +53,15 @@ public class DatabaseCommunicator
         return string;
     }
 
-    private ArrayList<Order> m_currentOrderData = null;
-    public ArrayList<Order> RequestOrderData(String select)
+    public void RequestOrderData(OrdersCallback ordersCallback)
     {
-        m_currentMealData = null;
-        new ReqOrderData().execute(select);
-
-        while (m_currentMealData == null)
-        {
-        }
-
-        return m_currentOrderData;
+        new ReqOrderData().execute(ordersCallback);
     }
 
-    public boolean UploadOrderData(ArrayList<Order> orders)
+    public void UploadOrderData(ArrayList<Order> orders, UploadCallback uploadCallback)
     {
-        m_uploadStatus = UploadStatus.UPLOADING;
-        new UploadData().execute(OrderDataToString(orders));
-
-        while (m_uploadStatus == UploadStatus.UPLOADING)
-        {
-        }
-
-        return (m_uploadStatus == UploadStatus.SUCEEDED);
+        uploadCallback.SetMessage(OrderDataToString(orders));
+        new UploadData().execute(uploadCallback);
     }
 
     private String OrderDataToString(ArrayList<Order> orders)
@@ -99,29 +70,15 @@ public class DatabaseCommunicator
         return string;
     }
 
-    private ArrayList<Meal> m_currentMealData = null;
-    public ArrayList<Meal> RequestMealData(String select)
+    public void RequestMealData(MealsCallback mealsCallback)
     {
-        m_currentMealData = null;
-        new ReqMealData().execute(select);
-
-        while (m_currentMealData == null)
-        {
-        }
-
-        return m_currentMealData;
+        new ReqMealData().execute(mealsCallback);
     }
 
-    public boolean UploadMealData(ArrayList<Meal> meals)
+    public void UploadMealData(ArrayList<Meal> meals, UploadCallback uploadCallback)
     {
-        m_uploadStatus = UploadStatus.UPLOADING;
-        new UploadData().execute(MealDataToString(meals));
-
-        while (m_uploadStatus == UploadStatus.UPLOADING)
-        {
-        }
-
-        return (m_uploadStatus == UploadStatus.SUCEEDED);
+        uploadCallback.SetMessage(MealDataToString(meals));
+        new UploadData().execute(uploadCallback);
     }
 
     private String MealDataToString(ArrayList<Meal> meals)
@@ -130,18 +87,21 @@ public class DatabaseCommunicator
         return string;
     }
 
-    private class ReqUserData extends AsyncTask<String, String, String>
+    private class ReqUserData extends AsyncTask<UsersCallback, String, String>
     {
         @Override
-        protected String doInBackground(String... params)
+        protected String doInBackground(UsersCallback... params)
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0]).openConnection();
+                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
                 String result = IOUtils.toString(res, StandardCharsets.UTF_8);
+                ArrayList<User> users = null;
 
+                params[0].AddUsers(users);
+                params[0].call();
             }
             catch (Exception e)
             {
@@ -151,18 +111,21 @@ public class DatabaseCommunicator
         }
     }
 
-    private class ReqMealData extends AsyncTask<String, String, String>
+    private class ReqMealData extends AsyncTask<MealsCallback, String, String>
     {
         @Override
-        protected String doInBackground(String... params)
+        protected String doInBackground(MealsCallback... params)
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0]).openConnection();
+                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
                 String result = IOUtils.toString(res, StandardCharsets.UTF_8);
+                ArrayList<Meal> meals = null;
 
+                params[0].AddMeals(meals);
+                params[0].call();
             }
             catch (Exception e)
             {
@@ -172,18 +135,21 @@ public class DatabaseCommunicator
         }
     }
 
-    private class ReqOrderData extends AsyncTask<String, String, String>
+    private class ReqOrderData extends AsyncTask<OrdersCallback, String, String>
     {
         @Override
-        protected String doInBackground(String... params)
+        protected String doInBackground(OrdersCallback... params)
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0]).openConnection();
+                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
                 String result = IOUtils.toString(res, StandardCharsets.UTF_8);
+                ArrayList<Order> orders = null;
 
+                params[0].AddOrders(orders);
+                params[0].call();
             }
             catch (Exception e)
             {
@@ -193,34 +159,36 @@ public class DatabaseCommunicator
         }
     }
 
-    private class UploadData extends AsyncTask<String, String, String>
+    private class UploadData extends AsyncTask<UploadCallback, String, String>
     {
         @Override
-        protected String doInBackground(String... params)
+        protected String doInBackground(UploadCallback... params)
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0]).openConnection();
+                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
                 String result = IOUtils.toString(res, StandardCharsets.UTF_8);
 
                 if (result.equals("Success"))
                 {
-                    m_uploadStatus = UploadStatus.SUCEEDED;
+                    params[0].SetPass(true);
                 }
                 else
                 {
-                    m_uploadStatus = UploadStatus.FAILED;
+                    params[0].SetPass(false);
                 }
+                params[0].SetMessage(result);
             }
             catch (Exception e)
             {
-                m_uploadStatus = UploadStatus.FAILED;
+                params[0].SetPass(false);
+                params[0].SetMessage(e.getMessage());
             }
+
             return "Executed";
         }
     }
-    */
 
     public boolean TryLogin(String usernameOrEmail, String pass, LoginOption option)
     {
