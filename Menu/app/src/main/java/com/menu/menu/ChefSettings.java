@@ -102,7 +102,7 @@ public class ChefSettings extends AppCompatActivity
 
             TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
 
-            if (currentMeal.OnSale)
+            if (currentMeal.OnSale.equals("true"))
             {
                 onSale.setText("On Sale");
                 onSale.setTextColor(Color.GREEN);

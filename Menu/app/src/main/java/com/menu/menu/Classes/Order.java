@@ -1,7 +1,5 @@
 package com.menu.menu.Classes;
 
-import java.util.Date;
-
 public class Order
 {
     public enum State
@@ -12,25 +10,41 @@ public class Order
         Delivered
     }
 
-    public String GetStateAsString()
+    public String Id = null;
+    public String MealId = null;
+    public String NumberOfMeals = null;
+    public String OrdererId = null;
+    public String CurrentState = null;
+    public String ArrivalTime = null;
+
+    public State GetState()
     {
-        switch (CurrentState)
-        {
-            case AwatingResponse:
-                return "Awaiting Response From Chef";
-            case BeingMade:
-                return "Being Made";
-            case OnRoute:
-                return "On Route";
-            case Delivered:
-                return "Delivered";
+        switch (CurrentState) {
+            case "Awaiting Response From Chef":
+                return State.AwatingResponse;
+            case "Being Made":
+                return State.BeingMade;
+            case "On Route":
+                return State.OnRoute;
+            case "Delivered":
+                return State.Delivered;
+            default:
+                return null;
         }
-        return "Unknown state";
     }
 
-    public Date CurrentETA = null;
-    public State CurrentState = State.AwatingResponse;
-    public String Id = null;
-    public Meal CorrespondingMeal = null;
-    public int NumberOfMeals = 0;
+    public void SetState(State cState)
+    {
+        switch (cState)
+        {
+            case AwatingResponse:
+                CurrentState = "Awaiting Response From Chef";
+            case BeingMade:
+                CurrentState = "Being Made";
+            case OnRoute:
+                CurrentState = "On Route";
+            case Delivered:
+                CurrentState = "Delivered";
+        }
+    }
 }

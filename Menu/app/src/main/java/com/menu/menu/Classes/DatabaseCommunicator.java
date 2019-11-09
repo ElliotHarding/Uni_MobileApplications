@@ -107,24 +107,7 @@ public class DatabaseCommunicator
                 {
                     ArrayList<User> users = new ArrayList<>();
 
-                    //Get rid of first [
-                    webResponse = webResponse.substring(2);
-
-                    //Get rid of last ]
-                    webResponse = webResponse.substring(0, webResponse.length()-1);
-
-
-                    //Put into array seperated by "["
-                    String results[];
-                    if(!webResponse.contains("["))
-                    {
-                        results = new String[1];
-                        results[0] = webResponse;
-                    }
-                    else
-                    {
-                        results = webResponse.split("\\[");
-                    }
+                    String[] results = ParseWebResponse(webResponse);
 
                     for (String user: results)
                     {
@@ -183,16 +166,48 @@ public class DatabaseCommunicator
                 URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
-                String result = IOUtils.toString(res, StandardCharsets.UTF_8);
-                ArrayList<Meal> meals = null;
+                String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
+                if(webResponse!=null && new Character(webResponse.charAt(0)).equals('['))
+                {
+                    ArrayList<Meal> meals = new ArrayList<>();
 
-                params[0].AddMeals(meals);
+                    String[] results = ParseWebResponse(webResponse);
+
+                    for (String meal: results)
+                    {
+                        meal = meal.substring(0, meal.length()-1);
+                        String userElements[] = meal.split(",");
+
+                        Meal m = new Meal();
+                        m.OwnerId = userElements[0];
+                        m.Name = userElements[1];
+                        m.IsHalal = userElements[2];
+                        m.IsVegan = userElements[3];
+                        m.IsVegiterian = userElements[4];
+                        m.ContainsMilk = userElements[5];
+                        m.ContainsGluten = userElements[6];
+                        m.Ingredients = userElements[7];
+                        m.Calories = userElements[8];
+                        m.PictureId = userElements[8];
+                        m.Price = userElements[9];
+                        m.MaxNoPortions = userElements[10];
+                        m.Id = userElements[11];
+                        m.OwnerUsername = userElements[12];
+                        m.EatIn = userElements[13];
+                        m.HoursAvaliableFrom = userElements[14];
+                        m.HoursAvaliableTo = userElements[15];
+
+                        meals.add(m);
+                    }
+                    params[0].AddMeals(meals);
+                }
             }
             catch (Exception e)
             {
                 params[0].SetMessage(e.getMessage());
             }
 
+            //Call callback
             try
             {
                 params[0].call();
@@ -215,10 +230,29 @@ public class DatabaseCommunicator
                 URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
-                String result = IOUtils.toString(res, StandardCharsets.UTF_8);
-                ArrayList<Order> orders = null;
+                String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
+                if(webResponse!=null && new Character(webResponse.charAt(0)).equals('['))
+                {
+                    ArrayList<Order> orders = new ArrayList<>();
 
-                params[0].AddOrders(orders);
+                    String[] results = ParseWebResponse(webResponse);
+
+                    for (String order: results)
+                    {
+                        order = order.substring(0, order.length()-1);
+                        String userElements[] = order.split(",");
+
+                        Order o = new Order();
+                        o.Id = userElements[0];
+                        o.MealId = userElements[1];
+                        o.NumberOfMeals = userElements[2];
+                        o.OrdererId = userElements[4];
+                        o.CurrentState = userElements[5];
+
+                        orders.add(o);
+                    }
+                    params[0].AddOrders(orders);
+                }
             }
             catch (Exception e)
             {
@@ -276,9 +310,27 @@ public class DatabaseCommunicator
         }
     }
 
-    public boolean TryLogin(String usernameOrEmail, String pass, LoginOption option)
+    private String[] ParseWebResponse(String response)
     {
-        return true;
+        //Get rid of first [
+        response = response.substring(2);
+
+        //Get rid of last ]
+        response = response.substring(0, response.length()-1);
+
+
+        //Put into array seperated by "["
+        String results[];
+        if(!response.contains("["))
+        {
+            results = new String[1];
+            results[0] = response;
+        }
+        else
+        {
+            results = response.split("\\[");
+        }
+        return results;
     }
 
     public boolean TryLogout()
@@ -337,11 +389,10 @@ public class DatabaseCommunicator
         {
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
-            m.OnSale = true;
-            m.Takeaway = true;
-            m.EatIn = i == 2;
+            m.OnSale = "true";
+            m.EatIn = (i == 2) ? "no":"yes";
             m.Price = "6.10";
-            m.MaxQuantity = 10;
+            m.MaxNoPortions = "10";
             m.Ingredients = "A \n B \n C";
             m.OwnerUsername = "Elliot";
             meals.add(m);
@@ -353,12 +404,11 @@ public class DatabaseCommunicator
     public Meal GetMeal(String s)
     {
         Meal m = new Meal();
-        m.Name = "Meal " + Integer.toString(1);
-        m.OnSale = true;
-        m.Takeaway = true;
-        m.EatIn = true;
+        m.Name = "Meal";
+        m.OnSale = "true";
+        m.EatIn = "no";
         m.Price = "6.10";
-        m.MaxQuantity = 10;
+        m.MaxNoPortions = "10";
         m.Ingredients = "A \n B \n C";
         m.OwnerUsername = "Elliot";
         return  m;
@@ -373,11 +423,10 @@ public class DatabaseCommunicator
         {
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
-            m.OnSale = true;
-            m.Takeaway = true;
-            m.EatIn = i == 2;
+            m.OnSale = "true";
+            m.EatIn = (i == 2) ? "no":"yes";
             m.Price = "6.10";
-            m.MaxQuantity = 10;
+            m.MaxNoPortions = "10";
             m.Ingredients = "A \n B \n C";
             m.OwnerUsername = "Elliot";
             meals.add(m);
@@ -402,10 +451,10 @@ public class DatabaseCommunicator
         Order o = new Order();
 
         //Test Data:
-        o.CurrentETA = new Date(2019, 10, 3, 3, 3, 3);
+        o.ArrivalTime = (new Date(2019, 10, 3, 3, 3, 3)).toString();
         o.Id = "SKNEIOENFE";
-        o.NumberOfMeals = 2;
-        o.CurrentState = Order.State.OnRoute;
+        o.NumberOfMeals = "2";
+        o.SetState(Order.State.AwatingResponse);
 
         return o;
     }
@@ -415,10 +464,10 @@ public class DatabaseCommunicator
         Order o = new Order();
 
         //Test Data:
-        o.CurrentETA = new Date(2019, 10, 3, 3, 3, 3);
+        o.ArrivalTime = (new Date(2019, 10, 3, 3, 3, 3)).toString();
         o.Id = id;
-        o.NumberOfMeals = 2;
-        o.CurrentState = Order.State.OnRoute;
+        o.NumberOfMeals = "2";
+        o.SetState(Order.State.AwatingResponse);
 
         return o;
     }
@@ -432,11 +481,10 @@ public class DatabaseCommunicator
         {
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
-            m.OnSale = true;
-            m.Takeaway = true;
-            m.EatIn = i == 2;
+            m.OnSale = "true";
+            m.EatIn = (i == 2) ? "no":"yes";
             m.Price = "6.10";
-            m.MaxQuantity = 10;
+            m.MaxNoPortions = "10";
             m.Ingredients = "A \n B \n C";
             m.OwnerUsername = "Elliot";
             meals.add(m);

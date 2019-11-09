@@ -51,22 +51,20 @@ public class MealView extends AppCompatActivity
             txt_name.setText("Meal : " + m_meal.Name);
             txt_pricePerDish.setText("Price Per Dish : " + m_meal.Price + "£");
             txt_ingredients.setText(m_meal.Ingredients);
-            txt_numberMeals.setText("Number of dishes (Max : " + Integer.toString(m_meal.MaxQuantity) + ")");
+            txt_numberMeals.setText("Number of dishes (Max : " + m_meal.MaxNoPortions + ")");
             //todo img_image.setImageBitmap(m_meal.Image);
 
-            if (!m_meal.Takeaway)
-            {
-                m_radio_takeaway.setVisibility(View.INVISIBLE);
-                m_radio_takeaway.setChecked(false);
-                m_radio_eatIn.setChecked(true);
+            switch (m_meal.EatIn) {
+                case "EAT-IN":
+                    RadioChange(false,true);
+                    break;
+                case "TAKEAWAY":
+                    RadioChange(true,false);
+                    break;
+                case "BOTH":
+                    RadioChange(true,true);
+                    break;
             }
-            else if (!m_meal.EatIn)
-            {
-                m_radio_eatIn.setVisibility(View.INVISIBLE);
-                m_radio_eatIn.setChecked(false);
-                m_radio_takeaway.setChecked(true);
-            }
-            RadioChange(true);
         }
         else
         {
@@ -92,7 +90,7 @@ public class MealView extends AppCompatActivity
                     return;
                 }
 
-                if (numDishesOrdered < m_meal.MaxQuantity && numDishesOrdered > 0 && m_meal != null)
+                if (numDishesOrdered < Integer.parseInt(m_meal.MaxNoPortions) && numDishesOrdered > 0 && m_meal != null)
                 {
                     if (m_radio_takeaway.isChecked())
                     {
@@ -107,7 +105,7 @@ public class MealView extends AppCompatActivity
                 }
                 else
                 {
-                    txt_error.setText("Number of dishes to order surpasses the maximum " + Integer.toString(m_meal.MaxQuantity));
+                    txt_error.setText("Number of dishes to order surpasses the maximum " + m_meal.MaxNoPortions);
                     txt_error.setVisibility(View.VISIBLE);
                 }
             }
@@ -127,7 +125,7 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                RadioChange(m_radio_takeaway.isChecked());
+                RadioChange(m_radio_takeaway.isChecked(), m_radio_eatIn.isChecked());
             }
         });
 
@@ -136,25 +134,14 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                RadioChange(!m_radio_eatIn.isChecked());
+                RadioChange(m_radio_takeaway.isChecked(), m_radio_eatIn.isChecked());
             }
         });
     }
 
-    void RadioChange(boolean takeaway)
+    void RadioChange(boolean takeaway, boolean eatIn)
     {
-        if (m_meal.Takeaway && m_meal.EatIn)
-        {
-            if (takeaway)
-            {
-                m_radio_takeaway.setChecked(true);
-                m_radio_eatIn.setChecked(false);
-            }
-            else
-            {
-                m_radio_takeaway.setChecked(false);
-                m_radio_eatIn.setChecked(true);
-            }
-        }
+        m_radio_takeaway.setChecked(takeaway);
+        m_radio_eatIn.setChecked(eatIn);
     }
 }

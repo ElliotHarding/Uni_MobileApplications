@@ -52,7 +52,7 @@ public class MealOrder extends AppCompatActivity
     {
         m_order = m_dbComms.GetOrderUpdate(m_order.Id);
 
-        m_txt_eta.setText(m_order.CurrentETA.toString());
-        m_txt_state.setText(m_order.GetStateAsString());
+        m_txt_eta.setText(m_order.ArrivalTime);
+        m_txt_state.setText(m_order.CurrentState);
     }
 }
