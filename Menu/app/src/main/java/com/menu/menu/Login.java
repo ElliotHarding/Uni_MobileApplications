@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
+import com.menu.menu.Classes.UsersCallback;
 
 import org.w3c.dom.Text;
 
@@ -27,11 +28,9 @@ public class Login extends AppCompatActivity
         LocalSettings.LoadSettings();
         if (LocalSettings.IsLoginSaved())
         {
-            if (m_dbComms.TryLogin(LocalSettings.LocalUser.Username, LocalSettings.LocalUser.Password, DatabaseCommunicator.LoginOption.Username))
-            {
-                LocalSettings.LocalUser.LoggedIn = true;
-                NavigateToHome();
-            }
+            UserDataCallback ucb = new UserDataCallback();
+            ucb.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + LocalSettings.LocalUser.Username + "' and password = '" + LocalSettings.LocalUser.Password + "';");
+            m_dbComms.RequestUserData(ucb);
         }
 
         final TextView txt_error = findViewById(R.id.txt_error);
@@ -42,25 +41,20 @@ public class Login extends AppCompatActivity
         final EditText input_usernameOrEmail = findViewById(R.id.input_usernameOrEmail);
         final EditText input_password = findViewById(R.id.input_password);
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
-
+        btn_login.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
-
                 String usernameOrEmail = input_usernameOrEmail.getText().toString();
                 String password = input_password.getText().toString();
 
-                if (m_dbComms.TryLogin(usernameOrEmail, password, DatabaseCommunicator.LoginOption.Username))
-                {
-                    LocalSettings.UpdateLocalUser(m_dbComms.GetUserViaUsername(usernameOrEmail));
-                    NavigateToHome();
-                }
-                else if (m_dbComms.TryLogin(usernameOrEmail, password, DatabaseCommunicator.LoginOption.Email))
-                {
-                    LocalSettings.UpdateLocalUser(m_dbComms.GetUserViaEmail(usernameOrEmail));
-                    NavigateToHome();
-                }
+                String select = "SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + usernameOrEmail + "' and password = '" + password + "' or contact_email = '"
+                        + usernameOrEmail + "' and password = '" + password + "';";
+
+                UserDataCallback ucb = new UserDataCallback();
+                ucb.SetMessage(select);
+                m_dbComms.RequestUserData(ucb);
             }
         });
 
@@ -74,13 +68,31 @@ public class Login extends AppCompatActivity
         });
     }
 
-    private void NavigateToHome()
-    {
-        startActivity(new Intent(Login.this, MainHub.class));
-    }
-
     @Override
     public void onBackPressed()
     {
+    }
+
+    void OnFailedLogin()
+    {
+
+    }
+
+    private class UserDataCallback extends UsersCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if (!m_users.isEmpty()) //Correct user found
+            {
+                LocalSettings.UpdateLocalUser(m_users.get(0));
+                startActivity(new Intent(Login.this, MainHub.class));
+            }
+            else
+            {
+                OnFailedLogin();
+            }
+            return null;
+        }
     }
 }

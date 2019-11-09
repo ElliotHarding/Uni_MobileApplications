@@ -39,8 +39,7 @@ public class SignUp extends AppCompatActivity
                 User currentUser = LocalSettings.LocalUser;
                 currentUser.Email = input_email.getText().toString();
                 currentUser.Phone = input_phone.getText().toString();
-                currentUser.FirstName = input_first.getText().toString();
-                currentUser.LastName = input_last.getText().toString();
+                currentUser.FullName = input_first.getText().toString() + "|$|" + input_last.getText().toString();
                 currentUser.Password = input_password.getText().toString();
 
                 String errorString = ValidateSettings(currentUser);

@@ -15,24 +15,14 @@ import com.menu.menu.Classes.UsersCallback;
 
 public class Settings extends AppCompatActivity
 {
-    public static User m_currentUser = null;
-
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    User m_currentUser = LocalSettings.LocalUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        if (AddressEdit.m_updatedAddress)
-        {
-            AddressEdit.m_updatedAddress = false;
-        }
-        else
-        {
-            m_currentUser = m_dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
-        }
 
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
@@ -45,8 +35,8 @@ public class Settings extends AppCompatActivity
 
         input_email.setText(m_currentUser.Email);
         input_phone.setText(m_currentUser.Phone);
-        input_first.setText(m_currentUser.FirstName);
-        input_last.setText(m_currentUser.LastName);
+        input_first.setText(m_currentUser.FullName.split("|$|")[0]);
+        input_last.setText(m_currentUser.FullName.split("|$|")[1]);
         input_password.setText(m_currentUser.Password);
 
         findViewById(R.id.btn_saveSettigns).setOnClickListener(new View.OnClickListener()
@@ -56,8 +46,7 @@ public class Settings extends AppCompatActivity
             {
                 m_currentUser.Email = input_email.getText().toString();
                 m_currentUser.Phone = input_phone.getText().toString();
-                m_currentUser.FirstName = input_first.getText().toString();
-                m_currentUser.LastName = input_last.getText().toString();
+                m_currentUser.FullName = input_first.getText().toString() + "|$|" + input_last.getText().toString();
                 m_currentUser.Password = input_password.getText().toString();
 
                 String errorString = SignUp.ValidateSettings(m_currentUser);
@@ -96,7 +85,6 @@ public class Settings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                AddressEdit.m_currentUser = m_currentUser;
                 startActivity(new Intent(Settings.this, AddressEdit.class));
             }
         });

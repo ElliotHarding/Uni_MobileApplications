@@ -20,9 +20,9 @@ public class DatabaseCommunicator
     private FirebaseDatabase m_db;
     private DatabaseReference m_mealImages;
 
-    private final String m_userTable = "[menudatabase].[dbo].[User]";
-    private final String m_orderTable = "[menudatabase].[dbo].[Order]";
-    private final String m_mealTable = "[menudatabase].[dbo].[Meal]";
+    public final String m_userTable = "[menudatabase].[dbo].[User]";
+    public final String m_orderTable = "[menudatabase].[dbo].[Order]";
+    public final String m_mealTable = "[menudatabase].[dbo].[Meal]";
     private final String m_databaseUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
 
     public enum LoginOption
@@ -252,7 +252,6 @@ public class DatabaseCommunicator
         return ReturnFakeUser();
     }
 
-
     private User ReturnFakeUser()
     {
         User elliot = new User();
@@ -261,9 +260,8 @@ public class DatabaseCommunicator
         elliot.AddressLine3 = "cccccc";
         elliot.Email = "elliot.test@test.com";
         elliot.AddressPostCode = "666565";
-        elliot.FirstName = "elliot";
-        elliot.LastName = "harding";
-        elliot.LoggedIn = true;
+        elliot.FullName = "elliot harding";
+        elliot.LoggedIn = "true";
         elliot.Password = "password";
         elliot.Phone = "07450232555";
         elliot.Username = "elliot";
