@@ -28,10 +28,11 @@ public class SignUp extends AppCompatActivity
         m_txt_error = findViewById(R.id.txt_error);
         m_txt_error.setVisibility(View.INVISIBLE);
 
+        final EditText input_username = findViewById(R.id.input_name);
         final EditText input_email = findViewById(R.id.input_name);
         final EditText input_phone = findViewById(R.id.input_phone);
-        final EditText input_first = findViewById(R.id.input_firstName);
-        final EditText input_last = findViewById(R.id.input_lastName);
+        final EditText input_fullName = findViewById(R.id.input_fullName);
+        final EditText input_dob = findViewById(R.id.input_dob);
         final EditText input_password = findViewById(R.id.input_password);
 
         m_currentUser = LocalSettings.LocalUser;
@@ -41,10 +42,12 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                m_currentUser.Username = input_username.getText().toString();
                 m_currentUser.Email = input_email.getText().toString();
                 m_currentUser.Phone = input_phone.getText().toString();
-                m_currentUser.FullName = input_first.getText().toString() + "|$|" + input_last.getText().toString();
+                m_currentUser.FullName = input_fullName.getText().toString();
                 m_currentUser.Password = input_password.getText().toString();
+                m_currentUser.DOB = input_dob.getText().toString();
 
                 String errorString = ValidateSettings(m_currentUser);
                 if (errorString.equals("NO-ERROR"))
@@ -52,7 +55,7 @@ public class SignUp extends AppCompatActivity
                     //Upload user
                     LocalSettings.UpdateLocalUser(m_currentUser);
                     RegisterCallback rcb = new RegisterCallback();
-                    rcb.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.Username + "') THEN INSERT INTO " + m_dbComms.m_userTable + "VALUES(" + m_currentUser.GetInsertString() + ");");
+                    rcb.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.Username + "')" + m_dbComms.m_userInsert + "(" + m_currentUser.GetInsertString() + ");");
                     m_dbComms.GenericUpload(rcb);
                 }
                 else

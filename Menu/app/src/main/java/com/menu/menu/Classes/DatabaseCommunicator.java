@@ -23,6 +23,7 @@ public class DatabaseCommunicator
     public final String m_userTable = "[menudatabase].[dbo].[User]";
     public final String m_orderTable = "[menudatabase].[dbo].[Order]";
     public final String m_mealTable = "[menudatabase].[dbo].[Meal]";
+    public final String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,LatLong,arrival) VALUES ";
     private final String m_databaseUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
 
     public enum LoginOption

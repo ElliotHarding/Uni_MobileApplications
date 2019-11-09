@@ -22,8 +22,8 @@ public class User
 
     public String GetInsertString()
     {
-        final String d = ",";
-        return Id + d + Username + Password + d + FullName + AddressLine1 + d + AddressLine2 + AddressLine3 + d +
-                AddressPostCode + AddressDescription + d + DOB + LoggedIn + d + Email + Phone + d + Rating + IsAdmin + d + PictureId + d + LatLong;
+        final String d = "','";
+        return Id + ",'" + Username + d + Password + d + FullName + d + AddressLine1 + d + AddressLine2 + d + AddressLine3 + d +
+                AddressPostCode + d + AddressDescription + d + DOB + d + LoggedIn + d + Email + d + Phone + d + Rating + d + IsAdmin + d + PictureId + d + LatLong + "'";
     }
 }
