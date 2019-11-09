@@ -14,7 +14,6 @@ import com.menu.menu.Classes.User;
 
 public class SignUp extends AppCompatActivity
 {
-    User m_currentUser = null;
     final DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
 
     @Override
@@ -22,15 +21,6 @@ public class SignUp extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        if (AddressEdit.m_updatedAddress)
-        {
-            AddressEdit.m_updatedAddress = false;
-        }
-        else
-        {
-            m_currentUser = m_dbComms.GetUserViaUsername(LocalSettings.LocalUser.Username);
-        }
 
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
@@ -46,18 +36,19 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                m_currentUser.Email = input_email.getText().toString();
-                m_currentUser.Phone = input_phone.getText().toString();
-                m_currentUser.FirstName = input_first.getText().toString();
-                m_currentUser.LastName = input_last.getText().toString();
-                m_currentUser.Password = input_password.getText().toString();
+                User currentUser = LocalSettings.LocalUser;
+                currentUser.Email = input_email.getText().toString();
+                currentUser.Phone = input_phone.getText().toString();
+                currentUser.FirstName = input_first.getText().toString();
+                currentUser.LastName = input_last.getText().toString();
+                currentUser.Password = input_password.getText().toString();
 
-                String errorString = ValidateSettings(m_currentUser);
+                String errorString = ValidateSettings(currentUser);
                 if (errorString.equals("NO-ERROR"))
                 {
-                    if (m_dbComms.AddUser(m_currentUser))
+                    if (m_dbComms.AddUser(currentUser))
                     {
-                        LocalSettings.UpdateLocalUser(m_currentUser);
+                        LocalSettings.UpdateLocalUser(currentUser);
                         startActivity(new Intent(SignUp.this, MainHub.class));
                     }
                     else
@@ -88,8 +79,6 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                AddressEdit.m_currentUser = m_currentUser;
-
                 startActivity(new Intent(SignUp.this, AddressEdit.class));
             }
         });

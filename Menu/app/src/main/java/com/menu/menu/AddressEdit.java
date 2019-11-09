@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
 
 public class AddressEdit extends AppCompatActivity
 {
-    public static User m_currentUser = null;
-    public static boolean m_updatedAddress = false;
+    User m_currentUser = LocalSettings.LocalUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,17 +22,15 @@ public class AddressEdit extends AppCompatActivity
         final TextView txt_error = findViewById(R.id.txt_error);
         txt_error.setVisibility(View.INVISIBLE);
 
-        m_updatedAddress = false;
-
         final EditText input_addressLine1 = findViewById(R.id.input_name);
         final EditText input_addressLine2 = findViewById(R.id.input_phone);
         final EditText input_addressLine3 = findViewById(R.id.input_firstName);
         final EditText input_postCode = findViewById(R.id.input_lastName);
 
-        input_addressLine1.setText(m_currentUser.AddressLine1);
-        input_addressLine2 .setText(m_currentUser.AddressLine2);
-        input_addressLine3.setText(m_currentUser.AddressLine3);
-        input_postCode.setText(m_currentUser.AddressPostCode);
+        input_addressLine1.setText((m_currentUser.AddressLine1 != null) ? m_currentUser.AddressLine1 : "");
+        input_addressLine2 .setText((m_currentUser.AddressLine2 != null) ? m_currentUser.AddressLine2 : "");
+        input_addressLine3.setText((m_currentUser.AddressLine3 != null) ? m_currentUser.AddressLine3 : "");
+        input_postCode.setText((m_currentUser.AddressPostCode != null) ? m_currentUser.AddressPostCode : "");
 
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener()
         {
@@ -47,7 +45,7 @@ public class AddressEdit extends AppCompatActivity
                 String errorString = ValidateUserAddress(m_currentUser);
                 if (errorString.equals("NO-ERROR"))
                 {
-                    m_updatedAddress = true;
+                    LocalSettings.UpdateLocalUser(m_currentUser);
                     onBackPressed();
                 }
                 else
@@ -64,5 +62,4 @@ public class AddressEdit extends AppCompatActivity
         //todo validation...
         return "NO-ERROR";
     }
-
 }

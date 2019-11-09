@@ -87,6 +87,11 @@ public class DatabaseCommunicator
         return string;
     }
 
+    public void GenericQuery(UploadCallback cb)
+    {
+        new UploadData().execute(cb);
+    }
+
     private class ReqUserData extends AsyncTask<UsersCallback, String, String>
     {
         @Override
@@ -101,11 +106,19 @@ public class DatabaseCommunicator
                 ArrayList<User> users = null;
 
                 params[0].AddUsers(users);
+            }
+            catch (Exception e)
+            {
+                params[0].SetMessage(e.getMessage());
+            }
+
+            try
+            {
                 params[0].call();
             }
             catch (Exception e)
             {
-
+                e.printStackTrace();
             }
             return "Executed";
         }
@@ -125,11 +138,19 @@ public class DatabaseCommunicator
                 ArrayList<Meal> meals = null;
 
                 params[0].AddMeals(meals);
+            }
+            catch (Exception e)
+            {
+                params[0].SetMessage(e.getMessage());
+            }
+
+            try
+            {
                 params[0].call();
             }
             catch (Exception e)
             {
-
+                e.printStackTrace();
             }
             return "Executed";
         }
@@ -149,11 +170,18 @@ public class DatabaseCommunicator
                 ArrayList<Order> orders = null;
 
                 params[0].AddOrders(orders);
-                params[0].call();
             }
             catch (Exception e)
             {
+                params[0].SetMessage(e.getMessage());
+            }
 
+            try
+            {
+                params[0].call();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
             }
             return "Executed";
         }
@@ -184,6 +212,15 @@ public class DatabaseCommunicator
             {
                 params[0].SetPass(false);
                 params[0].SetMessage(e.getMessage());
+            }
+
+            try
+            {
+                params[0].call();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
 
             return "Executed";
