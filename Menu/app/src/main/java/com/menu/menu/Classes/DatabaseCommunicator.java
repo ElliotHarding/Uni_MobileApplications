@@ -102,16 +102,65 @@ public class DatabaseCommunicator
                 URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
-                String result = IOUtils.toString(res, StandardCharsets.UTF_8);
-                ArrayList<User> users = null;
+                String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
+                if(webResponse!=null && new Character(webResponse.charAt(0)).equals('['))
+                {
+                    ArrayList<User> users = new ArrayList<>();
 
-                params[0].AddUsers(users);
+                    //Get rid of first [
+                    webResponse = webResponse.substring(2);
+
+                    //Get rid of last ]
+                    webResponse = webResponse.substring(0, webResponse.length()-1);
+
+
+                    //Put into array seperated by "["
+                    String results[];
+                    if(!webResponse.contains("["))
+                    {
+                        results = new String[1];
+                        results[0] = webResponse;
+                    }
+                    else
+                    {
+                        results = webResponse.split("\\[");
+                    }
+
+                    for (String user: results)
+                    {
+                        user = user.substring(0, user.length()-1);
+                        String userElements[] = user.split(",");
+
+                        User u = new User();
+                        u.Id = userElements[0];
+                        u.Username = userElements[1];
+                        u.Password = userElements[2];
+                        u.FullName = userElements[3];
+                        u.AddressLine1 = userElements[4];
+                        u.AddressLine2 = userElements[5];
+                        u.AddressLine3 = userElements[6];
+                        u.AddressPostCode = userElements[7];
+                        u.AddressDescription = userElements[8];
+                        u.DOB = userElements[8];
+                        u.LoggedIn = userElements[9];
+                        u.Email = userElements[10];
+                        u.Phone = userElements[11];
+                        u.Rating = userElements[12];
+                        u.IsAdmin = userElements[13];
+                        u.PictureId = userElements[14];
+                        u.LatLong = userElements[15];
+
+                        users.add(u);
+                    }
+                    params[0].AddUsers(users);
+                }
             }
             catch (Exception e)
             {
                 params[0].SetMessage(e.getMessage());
             }
 
+            //Call callback
             try
             {
                 params[0].call();

@@ -18,4 +18,5 @@ public class User
     public String Rating = null;
     public String IsAdmin = null;
     public String PictureId = null;
+    public String LatLong = null;
 }
