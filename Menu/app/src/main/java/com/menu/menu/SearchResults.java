@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
-import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.ReturnPage;
 
@@ -71,7 +70,6 @@ public class SearchResults extends AppCompatActivity
         {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                MealView.m_previousPage = ReturnPage.PAGE_SEARCHRESULTS;
                 MealView.m_meal = m_mealInfoArray.get(position);
                 startActivity(new Intent(SearchResults.this, MealView.class));
             }

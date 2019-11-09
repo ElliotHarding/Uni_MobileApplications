@@ -2,7 +2,7 @@ package com.menu.menu.Classes;
 
 public class User
 {
-    public String Id = null;
+    public String Id = "NEWID()";
     public String Username = null;
     public String Password = null;
     public String FullName = null;
@@ -19,4 +19,11 @@ public class User
     public String IsAdmin = null;
     public String PictureId = null;
     public String LatLong = null;
+
+    public String GetInsertString()
+    {
+        final String d = ",";
+        return Id + d + Username + Password + d + FullName + AddressLine1 + d + AddressLine2 + AddressLine3 + d +
+                AddressPostCode + AddressDescription + d + DOB + LoggedIn + d + Email + Phone + d + Rating + IsAdmin + d + PictureId + d + LatLong;
+    }
 }

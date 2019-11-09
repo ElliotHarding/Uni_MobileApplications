@@ -44,7 +44,6 @@
         <activity android:name=".Settings" />
         <activity android:name=".ChefSettings" />
         <activity android:name=".MealRegistration" />
-        <activity android:name=".Map" />
         <activity android:name=".SearchResults" />
         <activity android:name=".MealView" />
         <activity android:name=".PaymentProcessing" />

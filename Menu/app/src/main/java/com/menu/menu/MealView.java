@@ -21,7 +21,6 @@ import org.w3c.dom.Text;
 public class MealView extends AppCompatActivity
 {
     public static Meal m_meal = null;
-    public static ReturnPage m_previousPage = null;
 
     RadioButton m_radio_takeaway = null;
     RadioButton m_radio_eatIn = null;
@@ -42,7 +41,6 @@ public class MealView extends AppCompatActivity
         final ImageView img_image = findViewById(R.id.img_image);
         final EditText input_numDishesOrdered = findViewById(R.id.input_numerOfDishes);
         final Button btn_order = findViewById(R.id.btn_order);
-        final Button btn_back = findViewById(R.id.btn_back);
         m_radio_takeaway = findViewById(R.id.radio_takeaway);
         m_radio_eatIn = findViewById(R.id.radio_EatIn);
 
@@ -108,15 +106,6 @@ public class MealView extends AppCompatActivity
                     txt_error.setText("Number of dishes to order surpasses the maximum " + m_meal.MaxNoPortions);
                     txt_error.setVisibility(View.VISIBLE);
                 }
-            }
-        });
-
-        btn_back.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                startActivity(new Intent(MealView.this, m_previousPage == ReturnPage.PAGE_MAP ? Map.class : SearchResults.class));
             }
         });
 

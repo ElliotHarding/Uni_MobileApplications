@@ -92,6 +92,16 @@ public class DatabaseCommunicator
         new UploadData().execute(cb);
     }
 
+    public void GenericUpdate(UploadCallback cb)
+    {
+        new UploadData().execute(cb);
+    }
+
+    public void GenericUpload(UploadCallback cb)
+    {
+        new UploadData().execute(cb);
+    }
+
     private class ReqUserData extends AsyncTask<UsersCallback, String, String>
     {
         @Override
