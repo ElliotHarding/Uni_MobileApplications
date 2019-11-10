@@ -28,7 +28,7 @@ public class SignUp extends AppCompatActivity
         m_txt_error.setVisibility(View.INVISIBLE);
 
         final EditText input_username = findViewById(R.id.input_name);
-        final EditText input_email = findViewById(R.id.input_name);
+        final EditText input_email = findViewById(R.id.input_email);
         final EditText input_phone = findViewById(R.id.input_phone);
         final EditText input_fullName = findViewById(R.id.input_fullName);
         final EditText input_dob = findViewById(R.id.input_dob);

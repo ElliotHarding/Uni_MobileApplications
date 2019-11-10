@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
@@ -30,8 +31,19 @@ public class MealRegistration extends AppCompatActivity
         m_currentMeal = meal;
     }
 
+    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+
     TextView m_txt_error = null;
     ImageView m_img_image = null;
+
+    ImageButton m_btn_uploadImage = null;
+    EditText m_input_name = null;
+    EditText m_input_maxNumberOfDishes = null;
+    EditText m_input_price = null;
+    EditText m_input_ingredients = null;
+    RadioButton m_toggle_onSale = null;
+    RadioButton m_radio_takeaway = null;
+    RadioButton m_radio_eatIn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,45 +51,49 @@ public class MealRegistration extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_registration);
 
-        final DatabaseCommunicator dbComms = new DatabaseCommunicator();
-
         m_txt_error = findViewById(R.id.txt_error);
         m_txt_error.setVisibility(View.INVISIBLE);
 
         m_img_image = findViewById(R.id.img_image);
-        final ImageButton btn_uploadImage = findViewById(R.id.btn_upload);
-        final EditText input_name = findViewById(R.id.input_name);
-        final EditText input_maxNumberOfDishes = findViewById(R.id.input_numerOfDishes);
-        final EditText input_price = findViewById(R.id.input_price);
-        final EditText input_ingredients = findViewById(R.id.input_ingredients);
-        final RadioButton toggle_onSale = findViewById(R.id.toggle_onSale);
+        m_btn_uploadImage = findViewById(R.id.btn_upload);
+        m_input_name = findViewById(R.id.input_name);
+        m_input_maxNumberOfDishes = findViewById(R.id.input_numerOfDishes);
+        m_input_price = findViewById(R.id.input_price);
+        m_input_ingredients = findViewById(R.id.input_ingredients);
+        m_toggle_onSale = findViewById(R.id.toggle_onSale);
+        m_radio_takeaway = findViewById(R.id.radio_takeaway);
+        m_radio_eatIn = findViewById(R.id.radio_eatIn);
+
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_delete = findViewById(R.id.btn_delete);
-        final RadioButton radio_takeaway = findViewById(R.id.radio_takeaway);
-        final RadioButton radio_eatIn = findViewById(R.id.radio_eatIn);
+        final Button btn_update = findViewById(R.id.btn_update);
 
         if (m_currentMeal != null)
         {
-            input_name.setText(m_currentMeal.Name);
-            input_ingredients.setText(m_currentMeal.Ingredients);
-            input_maxNumberOfDishes.setText(m_currentMeal.MaxNoPortions);
-            input_price.setText(m_currentMeal.Price);
-            toggle_onSale.setActivated(m_currentMeal.OnSale.equals("true"));
+            m_input_name.setText(m_currentMeal.Name);
+            m_input_ingredients.setText(m_currentMeal.Ingredients);
+            m_input_maxNumberOfDishes.setText(m_currentMeal.MaxNoPortions);
+            m_input_price.setText(m_currentMeal.Price);
+            m_toggle_onSale.setActivated(m_currentMeal.OnSale.equals("true"));
             //todo m_img_image.setImageBitmap(m_currentMeal.Image);
-            radio_takeaway.setChecked(m_currentMeal.IsTakeaway());
-            radio_eatIn.setChecked(m_currentMeal.IsEatIn());
+            m_radio_takeaway.setChecked(m_currentMeal.IsTakeaway());
+            m_radio_eatIn.setChecked(m_currentMeal.IsEatIn());
+
             btn_add.setVisibility(View.INVISIBLE);
+            btn_update.setVisibility(View.VISIBLE);
         }
         else
         {
-            //Since the meal is new, don't need to delete it...
-            btn_delete.setVisibility(View.INVISIBLE);
-
             m_currentMeal = new Meal();
             m_currentMeal.OwnerUsername = LocalSettings.LocalUser.Username;
+            m_currentMeal.OwnerId = LocalSettings.LocalUser.Id;
+
+            //Since the meal is new, don't need to delete it...
+            btn_delete.setVisibility(View.INVISIBLE);
+            btn_update.setVisibility(View.INVISIBLE);
         }
 
-        btn_uploadImage.setOnClickListener(new View.OnClickListener()
+        m_btn_uploadImage.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -91,32 +107,25 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
-                m_currentMeal.MaxNoPortions = input_maxNumberOfDishes.getText().toString();
-                m_currentMeal.OnSale = toggle_onSale.isActivated() ? "true" : "false";
-                m_currentMeal.Name = input_name.getText().toString();
-                //todo m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
-                m_currentMeal.Ingredients = input_ingredients.getText().toString();
-                m_currentMeal.Price = input_price.getText().toString();
-                m_currentMeal.SetEatIn(radio_eatIn.isChecked(), radio_takeaway.isChecked());
-
-                String errorString = ValidateMeal(m_currentMeal);
-                if (errorString == "NO-ERROR")
+                if(GetAndValidateMeal())
                 {
-                    if (dbComms.AddMeal(m_currentMeal))
-                    {
-                        NavigateToPreviousPage();
-                    }
-                    else
-                    {
-                        m_txt_error.setText("Failed to add meal. Check internet connection.");
-                        m_txt_error.setVisibility(View.VISIBLE);
-                    }
+                    AddMealCallback amc = new AddMealCallback();
+                    amc.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_mealTable + " WHERE meal_name = '" + m_currentMeal.Name + "')" + m_dbComms.m_mealInsert + "(" + m_currentMeal.GetInsertString() + ");");
+                    m_dbComms.GenericUpload(amc);
                 }
-                else
+            }
+        });
+
+        btn_update.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if(GetAndValidateMeal())
                 {
-                    m_txt_error.setText(errorString);
-                    m_txt_error.setVisibility(View.VISIBLE);
+                    UpdateMealCallback umc = new UpdateMealCallback();
+                    umc.SetMessage("UPDATE " + m_dbComms.m_mealTable + " SET " + m_currentMeal.GetUpdateString() + "WHERE id = '" + m_currentMeal.Id + "';");
+                    m_dbComms.GenericUpload(umc);
                 }
             }
         });
@@ -126,7 +135,7 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                if (dbComms.DeleteMeal(m_currentMeal))
+                if (m_dbComms.DeleteMeal(m_currentMeal))
                 {
                     NavigateToPreviousPage();
                 }
@@ -138,23 +147,51 @@ public class MealRegistration extends AppCompatActivity
             }
         });
 
-        radio_takeaway.setOnClickListener(new View.OnClickListener()
+        m_radio_takeaway.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                radio_takeaway.setChecked(!radio_takeaway.isChecked());
+                m_radio_takeaway.setChecked(!m_radio_takeaway.isChecked());
             }
         });
 
-        radio_eatIn.setOnClickListener(new View.OnClickListener()
+        m_radio_eatIn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                radio_eatIn.setChecked(!radio_eatIn.isChecked());
+                m_radio_eatIn.setChecked(!m_radio_eatIn.isChecked());
             }
         });
+    }
+
+    private Boolean GetAndValidateMeal()
+    {
+        m_currentMeal.MaxNoPortions = m_input_maxNumberOfDishes.getText().toString();
+        m_currentMeal.OnSale = m_toggle_onSale.isActivated() ? "true" : "false";
+        m_currentMeal.Name = m_input_name.getText().toString();
+        //todo m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
+        m_currentMeal.Ingredients = m_input_ingredients.getText().toString();
+        m_currentMeal.Price = m_input_price.getText().toString();
+        m_currentMeal.SetEatIn(m_radio_eatIn.isChecked(), m_radio_takeaway.isChecked());
+
+        String errorString = ValidateMeal(m_currentMeal);
+        if (errorString.equals("NO-ERROR"))
+        {
+            return true;
+        }
+        else
+        {
+            SetError(errorString);
+            return false;
+        }
+    }
+
+    private void SetError(String errorString)
+    {
+        m_txt_error.setText(errorString);
+        m_txt_error.setVisibility(View.VISIBLE);
     }
 
     private void NavigateToPreviousPage()
@@ -192,6 +229,26 @@ public class MealRegistration extends AppCompatActivity
                 m_txt_error.setText("An I/O error occured while acquiring the image");
                 m_txt_error.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    private class UpdateMealCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+
+            return null;
+        }
+    }
+
+    private class AddMealCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+
+            return null;
         }
     }
 }

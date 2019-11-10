@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.MealsCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ChefSettings extends AppCompatActivity
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
     List<Meal> m_mealInfoArray = new ArrayList<>();
     ListView m_displayList;
+    TextView m_txt_error = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,8 +34,7 @@ public class ChefSettings extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_settings);
 
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
+        m_txt_error = findViewById(R.id.txt_error);
 
         m_displayList = findViewById(R.id.mealsList);
         UpdateList();
@@ -71,8 +72,9 @@ public class ChefSettings extends AppCompatActivity
 
     private void UpdateList()
     {
-        m_mealInfoArray = m_dbComms.GetChefsMeals(LocalSettings.LocalUser.Username);
-        m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
+        GetMealsListCallback gmlc = new GetMealsListCallback();
+        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + LocalSettings.LocalUser.Id + "';");
+        m_dbComms.RequestMealData(gmlc);
     }
 
     //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
@@ -114,6 +116,24 @@ public class ChefSettings extends AppCompatActivity
             }
 
             return itemView;
+        }
+    }
+
+    private class GetMealsListCallback extends MealsCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(!m_meals.isEmpty())
+            {
+                m_mealInfoArray = m_meals;
+                m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
+            }
+            else
+            {
+                m_txt_error.setText(m_message);
+            }
+            return null;
         }
     }
 }
