@@ -42,7 +42,7 @@ public class DatabaseCommunicator
         new ReqUserData().execute(usersCallback);
     }
 
-    public void UploadUserData(ArrayList<User> users, UploadCallback uploadCallback)
+    public void UploadUserData(ArrayList<User> users, BaseCallback uploadCallback)
     {
         uploadCallback.SetMessage(UserDataToString(users));
         new UploadData().execute(uploadCallback);
@@ -59,7 +59,7 @@ public class DatabaseCommunicator
         new ReqOrderData().execute(ordersCallback);
     }
 
-    public void UploadOrderData(ArrayList<Order> orders, UploadCallback uploadCallback)
+    public void UploadOrderData(ArrayList<Order> orders, BaseCallback uploadCallback)
     {
         uploadCallback.SetMessage(OrderDataToString(orders));
         new UploadData().execute(uploadCallback);
@@ -76,7 +76,7 @@ public class DatabaseCommunicator
         new ReqMealData().execute(mealsCallback);
     }
 
-    public void UploadMealData(ArrayList<Meal> meals, UploadCallback uploadCallback)
+    public void UploadMealData(ArrayList<Meal> meals, BaseCallback uploadCallback)
     {
         uploadCallback.SetMessage(MealDataToString(meals));
         new UploadData().execute(uploadCallback);
@@ -88,17 +88,17 @@ public class DatabaseCommunicator
         return string;
     }
 
-    public void GenericQuery(UploadCallback cb)
+    public void GenericQuery(BaseCallback cb)
     {
         new UploadData().execute(cb);
     }
 
-    public void GenericUpdate(UploadCallback cb)
+    public void GenericUpdate(BaseCallback cb)
     {
         new UploadData().execute(cb);
     }
 
-    public void GenericUpload(UploadCallback cb)
+    public void GenericUpload(BaseCallback cb)
     {
         new UploadData().execute(cb);
     }
@@ -281,30 +281,20 @@ public class DatabaseCommunicator
         }
     }
 
-    private class UploadData extends AsyncTask<UploadCallback, String, String>
+    private class UploadData extends AsyncTask<BaseCallback, String, String>
     {
         @Override
-        protected String doInBackground(UploadCallback... params)
+        protected String doInBackground(BaseCallback... params)
         {
             try
             {
                 URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
                 String result = IOUtils.toString(res, StandardCharsets.UTF_8);
-
-                if (result.equals("Success"))
-                {
-                    params[0].SetPass(true);
-                }
-                else
-                {
-                    params[0].SetPass(false);
-                }
                 params[0].SetMessage(result);
             }
             catch (Exception e)
             {
-                params[0].SetPass(false);
                 params[0].SetMessage(e.getMessage());
             }
 

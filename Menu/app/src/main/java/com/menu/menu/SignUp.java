@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
-import com.menu.menu.Classes.ReturnPage;
-import com.menu.menu.Classes.UploadCallback;
 import com.menu.menu.Classes.User;
 
 public class SignUp extends AppCompatActivity
@@ -48,6 +47,7 @@ public class SignUp extends AppCompatActivity
                 m_currentUser.FullName = input_fullName.getText().toString();
                 m_currentUser.Password = input_password.getText().toString();
                 m_currentUser.DOB = input_dob.getText().toString();
+                m_currentUser.LoggedIn = "true";
 
                 String errorString = ValidateSettings(m_currentUser);
                 if (errorString.equals("NO-ERROR"))
@@ -98,12 +98,12 @@ public class SignUp extends AppCompatActivity
         NavigateLogin();
     }
 
-    class RegisterCallback extends UploadCallback
+    class RegisterCallback extends BaseCallback
     {
         @Override
         public Void call() throws Exception
         {
-            if(m_uploaded)
+            if(m_message.equals("null"))
             {
                 startActivity(new Intent(SignUp.this, MainHub.class));
             }
