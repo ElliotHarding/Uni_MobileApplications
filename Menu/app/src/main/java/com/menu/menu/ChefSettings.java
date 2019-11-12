@@ -132,8 +132,15 @@ public class ChefSettings extends AppCompatActivity
         {
             if(!m_meals.isEmpty())
             {
-                m_mealInfoArray = m_meals;
-                m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        m_mealInfoArray = m_meals;
+                        m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
+                    }
+                });
             }
             else
             {
