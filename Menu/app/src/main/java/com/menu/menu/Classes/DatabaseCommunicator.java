@@ -141,11 +141,11 @@ public class DatabaseCommunicator
                         Meal m = new Meal();
                         m.OwnerId = userElements[0];
                         m.Name = userElements[1];
-                        m.IsHalal = userElements[2];
-                        m.IsVegan = userElements[3];
-                        m.IsVegiterian = userElements[4];
-                        m.ContainsMilk = userElements[5];
-                        m.ContainsGluten = userElements[6];
+                        m.IsHalal = userElements[2].equals("true");
+                        m.IsVegan = userElements[3].equals("true");
+                        m.IsVegiterian = userElements[4].equals("true");
+                        m.ContainsMilk = userElements[5].equals("true");
+                        m.ContainsGluten = userElements[6].equals("true");
                         m.Ingredients = userElements[7];
                         m.Calories = userElements[8];
                         m.PictureId = userElements[8];

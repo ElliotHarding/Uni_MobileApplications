@@ -6,11 +6,11 @@ public class Meal
 {
     public String OwnerId = null;
     public String Name = null;
-    public String IsHalal = null;
-    public String IsVegan = null;
-    public String IsVegiterian = null;
-    public String ContainsMilk = null;
-    public String ContainsGluten = null;
+    public Boolean IsHalal = null;
+    public Boolean IsVegan = null;
+    public Boolean IsVegiterian = null;
+    public Boolean ContainsMilk = null;
+    public Boolean ContainsGluten = null;
     public String Ingredients = null;
     public String Calories = null;
     public String PictureId = null;

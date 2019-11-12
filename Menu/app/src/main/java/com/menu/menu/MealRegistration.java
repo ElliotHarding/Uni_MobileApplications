@@ -1,8 +1,11 @@
 package com.menu.menu;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
@@ -23,6 +27,8 @@ import com.menu.menu.Classes.Meal;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Time;
+import java.util.Date;
 
 public class MealRegistration extends AppCompatActivity
 {
@@ -44,6 +50,16 @@ public class MealRegistration extends AppCompatActivity
     EditText m_input_ingredients = null;
     Switch m_switch_takeaway = null;
     Switch m_switch_eatIn = null;
+    Switch m_switch_isHalal = null;
+    Switch m_switch_isVegan = null;
+    Switch m_switch_isVegiterian = null;
+    Switch m_switch_containsMilk = null;
+    Switch m_switch_containsGluten = null;
+    TextView m_txt_pickDateFrom = null;
+    TextView m_txt_pickDateTo = null;
+
+    TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
+    TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,6 +78,13 @@ public class MealRegistration extends AppCompatActivity
         m_input_ingredients = findViewById(R.id.input_ingredients);
         m_switch_takeaway = findViewById(R.id.switch_takeaway);
         m_switch_eatIn = findViewById(R.id.switch_eatIn);
+        m_switch_isHalal = findViewById(R.id.switch_isHalal);
+        m_switch_containsGluten = findViewById(R.id.switch_containsGluten);
+        m_switch_containsMilk = findViewById(R.id.switch_containsMilk);
+        m_switch_isVegan = findViewById(R.id.switch_isVegan);
+        m_switch_isVegiterian = findViewById(R.id.switch_isVegetarian);
+        m_txt_pickDateFrom = findViewById(R.id.txt_HoursAvaliableFrom);
+        m_txt_pickDateTo = findViewById(R.id.txt_HoursAvaliableTo);
 
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_delete = findViewById(R.id.btn_delete);
@@ -76,6 +99,11 @@ public class MealRegistration extends AppCompatActivity
             //todo m_img_image.setImageBitmap(m_currentMeal.Image);
             m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());
             m_switch_eatIn.setChecked(m_currentMeal.IsEatIn());
+            m_switch_isHalal.setChecked(m_currentMeal.IsEatIn());
+            m_switch_containsGluten.setChecked(m_currentMeal.ContainsGluten);
+            m_switch_containsMilk.setChecked(m_currentMeal.ContainsMilk);
+            m_switch_isVegan.setChecked(m_currentMeal.IsVegan);
+            m_switch_isVegiterian.setChecked(m_currentMeal.IsVegiterian);
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
@@ -144,6 +172,46 @@ public class MealRegistration extends AppCompatActivity
                 }
             }
         });
+
+        m_onHoursFromSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1)
+            {
+                m_currentMeal.HoursAvaliableFrom = (i + ":" + i1);
+            }
+        };
+
+        m_onHoursToSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1)
+            {
+                m_currentMeal.HoursAvaliableTo = (i + ":" + i1);
+            }
+        };
+
+        m_txt_pickDateFrom.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MealRegistration.this, m_onHoursFromSetListener, 0, 0, true);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.show();
+            }
+        });
+
+        m_txt_pickDateTo.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MealRegistration.this, m_onHoursToSetListener, 0, 0, true);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.show();
+            }
+        });
     }
 
     private Boolean GetAndValidateMeal()
@@ -154,6 +222,16 @@ public class MealRegistration extends AppCompatActivity
         m_currentMeal.Ingredients = m_input_ingredients.getText().toString();
         m_currentMeal.Price = m_input_price.getText().toString();
         m_currentMeal.SetEatIn(m_switch_eatIn.isChecked(), m_switch_takeaway.isChecked());
+        m_currentMeal.ContainsMilk = m_switch_containsMilk.isChecked();
+        m_currentMeal.IsHalal = m_switch_isHalal.isChecked();
+        m_currentMeal.ContainsGluten = m_switch_containsGluten.isChecked();
+        m_currentMeal.ContainsMilk = m_switch_containsMilk.isChecked();
+        m_currentMeal.IsVegan = m_switch_isVegan.isChecked();
+        m_currentMeal.IsVegiterian = m_switch_isVegiterian.isChecked();
+
+        m_switch_containsMilk.isChecked();
+        m_switch_isVegan.isChecked();
+        m_switch_isVegiterian.isChecked();
 
         String errorString = ValidateMeal(m_currentMeal);
         if (errorString.equals("NO-ERROR"))
