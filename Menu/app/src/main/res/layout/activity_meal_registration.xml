@@ -236,12 +236,46 @@
         app:layout_constraintStart_toStartOf="@+id/switch_isVegan"
         app:layout_constraintTop_toBottomOf="@+id/switch_isVegan" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/txt_HoursAvaliableFrom"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="589dp" />
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Hours Avaliable From"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_containsMilk" />
+
+    <TextView
+        android:id="@+id/txt_HoursAvaliableTo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="center"
+        android:text="Hours Avaliable To"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_containsMilk" />
+
+    <TextView
+        android:id="@+id/txt_pickDateFrom"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:gravity="center"
+        android:text="Choose Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_HoursAvaliableFrom" />
+
+    <TextView
+        android:id="@+id/txt_pickDateTo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:text="Choose Date"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_HoursAvaliableTo" />
 
 </android.support.constraint.ConstraintLayout>
