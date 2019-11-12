@@ -237,6 +237,14 @@ public class MealRegistration extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
+            if(m_message.equals("null"))
+            {
+                NavigateToPreviousPage();
+            }
+            else
+            {
+                SetError(m_message);
+            }
 
             return null;
         }
@@ -247,7 +255,14 @@ public class MealRegistration extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-
+            if(m_message.equals("null"))
+            {
+                NavigateToPreviousPage();
+            }
+            else
+            {
+                SetError(m_message);
+            }
             return null;
         }
     }

@@ -26,9 +26,9 @@ public class Meal
     public String GetInsertString()
     {
         final String d = "','";
-        return "'" + OwnerId + ",'" + Name + d + IsHalal + d + IsVegan + d + IsVegiterian + d + ContainsMilk + d + ContainsGluten + d +
+        return "'" + OwnerId + d + Name + d + IsHalal + d + IsVegan + d + IsVegiterian + d + ContainsMilk + d + ContainsGluten + d +
                 Ingredients + d + Calories + d + PictureId + d + Price + d + MaxNoPortions + "'," + Id + ",'"
-                + OnSale + d + OwnerUsername + d + EatIn + d + HoursAvaliableFrom + d + HoursAvaliableTo + "'";
+                + OwnerUsername + d + EatIn + d + HoursAvaliableFrom + d + HoursAvaliableTo + "'";
     }
 
     public String GetUpdateString()
@@ -36,7 +36,7 @@ public class Meal
         String d = "',";
         return "owner_user_id='" + OwnerId + d + "meal_name=" + Name + d + "is_halal=" + IsHalal + d + "is_vegan=" + IsVegan + d + "is_vegiterian=" + IsVegiterian + d + "contains_milk=" +
                 ContainsMilk + d + "contains_gluten=" + ContainsGluten + d + "ingredients_list=" + Ingredients + d + "estimated_calories=" + Calories + d + "picture_id=" + PictureId + d + "price=" +
-                Price + d + "number_of_portions_avaliable=" + MaxNoPortions + d + "id=" + Id + d + "ownerUsername=" + OnSale + d + "OwnerUsername=" + OwnerUsername + d + "eatIn=" + EatIn +
+                Price + d + "number_of_portions_avaliable=" + MaxNoPortions + d + "id=" + Id + "OwnerUsername=" + OwnerUsername + d + "eatIn=" + EatIn +
                 d + "hoursAvaliableFrom=" + HoursAvaliableFrom + d + "hoursAvaliableTo=" + HoursAvaliableTo + "'";
     }
 
