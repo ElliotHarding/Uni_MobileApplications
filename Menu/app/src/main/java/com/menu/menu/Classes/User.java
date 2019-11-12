@@ -3,8 +3,8 @@ package com.menu.menu.Classes;
 public class User
 {
     public String Id = "NEWID()";
-    public String Username = null;
-    public String Password = null;
+    public String Username = "elliot"; //todo testing...
+    public String Password = "elliot"; //todo testing...
     public String FullName = null;
     public String AddressLine1 = null;
     public String AddressLine2 = null;

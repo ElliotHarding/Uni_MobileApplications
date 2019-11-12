@@ -104,6 +104,8 @@ public class MealRegistration extends AppCompatActivity
             m_switch_containsMilk.setChecked(m_currentMeal.ContainsMilk);
             m_switch_isVegan.setChecked(m_currentMeal.IsVegan);
             m_switch_isVegiterian.setChecked(m_currentMeal.IsVegiterian);
+            m_txt_pickDateTo.setText(m_currentMeal.HoursAvaliableTo);
+            m_txt_pickDateFrom.setText(m_currentMeal.HoursAvaliableFrom);
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
@@ -179,6 +181,7 @@ public class MealRegistration extends AppCompatActivity
             public void onTimeSet(TimePicker timePicker, int i, int i1)
             {
                 m_currentMeal.HoursAvaliableFrom = (i + ":" + i1);
+                m_txt_pickDateFrom.setText(i + ":" + i1);
             }
         };
 
@@ -188,6 +191,7 @@ public class MealRegistration extends AppCompatActivity
             public void onTimeSet(TimePicker timePicker, int i, int i1)
             {
                 m_currentMeal.HoursAvaliableTo = (i + ":" + i1);
+                m_txt_pickDateTo.setText(i + ":" + i1);
             }
         };
 
