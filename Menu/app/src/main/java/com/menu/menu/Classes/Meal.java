@@ -17,7 +17,6 @@ public class Meal
     public String Price = null;
     public String MaxNoPortions = null;
     public String Id = "NEWID()";
-    public String OnSale = null; //true or false
     public String OwnerUsername = null;
     public String EatIn = null;
     public String HoursAvaliableFrom = null;
@@ -54,6 +53,12 @@ public class Meal
         {
             EatIn = "TAKEAWAY";
         }
+    }
+
+    public Boolean CurrentlyOnSale()
+    {
+        //todo
+        return true;
     }
 
     public Boolean IsEatIn()

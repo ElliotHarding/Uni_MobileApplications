@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.menu.menu.Classes.BaseCallback;
@@ -41,9 +42,8 @@ public class MealRegistration extends AppCompatActivity
     EditText m_input_maxNumberOfDishes = null;
     EditText m_input_price = null;
     EditText m_input_ingredients = null;
-    RadioButton m_toggle_onSale = null;
-    RadioButton m_radio_takeaway = null;
-    RadioButton m_radio_eatIn = null;
+    Switch m_switch_takeaway = null;
+    Switch m_switch_eatIn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,9 +60,8 @@ public class MealRegistration extends AppCompatActivity
         m_input_maxNumberOfDishes = findViewById(R.id.input_numerOfDishes);
         m_input_price = findViewById(R.id.input_price);
         m_input_ingredients = findViewById(R.id.input_ingredients);
-        m_toggle_onSale = findViewById(R.id.toggle_onSale);
-        m_radio_takeaway = findViewById(R.id.radio_takeaway);
-        m_radio_eatIn = findViewById(R.id.radio_eatIn);
+        m_switch_takeaway = findViewById(R.id.switch_takeaway);
+        m_switch_eatIn = findViewById(R.id.switch_eatIn);
 
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_delete = findViewById(R.id.btn_delete);
@@ -74,10 +73,9 @@ public class MealRegistration extends AppCompatActivity
             m_input_ingredients.setText(m_currentMeal.Ingredients);
             m_input_maxNumberOfDishes.setText(m_currentMeal.MaxNoPortions);
             m_input_price.setText(m_currentMeal.Price);
-            m_toggle_onSale.setActivated(m_currentMeal.OnSale.equals("true"));
             //todo m_img_image.setImageBitmap(m_currentMeal.Image);
-            m_radio_takeaway.setChecked(m_currentMeal.IsTakeaway());
-            m_radio_eatIn.setChecked(m_currentMeal.IsEatIn());
+            m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());
+            m_switch_eatIn.setChecked(m_currentMeal.IsEatIn());
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
@@ -146,35 +144,16 @@ public class MealRegistration extends AppCompatActivity
                 }
             }
         });
-
-        m_radio_takeaway.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                m_radio_takeaway.setChecked(!m_radio_takeaway.isChecked());
-            }
-        });
-
-        m_radio_eatIn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                m_radio_eatIn.setChecked(!m_radio_eatIn.isChecked());
-            }
-        });
     }
 
     private Boolean GetAndValidateMeal()
     {
         m_currentMeal.MaxNoPortions = m_input_maxNumberOfDishes.getText().toString();
-        m_currentMeal.OnSale = m_toggle_onSale.isActivated() ? "true" : "false";
         m_currentMeal.Name = m_input_name.getText().toString();
         //todo m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
         m_currentMeal.Ingredients = m_input_ingredients.getText().toString();
         m_currentMeal.Price = m_input_price.getText().toString();
-        m_currentMeal.SetEatIn(m_radio_eatIn.isChecked(), m_radio_takeaway.isChecked());
+        m_currentMeal.SetEatIn(m_switch_eatIn.isChecked(), m_switch_takeaway.isChecked());
 
         String errorString = ValidateMeal(m_currentMeal);
         if (errorString.equals("NO-ERROR"))

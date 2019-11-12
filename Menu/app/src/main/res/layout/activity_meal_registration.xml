@@ -28,7 +28,7 @@
         android:text="Name"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_eatIn" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_eatIn" />
 
     <TextView
         android:id="@+id/txt_numberMeals"
@@ -145,17 +145,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <RadioButton
-        android:id="@+id/toggle_onSale"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:text="On Sale"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
-
     <Button
         android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
@@ -166,25 +155,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <RadioButton
-        android:id="@+id/radio_takeaway"
+    <Switch
+        android:id="@+id/switch_takeaway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="28dp"
-        android:text="Takeaway"
+        android:text="Takeaway "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioButton
-        android:id="@+id/radio_eatIn"
+    <Switch
+        android:id="@+id/switch_eatIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:text="Eat In"
+        android:text="Eat In "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_takeaway" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_takeaway" />
 
     <Button
         android:id="@+id/btn_update"

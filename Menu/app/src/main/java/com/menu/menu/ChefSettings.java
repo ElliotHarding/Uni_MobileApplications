@@ -70,6 +70,12 @@ public class ChefSettings extends AppCompatActivity
         });
     }
 
+    private void SetError(String errorString)
+    {
+        m_txt_error.setText(errorString);
+        m_txt_error.setVisibility(View.VISIBLE);
+    }
+
     private void UpdateList()
     {
         GetMealsListCallback gmlc = new GetMealsListCallback();
@@ -131,7 +137,7 @@ public class ChefSettings extends AppCompatActivity
             }
             else
             {
-                m_txt_error.setText(m_message);
+                SetError(m_message);
             }
             return null;
         }
