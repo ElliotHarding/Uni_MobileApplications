@@ -108,7 +108,7 @@ public class SearchResults extends AppCompatActivity
 
             TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
 
-            if (currentMeal.OnSale.equals("true"))
+            if (currentMeal.CurrentlyOnSale())
             {
                 onSale.setText("On Sale");
                 onSale.setTextColor(Color.GREEN);

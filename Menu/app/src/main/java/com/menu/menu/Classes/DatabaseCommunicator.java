@@ -339,7 +339,6 @@ public class DatabaseCommunicator
         {
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
-            m.OnSale = "true";
             m.EatIn = (i == 2) ? "no":"yes";
             m.Price = "6.10";
             m.MaxNoPortions = "10";
@@ -355,7 +354,6 @@ public class DatabaseCommunicator
     {
         Meal m = new Meal();
         m.Name = "Meal";
-        m.OnSale = "true";
         m.EatIn = "no";
         m.Price = "6.10";
         m.MaxNoPortions = "10";
@@ -373,7 +371,6 @@ public class DatabaseCommunicator
         {
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
-            m.OnSale = "true";
             m.EatIn = (i == 2) ? "no":"yes";
             m.Price = "6.10";
             m.MaxNoPortions = "10";
@@ -431,7 +428,6 @@ public class DatabaseCommunicator
         {
             Meal m = new Meal();
             m.Name = "Meal " + Integer.toString(i);
-            m.OnSale = "true";
             m.EatIn = (i == 2) ? "no":"yes";
             m.Price = "6.10";
             m.MaxNoPortions = "10";

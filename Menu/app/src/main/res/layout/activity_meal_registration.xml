@@ -10,8 +10,8 @@
         android:id="@+id/input_name"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:textSize="14sp"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="36dp"
         android:text="Name"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -184,5 +184,64 @@
         android:text="@string/common_google_play_services_update_button"
         app:layout_constraintBottom_toTopOf="@+id/btn_delete"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_isHalal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Halal "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
+
+    <Switch
+        android:id="@+id/switch_isVegan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Vegan "
+        app:layout_constraintEnd_toStartOf="@+id/switch_isVegetarian"
+        app:layout_constraintStart_toEndOf="@+id/switch_isHalal"
+        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
+
+    <Switch
+        android:id="@+id/switch_isVegetarian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Vegetarian "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
+
+    <Switch
+        android:id="@+id/switch_containsGluten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Gluten "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_isHalal" />
+
+    <Switch
+        android:id="@+id/switch_containsMilk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Milk "
+        app:layout_constraintStart_toStartOf="@+id/switch_isVegan"
+        app:layout_constraintTop_toBottomOf="@+id/switch_isVegan" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="589dp" />
 
 </android.support.constraint.ConstraintLayout>
