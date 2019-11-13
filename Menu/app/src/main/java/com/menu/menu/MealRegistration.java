@@ -221,7 +221,7 @@ public class MealRegistration extends AppCompatActivity
     {
         m_currentMeal.MaxNoPortions = m_input_maxNumberOfDishes.getText().toString();
         m_currentMeal.Name = m_input_name.getText().toString();
-        //todo m_currentMeal.Image = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
+        m_currentMeal.Picture = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
         m_currentMeal.Ingredients = m_input_ingredients.getText().toString();
         m_currentMeal.Price = m_input_price.getText().toString();
         m_currentMeal.SetEatIn(m_switch_eatIn.isChecked(), m_switch_takeaway.isChecked());

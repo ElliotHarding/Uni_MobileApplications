@@ -148,14 +148,14 @@ public class DatabaseCommunicator
                         m.ContainsGluten = userElements[6].equals("true");
                         m.Ingredients = userElements[7];
                         m.Calories = userElements[8];
-                        m.PictureId = userElements[9];
-                        m.Price = userElements[10];
-                        m.MaxNoPortions = userElements[11];
-                        m.Id = userElements[12];
-                        m.OwnerUsername = userElements[13];
-                        m.EatIn = userElements[14];
-                        m.HoursAvaliableFrom = userElements[15];
-                        m.HoursAvaliableTo = userElements[16];
+                        m.Price = userElements[9];
+                        m.MaxNoPortions = userElements[10];
+                        m.Id = userElements[11];
+                        m.OwnerUsername = userElements[12];
+                        m.EatIn = userElements[13];
+                        m.HoursAvaliableFrom = userElements[14];
+                        m.HoursAvaliableTo = userElements[15];
+                        m.SetPictureFromSql(userElements[16]);
 
                         meals.add(m);
                     }
