@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -105,21 +106,29 @@ public class ChefSettings extends AppCompatActivity
 
             Meal currentMeal = m_mealInfoArray.get(position);
 
+
+            //Name
             TextView subjectText = itemView.findViewById(R.id.listItem_Text);
             subjectText.setText(currentMeal.Name);
 
-            TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
 
+            //On sale
+            TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
+            String whenAvaliable = "Avaliable; " + currentMeal.HoursAvaliableFrom + "-" + currentMeal.HoursAvaliableTo;
+            onSale.setText(whenAvaliable);
             if (currentMeal.CurrentlyOnSale())
             {
-                onSale.setText("On Sale");
                 onSale.setTextColor(Color.GREEN);
             }
             else
             {
-                onSale.setText("Todo show dates between");
                 onSale.setTextColor(Color.RED);
             }
+
+
+            //Img
+            ImageView img = itemView.findViewById(R.id.img);
+            //img.setImageBitmap(null); todo
 
             return itemView;
         }

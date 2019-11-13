@@ -42,7 +42,6 @@ public class MealRegistration extends AppCompatActivity
 
     TextView m_txt_error = null;
     ImageView m_img_image = null;
-
     ImageButton m_btn_uploadImage = null;
     EditText m_input_name = null;
     EditText m_input_maxNumberOfDishes = null;
@@ -57,6 +56,8 @@ public class MealRegistration extends AppCompatActivity
     Switch m_switch_containsGluten = null;
     TextView m_txt_pickDateFrom = null;
     TextView m_txt_pickDateTo = null;
+    TextView m_txt_hoursAvaliableFrom = null;
+    TextView m_txt_hoursAvaliableTo = null;
 
     TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
     TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
@@ -69,7 +70,6 @@ public class MealRegistration extends AppCompatActivity
 
         m_txt_error = findViewById(R.id.txt_error);
         m_txt_error.setVisibility(View.INVISIBLE);
-
         m_img_image = findViewById(R.id.img_image);
         m_btn_uploadImage = findViewById(R.id.btn_upload);
         m_input_name = findViewById(R.id.input_name);
@@ -83,8 +83,10 @@ public class MealRegistration extends AppCompatActivity
         m_switch_containsMilk = findViewById(R.id.switch_containsMilk);
         m_switch_isVegan = findViewById(R.id.switch_isVegan);
         m_switch_isVegiterian = findViewById(R.id.switch_isVegetarian);
-        m_txt_pickDateFrom = findViewById(R.id.txt_HoursAvaliableFrom);
-        m_txt_pickDateTo = findViewById(R.id.txt_HoursAvaliableTo);
+        m_txt_pickDateFrom = findViewById(R.id.txt_pickDateFrom);
+        m_txt_pickDateTo = findViewById(R.id.txt_pickDateTo);
+        m_txt_hoursAvaliableFrom = findViewById(R.id.txt_HoursAvaliableFrom);
+        m_txt_hoursAvaliableTo = findViewById(R.id.txt_HoursAvaliableTo);
 
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_delete = findViewById(R.id.btn_delete);
@@ -163,15 +165,9 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                if (m_dbComms.DeleteMeal(m_currentMeal))
-                {
-                    NavigateToPreviousPage();
-                }
-                else
-                {
-                    m_txt_error.setText("Failed to remove meal. Check internet connection.");
-                    m_txt_error.setVisibility(View.VISIBLE);
-                }
+                DeleteMealCallback dmc = new DeleteMealCallback();
+                dmc.SetMessage("DELETE FROM " + m_dbComms.m_mealTable + " WHERE id='" + m_currentMeal.Id + "';");
+                m_dbComms.GenericUpload(dmc);
             }
         });
 
@@ -195,7 +191,8 @@ public class MealRegistration extends AppCompatActivity
             }
         };
 
-        m_txt_pickDateFrom.setOnClickListener(new View.OnClickListener()
+
+        View.OnClickListener pickDateFromListener = new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -204,9 +201,11 @@ public class MealRegistration extends AppCompatActivity
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
-        });
+        };
+        m_txt_pickDateFrom.setOnClickListener(pickDateFromListener);
+        m_txt_hoursAvaliableFrom.setOnClickListener(pickDateFromListener);
 
-        m_txt_pickDateTo.setOnClickListener(new View.OnClickListener()
+        View.OnClickListener pickDateToListener = new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -215,7 +214,9 @@ public class MealRegistration extends AppCompatActivity
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
-        });
+        };
+        m_txt_pickDateTo.setOnClickListener(pickDateToListener);
+        m_txt_hoursAvaliableTo.setOnClickListener(pickDateToListener);
     }
 
     private Boolean GetAndValidateMeal()
@@ -304,7 +305,7 @@ public class MealRegistration extends AppCompatActivity
             }
             else
             {
-                SetError(m_message);
+                SetError("Update failed! Check internet connection.");
             }
 
             return null;
@@ -322,7 +323,24 @@ public class MealRegistration extends AppCompatActivity
             }
             else
             {
-                SetError(m_message);
+                SetError("Adding meal failed! Check internet connection.");
+            }
+            return null;
+        }
+    }
+
+    private class DeleteMealCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(m_message.equals("null"))
+            {
+                NavigateToPreviousPage();
+            }
+            else
+            {
+                SetError("Delete failed! Check internet connection.");
             }
             return null;
         }

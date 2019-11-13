@@ -33,10 +33,10 @@ public class Meal
     public String GetUpdateString()
     {
         String d = "',";
-        return "owner_user_id='" + OwnerId + d + "meal_name=" + Name + d + "is_halal=" + IsHalal + d + "is_vegan=" + IsVegan + d + "is_vegiterian=" + IsVegiterian + d + "contains_milk=" +
-                ContainsMilk + d + "contains_gluten=" + ContainsGluten + d + "ingredients_list=" + Ingredients + d + "estimated_calories=" + Calories + d + "picture_id=" + PictureId + d + "price=" +
-                Price + d + "number_of_portions_avaliable=" + MaxNoPortions + d + "id=" + Id + "OwnerUsername=" + OwnerUsername + d + "eatIn=" + EatIn +
-                d + "hoursAvaliableFrom=" + HoursAvaliableFrom + d + "hoursAvaliableTo=" + HoursAvaliableTo + "'";
+        return "owner_user_id='" + OwnerId + d + "meal_name='" + Name + d + "is_halal='" + IsHalal + d + "is_vegan='" + IsVegan + d + "is_vegiterian='" + IsVegiterian + d + "contains_milk='" +
+                ContainsMilk + d + "contains_gluten='" + ContainsGluten + d + "ingredients_list='" + Ingredients + d + "estimated_calories='" + Calories + d + "picture_id='" + PictureId + d + "price='" +
+                Price + d + "number_of_portions_avaliable='" + MaxNoPortions + d + "id='" + Id + d + "OwnerUsername='" + OwnerUsername + d + "eatIn='" + EatIn +
+                d + "hoursAvaliableFrom='" + HoursAvaliableFrom + d + "hoursAvaliableTo='" + HoursAvaliableTo + "'";
     }
 
     public void SetEatIn(boolean eatIn, boolean takeaway)
