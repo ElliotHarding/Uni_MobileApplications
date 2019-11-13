@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.Meal;
@@ -33,9 +34,6 @@ public class SearchResults extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
-
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
 
         m_searchText = findViewById(R.id.input_search);
 
@@ -121,5 +119,11 @@ public class SearchResults extends AppCompatActivity
 
             return itemView;
         }
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(SearchResults.this, errorString, Toast.LENGTH_LONG);
+        t.show();
     }
 }

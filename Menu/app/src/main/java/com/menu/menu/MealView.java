@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.ReturnPage;
@@ -83,8 +84,7 @@ public class MealView extends AppCompatActivity
                 }
                 catch (Exception e)
                 {
-                    txt_error.setText("Number of dishes to order is empty or invalid");
-                    txt_error.setVisibility(View.VISIBLE);
+                    SetError("Number of dishes to order is empty or invalid");
                     return;
                 }
 
@@ -103,8 +103,7 @@ public class MealView extends AppCompatActivity
                 }
                 else
                 {
-                    txt_error.setText("Number of dishes to order surpasses the maximum " + m_meal.MaxNoPortions);
-                    txt_error.setVisibility(View.VISIBLE);
+                    SetError("Number of dishes to order surpasses the maximum " + m_meal.MaxNoPortions);
                 }
             }
         });
@@ -132,5 +131,11 @@ public class MealView extends AppCompatActivity
     {
         m_radio_takeaway.setChecked(takeaway);
         m_radio_eatIn.setChecked(eatIn);
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(MealView.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
 }

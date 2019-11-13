@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -92,6 +93,12 @@ public class MainHub extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(MainHub.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
 
     @Override

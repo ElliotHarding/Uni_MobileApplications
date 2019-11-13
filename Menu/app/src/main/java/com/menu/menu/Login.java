@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -32,9 +33,6 @@ public class Login extends AppCompatActivity
             ucb.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + LocalSettings.LocalUser.Username + "' and password = '" + LocalSettings.LocalUser.Password + "';");
             m_dbComms.RequestUserData(ucb);
         }
-
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
 
         final Button btn_login = findViewById(R.id.btn_login);
         final Button btn_signUp = findViewById(R.id.btn_signUp);
@@ -73,10 +71,12 @@ public class Login extends AppCompatActivity
     {
     }
 
-    void OnFailedLogin()
+    private void SetError(String errorString)
     {
-
+        Toast t = Toast.makeText(Login.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
+
 
     private class UserDataCallback extends UsersCallback
     {
@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity
             }
             else
             {
-                OnFailedLogin();
+                SetError("Incorrect Details");
             }
             return null;
         }

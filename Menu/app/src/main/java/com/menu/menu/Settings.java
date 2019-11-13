@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -23,9 +24,6 @@ public class Settings extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
 
         final EditText input_email = findViewById(R.id.input_name);
         final EditText input_phone = findViewById(R.id.input_phone);
@@ -59,14 +57,12 @@ public class Settings extends AppCompatActivity
                     }
                     else
                     {
-                        txt_error.setText("Failed to add user! Check network.");
-                        txt_error.setVisibility(View.VISIBLE);
+                        SetError("Failed to add user! Check network.");
                     }
                 }
                 else
                 {
-                    txt_error.setText(errorString);
-                    txt_error.setVisibility(View.VISIBLE);
+                    SetError(errorString);
                 }
             }
         });
@@ -93,5 +89,11 @@ public class Settings extends AppCompatActivity
     private void NavigateHome()
     {
         startActivity(new Intent(Settings.this, MainHub.class));
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(Settings.this, errorString, Toast.LENGTH_LONG);
+        t.show();
     }
 }

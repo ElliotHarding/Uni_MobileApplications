@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.Order;
@@ -27,9 +28,6 @@ public class MealOrder extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_order);
-
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
 
         m_txt_state = findViewById(R.id.txt_orderState);
         m_txt_eta = findViewById(R.id.txt_eta);
@@ -54,5 +52,11 @@ public class MealOrder extends AppCompatActivity
 
         m_txt_eta.setText(m_order.ArrivalTime);
         m_txt_state.setText(m_order.CurrentState);
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(MealOrder.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
 }

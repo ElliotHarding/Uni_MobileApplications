@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -27,15 +28,12 @@ public class ChefSettings extends AppCompatActivity
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
     List<Meal> m_mealInfoArray = new ArrayList<>();
     ListView m_displayList;
-    TextView m_txt_error = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_settings);
-
-        m_txt_error = findViewById(R.id.txt_error);
 
         m_displayList = findViewById(R.id.mealsList);
         UpdateList();
@@ -73,8 +71,8 @@ public class ChefSettings extends AppCompatActivity
 
     private void SetError(String errorString)
     {
-        m_txt_error.setText(errorString);
-        m_txt_error.setVisibility(View.VISIBLE);
+        Toast t = Toast.makeText(ChefSettings.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
 
     private void UpdateList()

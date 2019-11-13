@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
@@ -61,5 +62,11 @@ public class AddressEdit extends AppCompatActivity
     {
         //todo validation...
         return "NO-ERROR";
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(AddressEdit.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
 }

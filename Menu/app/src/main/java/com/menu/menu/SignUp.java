@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
@@ -15,7 +16,6 @@ import com.menu.menu.Classes.User;
 public class SignUp extends AppCompatActivity
 {
     final DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    TextView m_txt_error = null;
     User m_currentUser = null;
 
     @Override
@@ -23,9 +23,6 @@ public class SignUp extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        m_txt_error = findViewById(R.id.txt_error);
-        m_txt_error.setVisibility(View.INVISIBLE);
 
         final EditText input_username = findViewById(R.id.input_name);
         final EditText input_email = findViewById(R.id.input_email);
@@ -83,8 +80,8 @@ public class SignUp extends AppCompatActivity
 
     private void SetError(String errorString)
     {
-        m_txt_error.setText(errorString);
-        m_txt_error.setVisibility(View.VISIBLE);
+        Toast t = Toast.makeText(SignUp.this, errorString, Toast.LENGTH_LONG);
+        t.show();
     }
 
     private void NavigateLogin()

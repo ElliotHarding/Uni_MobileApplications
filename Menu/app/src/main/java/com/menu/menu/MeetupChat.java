@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MeetupChat extends AppCompatActivity
 {
@@ -13,8 +14,11 @@ public class MeetupChat extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_chat);
+    }
 
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(MeetupChat.this, errorString, Toast.LENGTH_LONG);
+        t.show();
     }
 }

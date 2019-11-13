@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -24,9 +25,6 @@ public class PaymentProcessing extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_processing);
 
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
-
         final Button btn_pay = findViewById(R.id.btn_pay);
         final TextView txt_name = findViewById(R.id.txt_name);
         final TextView txt_price = findViewById(R.id.txt_price);
@@ -38,8 +36,7 @@ public class PaymentProcessing extends AppCompatActivity
         }
         else
         {
-            txt_error.setText("Meal not found! Check internet?");
-            txt_error.setVisibility(View.VISIBLE);
+            SetError("Meal not found! Check internet?");
         }
 
         btn_pay.setOnClickListener(new View.OnClickListener()
@@ -55,10 +52,15 @@ public class PaymentProcessing extends AppCompatActivity
                 }
                 else
                 {
-                    txt_error.setText("Failed to place order! Check internet.");
-                    txt_error.setVisibility(View.VISIBLE);
+                    SetError("Failed to place order! Check internet.");
                 }
             }
         });
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(PaymentProcessing.this, errorString, Toast.LENGTH_LONG);
+        t.show();
     }
 }

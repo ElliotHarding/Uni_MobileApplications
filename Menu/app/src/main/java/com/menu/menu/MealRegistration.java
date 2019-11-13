@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
@@ -40,7 +41,6 @@ public class MealRegistration extends AppCompatActivity
 
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
 
-    TextView m_txt_error = null;
     ImageView m_img_image = null;
     ImageButton m_btn_uploadImage = null;
     EditText m_input_name = null;
@@ -68,8 +68,6 @@ public class MealRegistration extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_registration);
 
-        m_txt_error = findViewById(R.id.txt_error);
-        m_txt_error.setVisibility(View.INVISIBLE);
         m_img_image = findViewById(R.id.img_image);
         m_btn_uploadImage = findViewById(R.id.btn_upload);
         m_input_name = findViewById(R.id.input_name);
@@ -252,8 +250,8 @@ public class MealRegistration extends AppCompatActivity
 
     private void SetError(String errorString)
     {
-        m_txt_error.setText(errorString);
-        m_txt_error.setVisibility(View.VISIBLE);
+        Toast t = Toast.makeText(MealRegistration.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
     }
 
     private void NavigateToPreviousPage()
@@ -283,13 +281,11 @@ public class MealRegistration extends AppCompatActivity
             }
             catch (FileNotFoundException e)
             {
-                m_txt_error.setText("Image file could not be found");
-                m_txt_error.setVisibility(View.VISIBLE);
+                SetError("Image file could not be found");
             }
             catch (IOException e)
             {
-                m_txt_error.setText("An I/O error occured while acquiring the image");
-                m_txt_error.setVisibility(View.VISIBLE);
+                SetError("An I/O error occured while acquiring the image");
             }
         }
     }
