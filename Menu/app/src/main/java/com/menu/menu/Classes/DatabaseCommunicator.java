@@ -18,7 +18,7 @@ import java.util.List;
 public class DatabaseCommunicator
 {
     private FirebaseDatabase m_db;
-    private DatabaseReference m_mealImages;
+    //private StorageReference m_mealImages;
 
     public final String m_userTable = "[menudatabase].[dbo].[User]";
     public final String m_orderTable = "[menudatabase].[dbo].[Order]";
@@ -155,7 +155,6 @@ public class DatabaseCommunicator
                         m.EatIn = userElements[13];
                         m.HoursAvaliableFrom = userElements[14];
                         m.HoursAvaliableTo = userElements[15];
-                        m.SetPictureFromSql(userElements[16]);
 
                         meals.add(m);
                     }
