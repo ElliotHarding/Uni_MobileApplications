@@ -90,7 +90,14 @@ public class Login extends AppCompatActivity
             }
             else
             {
-                SetError("Incorrect Details");
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Incorrect Details");
+                    }
+                });
             }
             return null;
         }

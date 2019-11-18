@@ -3,6 +3,7 @@ package com.menu.menu;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -96,7 +97,7 @@ public class MealRegistration extends AppCompatActivity
             m_input_ingredients.setText(m_currentMeal.Ingredients);
             m_input_maxNumberOfDishes.setText(m_currentMeal.MaxNoPortions);
             m_input_price.setText(m_currentMeal.Price);
-            //todo m_img_image.setImageBitmap(m_currentMeal.Image);
+            m_img_image.setImageBitmap(m_currentMeal.Picture);
             m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());
             m_switch_eatIn.setChecked(m_currentMeal.IsEatIn());
             m_switch_isHalal.setChecked(m_currentMeal.IsEatIn());
@@ -277,7 +278,8 @@ public class MealRegistration extends AppCompatActivity
             Uri selectedImage = data.getData();
             try
             {
-                m_img_image.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage));
+                m_currentMeal.Picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                m_img_image.setImageBitmap(m_currentMeal.Picture);
             }
             catch (FileNotFoundException e)
             {
@@ -301,7 +303,14 @@ public class MealRegistration extends AppCompatActivity
             }
             else
             {
-                SetError("Update failed! Check internet connection.");
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Update failed! Check internet connection.");
+                    }
+                });
             }
 
             return null;
@@ -319,7 +328,14 @@ public class MealRegistration extends AppCompatActivity
             }
             else
             {
-                SetError("Adding meal failed! Check internet connection.");
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Adding meal failed! Check internet connection.");
+                    }
+                });
             }
             return null;
         }
@@ -336,7 +352,14 @@ public class MealRegistration extends AppCompatActivity
             }
             else
             {
-                SetError("Delete failed! Check internet connection.");
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Delete failed! Check internet connection.");
+                    }
+                });
             }
             return null;
         }

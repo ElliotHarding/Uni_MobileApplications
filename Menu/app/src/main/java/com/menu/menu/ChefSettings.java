@@ -151,7 +151,14 @@ public class ChefSettings extends AppCompatActivity
             }
             else
             {
-                SetError(m_message);
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError(m_message);
+                    }
+                });
             }
             return null;
         }

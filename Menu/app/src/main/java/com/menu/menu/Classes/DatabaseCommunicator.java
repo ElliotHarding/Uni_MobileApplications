@@ -7,7 +7,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.apache.commons.io.IOUtils;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +27,8 @@ public class DatabaseCommunicator
     public final String m_mealTable = "[menudatabase].[dbo].[Meal]";
     public final String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[Meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,picture_id,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo) VALUES ";
     public final String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,LatLong,arrival) VALUES ";
-    private final String m_databaseUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
+    private final String m_dbRequestUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
+    private final String m_dbPostUrl = "http://themenuapp.gearhostpreview.com/databaseAPIpost.php";
 
     public DatabaseCommunicator()
     {
@@ -59,7 +62,7 @@ public class DatabaseCommunicator
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
+                URLConnection connection = new URL(m_dbRequestUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
                 String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
@@ -123,7 +126,7 @@ public class DatabaseCommunicator
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
+                URLConnection connection = new URL(m_dbRequestUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
                 String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
@@ -135,7 +138,7 @@ public class DatabaseCommunicator
 
                     for (String meal: results)
                     {
-                        meal = meal.substring(0, meal.length()-2);
+                        meal = meal.substring(0, meal.length()-1);
                         String userElements[] = meal.split(",");
 
                         Meal m = new Meal();
@@ -155,6 +158,7 @@ public class DatabaseCommunicator
                         m.EatIn = userElements[13];
                         m.HoursAvaliableFrom = userElements[14];
                         m.HoursAvaliableTo = userElements[15];
+                        m.SetPicutreFromSql(userElements[16]);
 
                         meals.add(m);
                     }
@@ -186,7 +190,7 @@ public class DatabaseCommunicator
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
+                URLConnection connection = new URL(m_dbRequestUrl + params[0].GetMessage()).openConnection();
                 InputStream res = connection.getInputStream();
 
                 String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
@@ -236,9 +240,15 @@ public class DatabaseCommunicator
         {
             try
             {
-                URLConnection connection = new URL(m_databaseUrl + params[0].GetMessage()).openConnection();
+                URLConnection connection = new URL(m_dbPostUrl).openConnection();
+                connection.setDoOutput(true);
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                writer.write("request="+params[0].GetMessage());
+                writer.flush();
                 InputStream res = connection.getInputStream();
                 String result = IOUtils.toString(res, StandardCharsets.UTF_8);
+                writer.close();
+
                 params[0].SetMessage(result);
             }
             catch (Exception e)
