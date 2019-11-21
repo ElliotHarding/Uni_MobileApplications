@@ -280,6 +280,10 @@ public class MealRegistration extends AppCompatActivity
             {
                 m_currentMeal.Picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 m_img_image.setImageBitmap(m_currentMeal.Picture);
+
+                //todo testing
+                m_currentMeal.SetPicutreFromSql(m_currentMeal.PictureToSql());
+                m_img_image.setImageBitmap(m_currentMeal.Picture);
             }
             catch (FileNotFoundException e)
             {
