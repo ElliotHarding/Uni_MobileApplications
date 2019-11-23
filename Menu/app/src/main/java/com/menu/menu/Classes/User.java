@@ -1,6 +1,8 @@
 package com.menu.menu.Classes;
 
-public class User extends ClassWithBitmap
+import java.io.Serializable;
+
+public class User extends ClassWithBitmap implements Serializable
 {
     public String Id = "NEWID()";
     public String Username = "elliot"; //todo testing...
