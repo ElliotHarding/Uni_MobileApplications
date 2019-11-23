@@ -90,12 +90,12 @@ public class ChefMeals extends AppCompatActivity
 
 
             //Name
-            TextView subjectText = itemView.findViewById(R.id.listItem_Text);
+            TextView subjectText = itemView.findViewById(R.id.li_text);
             subjectText.setText(currentMeal.Name);
 
 
             //On sale
-            TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
+            TextView onSale = itemView.findViewById(R.id.li_infoRight);
             String whenAvaliable = "Avaliable; " + currentMeal.HoursAvaliableFrom + "-" + currentMeal.HoursAvaliableTo;
             onSale.setText(whenAvaliable);
             if (currentMeal.CurrentlyOnSale())

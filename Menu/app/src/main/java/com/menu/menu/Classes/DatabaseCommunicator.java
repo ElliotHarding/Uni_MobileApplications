@@ -92,7 +92,6 @@ public class DatabaseCommunicator
                         u.Longitude = userElements[17];
                         u.FoodType = userElements[18];
                         u.SetPicutreFromSql(userElements[19]);
-                        u.Rating = userElements[20];
 
                         users.add(u);
                     }
