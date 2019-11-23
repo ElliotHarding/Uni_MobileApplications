@@ -22,7 +22,6 @@ public class HomeFragment extends Fragment
 {
     private MapView m_MapView;
     private GoogleMap m_googleMap;
-    private HomeViewModel m_homeViewModel;
     private View.OnClickListener m_drawerListener;
 
     public void SetDrawerButtonListner(View.OnClickListener listener)
@@ -32,7 +31,6 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        m_homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         m_MapView = root.findViewById(R.id.mapView);

@@ -27,7 +27,18 @@ import com.menu.menu.ui.home.HomeFragment;
 
 public class MainHub extends AppCompatActivity
 {
-    private AppBarConfiguration mAppBarConfiguration;
+    //Deal with fragment management
+    public static final String HomeFragmentTag = "HOME_FRAGMENT";
+    public static final String BasketFragmentTag = "BASKET FRAGMENT";
+
+    final View.OnClickListener m_drawerLisner = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,8 +46,6 @@ public class MainHub extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_hub);
 
-        //Deal with fragment management
-        final String homeFragmentTag = "HOME_FRAGMENT";
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
@@ -57,12 +66,23 @@ public class MainHub extends AppCompatActivity
                     case R.id.nav_settings:
                         startActivity(new Intent(MainHub.this, Settings.class));
                         break;
-                    case R.id.nav_home:
+                    case R.id.nav_basket:
+
                         //Check not already on that fragment
-                        Fragment hf = getSupportFragmentManager().findFragmentByTag(homeFragmentTag);
+                        Fragment hf = getSupportFragmentManager().findFragmentByTag(BasketFragmentTag);
                         if (hf == null || !hf.isVisible())
                         {
-                            startActivity(new Intent(MainHub.this, MainHub.class));
+                            NavigateToFragment(BasketFragmentTag);
+                        }
+                        break;
+
+                    case R.id.nav_home:
+
+                        //Check not already on that fragment
+                        hf = getSupportFragmentManager().findFragmentByTag(HomeFragmentTag);
+                        if (hf == null || !hf.isVisible())
+                        {
+                            NavigateToFragment(HomeFragmentTag);
                         }
                         break;
                 }
@@ -76,17 +96,38 @@ public class MainHub extends AppCompatActivity
         TextView subTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_subTitle);
         subTitle.setText(LocalSettings.LocalUser.Email);
 
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment home = new HomeFragment();
-        ((HomeFragment)home).SetDrawerButtonListner(new View.OnClickListener()
+        Bundle extras = getIntent().getExtras();
+        if(extras == null || !extras.containsKey("fragment"))
         {
-            @Override
-            public void onClick(View view)
-            {
-                ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(GravityCompat.START);
-            }
-        });
-        ft.replace(R.id.fragmentHolder, home, homeFragmentTag);
+            NavigateToFragment(HomeFragmentTag);
+        }
+        else
+        {
+            NavigateToFragment(extras.getString("fragment"));
+        }
+    }
+
+    private void NavigateToFragment(String tag)
+    {
+        Fragment fragment = null;
+
+        switch (tag)
+        {
+            case HomeFragmentTag:
+                fragment = new HomeFragment();
+                ((HomeFragment)fragment).SetDrawerButtonListner(m_drawerLisner);
+                tag = HomeFragmentTag;
+                break;
+
+            case BasketFragmentTag:
+                fragment = new Basket();
+                ((Basket)fragment).SetDrawerButtonListner(m_drawerLisner);
+                tag = BasketFragmentTag;
+                break;
+        }
+
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentHolder, fragment, tag);
         ft.commit();
     }
 
@@ -104,11 +145,10 @@ public class MainHub extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main_hub, menu);
         return true;
     }
 
+    private AppBarConfiguration mAppBarConfiguration;
     @Override
     public boolean onSupportNavigateUp()
     {

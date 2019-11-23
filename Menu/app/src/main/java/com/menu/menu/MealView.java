@@ -1,6 +1,8 @@
 package com.menu.menu;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -63,30 +65,62 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                int numDishesOrdered = 0;
+                int orderedDishes = 0;
                 try
                 {
-                    numDishesOrdered = Integer.parseInt(input_numDishesOrdered.getText().toString());
+                    orderedDishes = Integer.parseInt(input_numDishesOrdered.getText().toString());
                 }
                 catch (Exception e)
                 {
                     SetError("Number of dishes to order is empty or invalid");
                     return;
                 }
+                //todo fix once serializable
+                final int numDishesOrdered = orderedDishes;
 
                 if (numDishesOrdered < Integer.parseInt(m_meal.MaxNoPortions) && numDishesOrdered > 0 && m_meal != null)
                 {
-                    if (switch_takeaway.isChecked())
+                    if(switch_takeaway.isChecked() || switch_eatIn.isChecked())
                     {
-                        PaymentProcessing.m_meal = m_meal;
-                        PaymentProcessing.m_numberOfMeals = numDishesOrdered;
-                        startActivity(new Intent(MealView.this, PaymentProcessing.class));
-                    }
-                    else if(switch_eatIn.isChecked())
-                    {
-                        MeetupChat.m_meal = m_meal;
-                        MeetupChat.m_numberOfMeals = numDishesOrdered;
-                        startActivity(new Intent(MealView.this, MeetupChat.class));
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                switch (which)
+                                {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        if (switch_takeaway.isChecked())
+                                        {
+                                            PaymentProcessing.m_meal = m_meal;
+                                            PaymentProcessing.m_numberOfMeals = numDishesOrdered;
+                                            startActivity(new Intent(MealView.this, PaymentProcessing.class));
+                                        }
+                                        else
+                                        {
+                                            MeetupChat.m_meal = m_meal;
+                                            MeetupChat.m_numberOfMeals = numDishesOrdered;
+                                            startActivity(new Intent(MealView.this, MeetupChat.class));
+                                        }
+                                        break;
+
+                                    case DialogInterface.BUTTON_NEGATIVE:
+
+                                        Intent intent = new Intent(MealView.this, MainHub.class);
+                                        intent.putExtra("fragment", MainHub.BasketFragmentTag);
+                                        //overridePendingTransition(0, 0);
+                                        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); //todo remove?
+                                        finish();
+                                        startActivity(intent);
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MealView.this);
+                        builder.setMessage("Continue shopping?")
+                                .setPositiveButton("Yes", dialogClickListener)
+                                .setNegativeButton("Check Out", dialogClickListener).show();
                     }
                     else
                     {
