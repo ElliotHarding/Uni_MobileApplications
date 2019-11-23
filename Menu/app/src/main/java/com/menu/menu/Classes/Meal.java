@@ -1,14 +1,8 @@
 package com.menu.menu.Classes;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-
-import org.apache.commons.io.IOUtils;
-
 import java.io.ByteArrayOutputStream;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 
 public class Meal
 {
@@ -57,9 +51,6 @@ public class Meal
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Picture.compress(Bitmap.CompressFormat.JPEG, 10, baos);
         String temp = Base64.encodeToString(baos.toByteArray(), Base64.URL_SAFE);
-
-        //temp = temp.replaceAll("\n", "%");
-        //temp = temp.replaceAll("\r", "%");
         temp = temp.replaceAll("\n", "^");
         return temp;
     }

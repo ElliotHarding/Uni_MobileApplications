@@ -53,8 +53,11 @@ public class ChefSettings extends AppCompatActivity
         {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                MealRegistration.SetMeal(m_mealInfoArray.get(position));
-                startActivity(new Intent(ChefSettings.this, MealRegistration.class));
+                MealView.m_meal = m_mealInfoArray.get(position);
+                startActivity(new Intent(ChefSettings.this, MealView.class));
+                //todo testing uncomment
+                //MealRegistration.SetMeal(m_mealInfoArray.get(position));
+                //startActivity(new Intent(ChefSettings.this, MealRegistration.class));
             }
         });
 
@@ -137,29 +140,22 @@ public class ChefSettings extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            if(!m_meals.isEmpty())
+            runOnUiThread(new Runnable()
             {
-                runOnUiThread(new Runnable()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
+                    if(!m_meals.isEmpty())
                     {
                         m_mealInfoArray = m_meals;
                         m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
                     }
-                });
-            }
-            else
-            {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
+                    else
                     {
                         SetError(m_message);
                     }
-                });
-            }
+                }
+            });
             return null;
         }
     }

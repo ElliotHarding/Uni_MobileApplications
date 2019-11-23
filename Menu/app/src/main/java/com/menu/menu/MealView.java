@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,24 +17,15 @@ import com.menu.menu.Classes.ReturnPage;
 
 import org.w3c.dom.Text;
 
-//todo add address...
-//add takeaway/eat-in option...
-
 public class MealView extends AppCompatActivity
 {
     public static Meal m_meal = null;
-
-    RadioButton m_radio_takeaway = null;
-    RadioButton m_radio_eatIn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view);
-
-        final TextView txt_error = findViewById(R.id.txt_error);
-        txt_error.setVisibility(View.INVISIBLE);
 
         final TextView txt_name = findViewById(R.id.txt_name);
         final TextView txt_pricePerDish = findViewById(R.id.txt_pricePerDish);
@@ -42,33 +34,28 @@ public class MealView extends AppCompatActivity
         final ImageView img_image = findViewById(R.id.img_image);
         final EditText input_numDishesOrdered = findViewById(R.id.input_numerOfDishes);
         final Button btn_order = findViewById(R.id.btn_order);
-        m_radio_takeaway = findViewById(R.id.radio_takeaway);
-        m_radio_eatIn = findViewById(R.id.radio_EatIn);
+        final Switch switch_takeaway = findViewById(R.id.switch_takeaway);
+        final Switch switch_eatIn = findViewById(R.id.switch_eatIn);
+
+        switch_takeaway.setActivated(m_meal.IsTakeaway());
+        switch_eatIn.setActivated(m_meal.IsEatIn());
 
         if (m_meal != null)
         {
-            txt_name.setText("Meal : " + m_meal.Name);
-            txt_pricePerDish.setText("Price Per Dish : " + m_meal.Price + "£");
+            txt_name.setText(m_meal.Name);
+            txt_pricePerDish.setText(m_meal.Price + "£");
             txt_ingredients.setText(m_meal.Ingredients);
             txt_numberMeals.setText("Number of dishes (Max : " + m_meal.MaxNoPortions + ")");
-            //todo img_image.setImageBitmap(m_meal.Image);
-
-            switch (m_meal.EatIn) {
-                case "EAT-IN":
-                    RadioChange(false,true);
-                    break;
-                case "TAKEAWAY":
-                    RadioChange(true,false);
-                    break;
-                case "BOTH":
-                    RadioChange(true,true);
-                    break;
-            }
+            img_image.setImageBitmap(m_meal.Picture);
+            ((RadioButton)findViewById(R.id.radio_containsGluten)).setChecked(m_meal.ContainsGluten);
+            ((RadioButton)findViewById(R.id.radio_containsMilk)).setChecked(m_meal.ContainsMilk);
+            ((RadioButton)findViewById(R.id.radio_isHalal)).setChecked(m_meal.IsHalal);
+            ((RadioButton)findViewById(R.id.radio_isVegan)).setChecked(m_meal.IsVegan);
+            ((RadioButton)findViewById(R.id.radio_isVegetarian)).setChecked(m_meal.IsVegiterian);
         }
         else
         {
-            txt_error.setText("Meal not found! Check internet?");
-            txt_error.setVisibility(View.VISIBLE);
+            SetError("Meal not found! Check internet?");
         }
 
         btn_order.setOnClickListener(new View.OnClickListener()
@@ -76,7 +63,6 @@ public class MealView extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
                 int numDishesOrdered = 0;
                 try
                 {
@@ -90,15 +76,21 @@ public class MealView extends AppCompatActivity
 
                 if (numDishesOrdered < Integer.parseInt(m_meal.MaxNoPortions) && numDishesOrdered > 0 && m_meal != null)
                 {
-                    if (m_radio_takeaway.isChecked())
+                    if (switch_takeaway.isChecked())
                     {
                         PaymentProcessing.m_meal = m_meal;
                         PaymentProcessing.m_numberOfMeals = numDishesOrdered;
                         startActivity(new Intent(MealView.this, PaymentProcessing.class));
                     }
+                    else if(switch_eatIn.isChecked())
+                    {
+                        MeetupChat.m_meal = m_meal;
+                        MeetupChat.m_numberOfMeals = numDishesOrdered;
+                        startActivity(new Intent(MealView.this, MeetupChat.class));
+                    }
                     else
                     {
-                        startActivity(new Intent(MealView.this, MeetupChat.class));
+                        SetError("Please select a meal order option.");
                     }
                 }
                 else
@@ -108,29 +100,23 @@ public class MealView extends AppCompatActivity
             }
         });
 
-        m_radio_takeaway.setOnClickListener(new View.OnClickListener()
+        switch_takeaway.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                RadioChange(m_radio_takeaway.isChecked(), m_radio_eatIn.isChecked());
+                switch_eatIn.setChecked(false);
             }
         });
 
-        m_radio_eatIn.setOnClickListener(new View.OnClickListener()
+        switch_eatIn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                RadioChange(m_radio_takeaway.isChecked(), m_radio_eatIn.isChecked());
+                switch_takeaway.setChecked(false);
             }
         });
-    }
-
-    void RadioChange(boolean takeaway, boolean eatIn)
-    {
-        m_radio_takeaway.setChecked(takeaway);
-        m_radio_eatIn.setChecked(eatIn);
     }
 
     private void SetError(String errorString)

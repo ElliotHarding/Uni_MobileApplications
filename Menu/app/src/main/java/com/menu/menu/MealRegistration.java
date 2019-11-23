@@ -48,6 +48,7 @@ public class MealRegistration extends AppCompatActivity
     EditText m_input_maxNumberOfDishes = null;
     EditText m_input_price = null;
     EditText m_input_ingredients = null;
+    EditText m_input_calories = null;
     Switch m_switch_takeaway = null;
     Switch m_switch_eatIn = null;
     Switch m_switch_isHalal = null;
@@ -86,6 +87,7 @@ public class MealRegistration extends AppCompatActivity
         m_txt_pickDateTo = findViewById(R.id.txt_pickDateTo);
         m_txt_hoursAvaliableFrom = findViewById(R.id.txt_HoursAvaliableFrom);
         m_txt_hoursAvaliableTo = findViewById(R.id.txt_HoursAvaliableTo);
+        m_input_calories = findViewById(R.id.input_calories);
 
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_delete = findViewById(R.id.btn_delete);
@@ -107,6 +109,7 @@ public class MealRegistration extends AppCompatActivity
             m_switch_isVegiterian.setChecked(m_currentMeal.IsVegiterian);
             m_txt_pickDateTo.setText(m_currentMeal.HoursAvaliableTo);
             m_txt_pickDateFrom.setText(m_currentMeal.HoursAvaliableFrom);
+            m_input_calories.setText(m_currentMeal.Calories);
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
@@ -197,7 +200,7 @@ public class MealRegistration extends AppCompatActivity
             public void onClick(View view)
             {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(MealRegistration.this, m_onHoursFromSetListener, 0, 0, true);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 timePickerDialog.show();
             }
         };
@@ -210,7 +213,7 @@ public class MealRegistration extends AppCompatActivity
             public void onClick(View view)
             {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(MealRegistration.this, m_onHoursToSetListener, 0, 0, true);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 timePickerDialog.show();
             }
         };
@@ -232,6 +235,7 @@ public class MealRegistration extends AppCompatActivity
         m_currentMeal.ContainsMilk = m_switch_containsMilk.isChecked();
         m_currentMeal.IsVegan = m_switch_isVegan.isChecked();
         m_currentMeal.IsVegiterian = m_switch_isVegiterian.isChecked();
+        m_currentMeal.Calories = m_input_calories.getText().toString();
 
         m_switch_containsMilk.isChecked();
         m_switch_isVegan.isChecked();
@@ -279,10 +283,6 @@ public class MealRegistration extends AppCompatActivity
             try
             {
                 m_currentMeal.Picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                m_img_image.setImageBitmap(m_currentMeal.Picture);
-
-                //todo testing
-                m_currentMeal.SetPicutreFromSql(m_currentMeal.PictureToSql());
                 m_img_image.setImageBitmap(m_currentMeal.Picture);
             }
             catch (FileNotFoundException e)

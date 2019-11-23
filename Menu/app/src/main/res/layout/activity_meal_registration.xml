@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:text="Max Number Of Dishes"
+        android:text="Max Dishes"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_name" />
@@ -54,7 +54,7 @@
 
     <EditText
         android:id="@+id/input_numerOfDishes"
-        android:layout_width="185dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:ems="10"
@@ -102,16 +102,26 @@
         android:id="@+id/txt_pricePerDish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:text="Price Per Dish"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_name" />
 
+    <TextView
+        android:id="@+id/txt_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Calories"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/input_calories"
+        app:layout_constraintTop_toBottomOf="@+id/input_name" />
+
     <EditText
         android:id="@+id/input_price"
-        android:layout_width="132dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:ems="10"
@@ -119,6 +129,19 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_pricePerDish" />
+
+    <EditText
+        android:id="@+id/input_calories"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/input_price"
+        app:layout_constraintStart_toEndOf="@+id/input_numerOfDishes"
+        app:layout_constraintTop_toBottomOf="@+id/txt_calories" />
 
     <Button
         android:id="@+id/btn_order"
@@ -165,10 +188,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/common_google_play_services_update_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_delete" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_delete"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Switch
         android:id="@+id/switch_isHalal"

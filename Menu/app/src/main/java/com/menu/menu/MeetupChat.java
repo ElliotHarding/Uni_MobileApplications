@@ -6,8 +6,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.menu.menu.Classes.Meal;
+
 public class MeetupChat extends AppCompatActivity
 {
+    public static Meal m_meal = null;
+    public static int m_numberOfMeals = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
