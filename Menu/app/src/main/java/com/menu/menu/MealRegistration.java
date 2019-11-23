@@ -43,7 +43,6 @@ public class MealRegistration extends AppCompatActivity
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
 
     ImageView m_img_image = null;
-    ImageButton m_btn_uploadImage = null;
     EditText m_input_name = null;
     EditText m_input_maxNumberOfDishes = null;
     EditText m_input_price = null;
@@ -71,7 +70,6 @@ public class MealRegistration extends AppCompatActivity
         setContentView(R.layout.activity_meal_registration);
 
         m_img_image = findViewById(R.id.img_image);
-        m_btn_uploadImage = findViewById(R.id.btn_upload);
         m_input_name = findViewById(R.id.input_name);
         m_input_maxNumberOfDishes = findViewById(R.id.input_numerOfDishes);
         m_input_price = findViewById(R.id.input_price);
@@ -125,7 +123,7 @@ public class MealRegistration extends AppCompatActivity
             btn_update.setVisibility(View.INVISIBLE);
         }
 
-        m_btn_uploadImage.setOnClickListener(new View.OnClickListener()
+        m_img_image.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
