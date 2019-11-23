@@ -136,7 +136,7 @@ public class MainHub extends AppCompatActivity
     {
     }
 
-    private void SetError(String errorString)
+    public void SetError(String errorString)
     {
         Toast t = Toast.makeText(MainHub.this, errorString,  Toast.LENGTH_LONG);
         t.show();

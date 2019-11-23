@@ -50,6 +50,7 @@ public class Settings extends AppCompatActivity
                 String errorString = SignUp.ValidateSettings(m_currentUser);
                 if (errorString.equals("NO-ERROR"))
                 {
+                    //todo...
                     if (m_dbComms.UpdateUser(m_currentUser))
                     {
                         LocalSettings.UpdateLocalUser(m_currentUser);

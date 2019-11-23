@@ -33,11 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
         android:text="Address"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_isVegan" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_isVegetarian" />
 
     <EditText
         android:id="@+id/input_numerOfDishes"
@@ -132,8 +131,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Vegan "
-        app:layout_constraintStart_toEndOf="@+id/radio_isVegetarian"
-        app:layout_constraintTop_toTopOf="@+id/radio_isVegetarian" />
+        app:layout_constraintStart_toEndOf="@+id/radio_containsMilk"
+        app:layout_constraintTop_toTopOf="@+id/radio_containsMilk" />
 
     <RadioButton
         android:id="@+id/radio_isVegetarian"
@@ -167,19 +166,21 @@
         android:id="@+id/switch_eatIn"
         android:layout_width="140dp"
         android:layout_height="32dp"
+        android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
         android:text="Eat In"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
         android:id="@+id/switch_takeaway"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="Takeaway"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/switch_eatIn"
-        tools:layout_editor_absoluteX="24dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

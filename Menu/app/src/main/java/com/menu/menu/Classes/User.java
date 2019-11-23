@@ -18,12 +18,15 @@ public class User
     public String Rating = null;
     public String IsAdmin = null;
     public String PictureId = null;
-    public String LatLong = null;
+    public String Latitude = null;
+    public String Longitude = null;
+    public String IsChef = null;
+    public String FoodType = null;
 
     public String GetInsertString()
     {
         final String d = "','";
         return Id + ",'" + Username + d + Password + d + FullName + d + AddressLine1 + d + AddressLine2 + d + AddressLine3 + d +
-                AddressPostCode + d + AddressDescription + d + DOB + d + LoggedIn + d + Email + d + Phone + d + Rating + d + IsAdmin + d + PictureId + d + LatLong + "'";
+                AddressPostCode + d + AddressDescription + d + DOB + d + LoggedIn + d + Email + d + Phone + d + Rating + d + IsAdmin + d + PictureId + d + IsChef + d + Latitude + d + Longitude + d + FoodType + "'";
     }
 }
