@@ -10,23 +10,15 @@ import android.view.ViewGroup;
 
 public class Basket extends Fragment
 {
-    private OnFragmentInteractionListener mListener;
-
     private View.OnClickListener m_drawerListener;
-
-    public void SetDrawerButtonListner(View.OnClickListener listener)
-    {
-        m_drawerListener = listener;
-    }
 
     public Basket()
     {
     }
 
-    public static Basket newInstance()
+    public void SetDrawerButtonListner(View.OnClickListener listener)
     {
-        Basket fragment = new Basket();
-        return fragment;
+        m_drawerListener = listener;
     }
 
     @Override
@@ -44,41 +36,7 @@ public class Basket extends Fragment
         return root;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri)
-    {
-        if (mListener != null)
-        {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context)
-    {
-        super.onAttach(context);
-        /*
-        if (context instanceof OnFragmentInteractionListener)
-        {
-            mListener = (OnFragmentInteractionListener) context;
-        }
-        else
-        {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
-    }
 
-    @Override
-    public void onDetach()
-    {
-        super.onDetach();
-        mListener = null;
-    }
 
-    public interface OnFragmentInteractionListener
-    {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
