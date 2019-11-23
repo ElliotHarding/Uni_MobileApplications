@@ -2,12 +2,12 @@ package com.menu.menu.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +25,7 @@ import com.menu.menu.Classes.User;
 import com.menu.menu.Classes.UsersCallback;
 import com.menu.menu.MainHub;
 import com.menu.menu.R;
+import com.menu.menu.SearchResults;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,18 @@ public class HomeFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        final SearchView searchView = root.findViewById(R.id.searchView);
+        searchView.setOnSearchClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getActivity(), SearchResults.class);
+                intent.putExtra("search", searchView.getQuery());
+                startActivity(intent);
+            }
+        });
 
         m_MapView = root.findViewById(R.id.mapView);
         m_MapView.onCreate(savedInstanceState);
