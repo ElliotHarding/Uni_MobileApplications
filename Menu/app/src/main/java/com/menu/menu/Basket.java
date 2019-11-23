@@ -39,8 +39,9 @@ public class Basket extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_basket, container, false);
+        View root = inflater.inflate(R.layout.fragment_basket, container, false);
+        root.findViewById(R.id.drawerToggle).setOnClickListener(m_drawerListener);
+        return root;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
