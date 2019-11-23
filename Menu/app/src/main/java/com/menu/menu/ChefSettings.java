@@ -53,11 +53,8 @@ public class ChefSettings extends AppCompatActivity
         {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                MealView.m_meal = m_mealInfoArray.get(position);
-                startActivity(new Intent(ChefSettings.this, MealView.class));
-                //todo testing uncomment
-                //MealRegistration.SetMeal(m_mealInfoArray.get(position));
-                //startActivity(new Intent(ChefSettings.this, MealRegistration.class));
+                MealRegistration.SetMeal(m_mealInfoArray.get(position));
+                startActivity(new Intent(ChefSettings.this, MealRegistration.class));
             }
         });
 

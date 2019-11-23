@@ -1,12 +1,13 @@
 package com.menu.menu.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.arch.lifecycle.ViewModelProviders;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,15 +19,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.menu.menu.ChefSettings;
+import com.menu.menu.ChefMeals;
 import com.menu.menu.Classes.DatabaseCommunicator;
-import com.menu.menu.Classes.LocalSettings;
-import com.menu.menu.Classes.Meal;
-import com.menu.menu.Classes.MealsCallback;
 import com.menu.menu.Classes.User;
 import com.menu.menu.Classes.UsersCallback;
 import com.menu.menu.MainHub;
 import com.menu.menu.R;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment
 {
@@ -34,6 +34,18 @@ public class HomeFragment extends Fragment
     private GoogleMap m_googleMap;
     private View.OnClickListener m_drawerListener;
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+
+    class UsernameIdPair
+    {
+        UsernameIdPair(String username, String id)
+        {
+            Username = username;
+            Id = id;
+        }
+        String Username;
+        String Id;
+    }
+    ArrayList<UsernameIdPair> m_markerInformaitonList = new ArrayList<>();
 
     public void SetDrawerButtonListner(View.OnClickListener listener)
     {
@@ -72,13 +84,20 @@ public class HomeFragment extends Fragment
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
                 m_googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                m_googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
+                m_googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
                 {
                     @Override
-                    public boolean onMarkerClick(Marker marker)
+                    public void onInfoWindowClick(Marker marker)
                     {
-
-                        return false;
+                        for(UsernameIdPair uip : m_markerInformaitonList)
+                        {
+                            if(uip.Username.equals(marker.getTitle()))
+                            {
+                                ChefMeals.ChefId = uip.Id;
+                                ChefMeals.ChefUsername = uip.Username;
+                                startActivity(new Intent(getActivity(), ChefMeals.class));
+                            }
+                        }
                     }
                 });
             }
@@ -148,7 +167,8 @@ public class HomeFragment extends Fragment
                             try
                             {
                                 LatLng latLong = new LatLng(Integer.parseInt(user.Latitude), Integer.parseInt(user.Longitude));
-                                m_googleMap.addMarker(new MarkerOptions().position(latLong).title(user.Username)).setSnippet(user.FoodType);
+                                m_googleMap.addMarker(new MarkerOptions().position(latLong).title(user.Username).snippet(user.FoodType));
+                                m_markerInformaitonList.add(new UsernameIdPair(user.Username, user.Id));
                             }
                             catch (Exception e)
                             {
