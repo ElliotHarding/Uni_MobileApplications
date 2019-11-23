@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -147,11 +148,12 @@ public class SearchResults extends AppCompatActivity
 
             Meal currentMeal = m_mealInfoArray.get(position);
 
+            //Subject text
             TextView subjectText = itemView.findViewById(R.id.listItem_Text);
             subjectText.setText(currentMeal.Name);
 
+            //On sale
             TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
-
             if (currentMeal.CurrentlyOnSale())
             {
                 onSale.setText("On Sale");
@@ -162,6 +164,10 @@ public class SearchResults extends AppCompatActivity
                 onSale.setText("Marked Unavailable");
                 onSale.setTextColor(Color.RED);
             }
+
+            //Img
+            ImageView img = itemView.findViewById(R.id.img);
+            img.setImageBitmap(currentMeal.Picture);
 
             return itemView;
         }
@@ -193,6 +199,10 @@ public class SearchResults extends AppCompatActivity
 
             TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
             onSale.setText(currentUser.FoodType);
+
+            //Img
+            ImageView img = itemView.findViewById(R.id.img);
+            img.setImageBitmap(null);//todo
 
             return itemView;
         }
