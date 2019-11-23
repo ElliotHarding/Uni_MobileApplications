@@ -29,6 +29,7 @@ public class MealView extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view);
 
+        final TextView txt_rating = findViewById(R.id.txt_rating);
         final TextView txt_name = findViewById(R.id.txt_name);
         final TextView txt_pricePerDish = findViewById(R.id.txt_pricePerDish);
         final TextView txt_ingredients = findViewById(R.id.txt_ingredients);
@@ -49,6 +50,7 @@ public class MealView extends AppCompatActivity
             txt_ingredients.setText(m_meal.Ingredients);
             txt_numberMeals.setText("Number of dishes (Max : " + m_meal.MaxNoPortions + ")");
             img_image.setImageBitmap(m_meal.Picture);
+            txt_rating.setText(m_meal.Rating+"/5");
             ((RadioButton)findViewById(R.id.radio_containsGluten)).setChecked(m_meal.ContainsGluten);
             ((RadioButton)findViewById(R.id.radio_containsMilk)).setChecked(m_meal.ContainsMilk);
             ((RadioButton)findViewById(R.id.radio_isHalal)).setChecked(m_meal.IsHalal);

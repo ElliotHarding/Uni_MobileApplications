@@ -40,9 +40,11 @@ public class ChefAccountSettings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+
                 //todo validate food type
                 m_currentUser.FoodType = input_foodType.getText().toString();
                 m_currentUser.IsChef = switch_chef.isChecked() ? "true" : "false";
+                LocalSettings.UpdateLocalUser(m_currentUser);
 
                 startActivity(new Intent(ChefAccountSettings.this, Settings.class));
             }

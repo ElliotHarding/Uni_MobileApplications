@@ -101,7 +101,7 @@ public class Settings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(Settings.this, AddressEdit.class));
+                startActivity(new Intent(Settings.this, ChefAccountSettings.class));
             }
         });
     }

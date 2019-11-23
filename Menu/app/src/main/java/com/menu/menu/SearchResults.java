@@ -149,11 +149,11 @@ public class SearchResults extends AppCompatActivity
             Meal currentMeal = m_mealInfoArray.get(position);
 
             //Subject text
-            TextView subjectText = itemView.findViewById(R.id.listItem_Text);
+            TextView subjectText = itemView.findViewById(R.id.li_text);
             subjectText.setText(currentMeal.Name);
 
             //On sale
-            TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
+            TextView onSale = itemView.findViewById(R.id.li_infoRight);
             if (currentMeal.CurrentlyOnSale())
             {
                 onSale.setText("On Sale");
@@ -194,10 +194,10 @@ public class SearchResults extends AppCompatActivity
 
             User currentUser = m_userInfoArray.get(position);
 
-            TextView subjectText = itemView.findViewById(R.id.listItem_Text);
+            TextView subjectText = itemView.findViewById(R.id.li_text);
             subjectText.setText(currentUser.Username);
 
-            TextView onSale = itemView.findViewById(R.id.listItem_OnSale);
+            TextView onSale = itemView.findViewById(R.id.li_infoRight);
             onSale.setText(currentUser.FoodType);
 
             //Img

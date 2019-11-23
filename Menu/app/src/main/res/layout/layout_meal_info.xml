@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/listItem_Text"
+        android:id="@+id/li_text"
         android:layout_width="280dp"
         android:layout_height="55dp"
         android:layout_below="@+id/li_infoRight"
