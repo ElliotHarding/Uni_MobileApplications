@@ -52,6 +52,8 @@ public class MainHub extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
             {
+                ((DrawerLayout)findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
+
                 switch (menuItem.getItemId())
                 {
                     case R.id.nav_chefSettigns:

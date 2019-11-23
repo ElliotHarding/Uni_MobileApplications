@@ -15,12 +15,11 @@ import java.util.List;
 public class DatabaseCommunicator
 {
     private FirebaseDatabase m_db;
-    //private StorageReference m_mealImages;
 
     public final String m_userTable = "[menudatabase].[dbo].[User]";
     public final String m_orderTable = "[menudatabase].[dbo].[Order]";
     public final String m_mealTable = "[menudatabase].[dbo].[Meal]";
-    public final String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[Meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,picture_id,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo) VALUES ";
+    public final String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[Meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo,picture_id) VALUES ";
     public final String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,is_chef,latitude,longitude,food_type) VALUES ";
     private final String m_dbRequestUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
     private final String m_dbPostUrl = "http://themenuapp.gearhostpreview.com/databaseAPIpost.php";
@@ -88,10 +87,11 @@ public class DatabaseCommunicator
                         u.Phone = userElements[12];
                         u.Rating = userElements[13];
                         u.IsAdmin = userElements[14];
-                        u.PictureId = userElements[15];
-                        u.IsChef = userElements[16];
-                        u.Latitude = userElements[17];
-                        u.Longitude = userElements[18];
+                        u.IsChef = userElements[15];
+                        u.Latitude = userElements[16];
+                        u.Longitude = userElements[17];
+                        u.FoodType = userElements[18];
+                        u.SetPicutreFromSql(userElements[19]);
 
                         users.add(u);
                     }

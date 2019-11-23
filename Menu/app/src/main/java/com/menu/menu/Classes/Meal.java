@@ -4,7 +4,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 
-public class Meal
+public class Meal extends ClassWithBitmap
 {
     public String OwnerId = null;
     public String Name = null;
@@ -15,7 +15,6 @@ public class Meal
     public Boolean ContainsGluten = null;
     public String Ingredients = null;
     public String Calories = null;
-    public Bitmap Picture = null;
     public String Price = null;
     public String MaxNoPortions = null;
     public String Id = null;
@@ -39,43 +38,6 @@ public class Meal
                 ContainsMilk + d + "contains_gluten='" + ContainsGluten + d + "ingredients_list='" + Ingredients + d + "estimated_calories='" + Calories + d + "price='" +
                 Price + d + "number_of_portions_avaliable='" + MaxNoPortions + d + "id='" + Id + d + "OwnerUsername='" + OwnerUsername + d + "eatIn='" + EatIn +
                 d + "hoursAvaliableFrom='" + HoursAvaliableFrom + d + "hoursAvaliableTo='" + HoursAvaliableTo + d + "picture='" + PictureToSql() + "'";
-    }
-
-    public String PictureToSql()
-    {
-        if(Picture == null)
-        {
-            return "null";
-        }
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Picture.compress(Bitmap.CompressFormat.JPEG, 10, baos);
-        String temp = Base64.encodeToString(baos.toByteArray(), Base64.URL_SAFE);
-        temp = temp.replaceAll("\n", "^");
-        return temp;
-    }
-
-    public void SetPicutreFromSql(String sql)
-    {
-        if (sql.equals("null"))
-        {
-            Picture = null;
-        }
-        else
-        {
-            sql = sql.replaceAll("^","\n");
-
-            try
-            {
-                sql = new String(sql.getBytes());
-                byte[] decodedString = Base64.decode(sql, Base64.URL_SAFE);
-                Picture = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            }
-            catch (Exception e)
-            {
-                Picture = null;
-            }
-        }
     }
 
     public void SetEatIn(boolean eatIn, boolean takeaway)

@@ -202,7 +202,7 @@ public class SearchResults extends AppCompatActivity
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(null);//todo
+            img.setImageBitmap(currentUser.Picture);//todo
 
             return itemView;
         }
