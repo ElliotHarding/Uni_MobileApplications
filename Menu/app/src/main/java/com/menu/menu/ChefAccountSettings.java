@@ -1,18 +1,35 @@
 package com.menu.menu;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.menu.menu.Classes.BaseCallback;
+import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
 
 public class ChefAccountSettings extends AppCompatActivity
 {
     User m_currentUser = LocalSettings.LocalUser;
+
+    TextView m_txt_pickDateFrom = null;
+    TextView m_txt_pickDateTo = null;
+    TextView m_txt_hoursAvaliableFrom = null;
+    TextView m_txt_hoursAvaliableTo = null;
+    TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
+    TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
+    String m_hoursAvaliableFrom = null;
+    String m_hoursAvaliableTo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,6 +40,11 @@ public class ChefAccountSettings extends AppCompatActivity
         final Switch switch_chef = findViewById(R.id.switch_chef);
         final EditText input_foodType = findViewById(R.id.input_foodType);
 
+        m_txt_pickDateFrom = findViewById(R.id.txt_chooseDateFrom);
+        m_txt_pickDateTo = findViewById(R.id.txt_chooseDateTo);
+        m_txt_hoursAvaliableFrom = findViewById(R.id.txt_hoursAvaliableFrom);
+        m_txt_hoursAvaliableTo = findViewById(R.id.txt_hoursAvaliableTo);
+
         if(m_currentUser != null)
         {
             Boolean isChef = m_currentUser.IsChef.equals("true");
@@ -32,6 +54,10 @@ public class ChefAccountSettings extends AppCompatActivity
             {
                 input_foodType.setVisibility(View.INVISIBLE);
                 findViewById(R.id.txt_foodSpeciality).setVisibility(View.INVISIBLE);
+                m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
+                m_txt_pickDateTo.setVisibility(View.INVISIBLE);
+                m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+                m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -46,7 +72,25 @@ public class ChefAccountSettings extends AppCompatActivity
                 m_currentUser.IsChef = switch_chef.isChecked() ? "true" : "false";
                 LocalSettings.UpdateLocalUser(m_currentUser);
 
-                startActivity(new Intent(ChefAccountSettings.this, Settings.class));
+                if(!switch_chef.isChecked() || (m_hoursAvaliableFrom == null && m_hoursAvaliableTo == null))
+                {
+                    startActivity(new Intent(ChefAccountSettings.this, Settings.class));
+                }
+                else
+                {
+                    if(m_hoursAvaliableFrom != null && m_hoursAvaliableTo != null)
+                    {
+                        //todo set loading bar
+                        UpdateMealCallback umc = new UpdateMealCallback();
+                        DatabaseCommunicator dbComms = new DatabaseCommunicator();
+                        umc.SetMessage("UPDATE " + dbComms.m_mealTable + " SET hoursAvaliableFrom='" + m_hoursAvaliableFrom + "' WHERE owner_user_id='" + LocalSettings.LocalUser.Id + "';");
+
+                    }
+                    else
+                    {
+                        SetError("Make sure both time to & from are set for meal times.");
+                    }
+                }
             }
         });
 
@@ -59,13 +103,98 @@ public class ChefAccountSettings extends AppCompatActivity
                 {
                     input_foodType.setVisibility(View.VISIBLE);
                     findViewById(R.id.txt_foodSpeciality).setVisibility(View.VISIBLE);
+                    m_txt_pickDateFrom.setVisibility(View.VISIBLE);
+                    m_txt_pickDateTo.setVisibility(View.VISIBLE);
+                    m_txt_hoursAvaliableFrom.setVisibility(View.VISIBLE);
+                    m_txt_hoursAvaliableTo.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    input_foodType.setVisibility(View.VISIBLE);
-                    findViewById(R.id.txt_foodSpeciality).setVisibility(View.VISIBLE);
+                    input_foodType.setVisibility(View.INVISIBLE);
+                    findViewById(R.id.txt_foodSpeciality).setVisibility(View.INVISIBLE);
+                    m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
+                    m_txt_pickDateTo.setVisibility(View.INVISIBLE);
+                    m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+                    m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
                 }
             }
         });
+
+        m_onHoursFromSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1)
+            {
+                m_hoursAvaliableFrom = (i + ":" + i1);
+                m_txt_pickDateFrom.setText(i + ":" + i1);
+            }
+        };
+
+        m_onHoursToSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1)
+            {
+                m_hoursAvaliableTo = (i + ":" + i1);
+                m_txt_pickDateTo.setText(i + ":" + i1);
+            }
+        };
+
+        View.OnClickListener pickDateFromListener = new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(ChefAccountSettings.this, m_onHoursFromSetListener, 0, 0, true);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                timePickerDialog.show();
+            }
+        };
+        m_txt_pickDateFrom.setOnClickListener(pickDateFromListener);
+        m_txt_hoursAvaliableFrom.setOnClickListener(pickDateFromListener);
+
+        View.OnClickListener pickDateToListener = new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(ChefAccountSettings.this, m_onHoursToSetListener, 0, 0, true);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                timePickerDialog.show();
+            }
+        };
+        m_txt_pickDateTo.setOnClickListener(pickDateToListener);
+        m_txt_hoursAvaliableTo.setOnClickListener(pickDateToListener);
+    }
+
+    private void SetError(String errorString)
+    {
+        Toast t = Toast.makeText(ChefAccountSettings.this, errorString,  Toast.LENGTH_LONG);
+        t.show();
+    }
+
+    private class UpdateMealCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(m_message.equals("null"))
+            {
+
+            }
+            else
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Update failed! Check internet connection.");
+                    }
+                });
+            }
+
+            return null;
+        }
     }
 }
