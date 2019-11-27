@@ -1,16 +1,20 @@
 package com.menu.menu;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.Order;
+
+import java.util.ArrayList;
+
 public class Basket extends Fragment
 {
     private View.OnClickListener m_drawerListener;
+    public static ArrayList<Order> orders = null;
 
     public Basket()
     {

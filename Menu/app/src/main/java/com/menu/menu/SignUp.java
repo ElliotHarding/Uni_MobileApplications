@@ -70,6 +70,22 @@ public class SignUp extends AppCompatActivity
                 startActivity(new Intent(SignUp.this, AddressEdit.class));
             }
         });
+
+        findViewById(R.id.btn_beAChef).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(SignUp.this, ChefAccountSettings.class));
+            }
+        });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        m_currentUser = LocalSettings.LocalUser;
     }
 
     public static String ValidateSettings(User u)

@@ -7,10 +7,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.Order;
 
 public class MeetupChat extends AppCompatActivity
 {
     public static Meal m_meal = null;
+    public static Order m_order = null;
     public static int m_numberOfMeals = 0;
 
     @Override

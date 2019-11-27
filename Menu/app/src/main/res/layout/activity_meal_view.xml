@@ -146,10 +146,9 @@
         android:id="@+id/radio_isVegan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:text="Vegan "
-        app:layout_constraintStart_toEndOf="@+id/radio_containsMilk"
-        app:layout_constraintTop_toTopOf="@+id/radio_containsMilk" />
+        app:layout_constraintEnd_toEndOf="@+id/radio_containsGluten"
+        app:layout_constraintTop_toTopOf="@+id/radio_isVegetarian" />
 
     <RadioButton
         android:id="@+id/radio_isVegetarian"
@@ -165,7 +164,7 @@
         android:id="@+id/radio_containsGluten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="80dp"
         android:text="Gluten  "
         app:layout_constraintStart_toEndOf="@+id/radio_isHalal"
         app:layout_constraintTop_toTopOf="@+id/radio_isHalal" />
@@ -174,8 +173,11 @@
         android:id="@+id/radio_containsMilk"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginEnd="20dp"
         android:text="Milk     "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/radio_containsGluten"
         app:layout_constraintTop_toTopOf="@+id/radio_containsGluten" />
 

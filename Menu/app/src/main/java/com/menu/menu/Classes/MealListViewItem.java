@@ -37,7 +37,7 @@ class MealListViewItem extends ArrayAdapter<Meal>
 
         //Subject text
         TextView subjectText = itemView.findViewById(R.id.li_text);
-        subjectText.setText(currentMeal.Name);
+        subjectText.setText(currentMeal.getName());
 
         //On sale
         TextView onSale = itemView.findViewById(R.id.li_infoRight);
@@ -53,7 +53,7 @@ class MealListViewItem extends ArrayAdapter<Meal>
         }
 
         //Price
-        ((TextView)itemView.findViewById(R.id.li_infoLeft)).setText(currentMeal.Rating + "/5");
+        ((TextView)itemView.findViewById(R.id.li_infoLeft)).setText(currentMeal.getRating() + "/5");
 
         //Img
         ImageView img = itemView.findViewById(R.id.img);

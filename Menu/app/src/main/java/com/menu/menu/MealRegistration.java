@@ -3,7 +3,6 @@ package com.menu.menu;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -14,9 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -29,8 +26,6 @@ import com.menu.menu.Classes.Meal;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Time;
-import java.util.Date;
 
 public class MealRegistration extends AppCompatActivity
 {
@@ -93,21 +88,21 @@ public class MealRegistration extends AppCompatActivity
 
         if (m_currentMeal != null)
         {
-            m_input_name.setText(m_currentMeal.Name);
-            m_input_ingredients.setText(m_currentMeal.Ingredients);
-            m_input_maxNumberOfDishes.setText(m_currentMeal.MaxNoPortions);
-            m_input_price.setText(m_currentMeal.Price);
+            m_input_name.setText(m_currentMeal.getName());
+            m_input_ingredients.setText(m_currentMeal.getIngredients());
+            m_input_maxNumberOfDishes.setText(m_currentMeal.getMaxNoPortions());
+            m_input_price.setText(m_currentMeal.getPrice());
             m_img_image.setImageBitmap(m_currentMeal.Picture);
             m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());
             m_switch_eatIn.setChecked(m_currentMeal.IsEatIn());
             m_switch_isHalal.setChecked(m_currentMeal.IsEatIn());
-            m_switch_containsGluten.setChecked(m_currentMeal.ContainsGluten);
-            m_switch_containsMilk.setChecked(m_currentMeal.ContainsMilk);
-            m_switch_isVegan.setChecked(m_currentMeal.IsVegan);
-            m_switch_isVegiterian.setChecked(m_currentMeal.IsVegiterian);
-            m_txt_pickDateTo.setText(m_currentMeal.HoursAvaliableTo);
-            m_txt_pickDateFrom.setText(m_currentMeal.HoursAvaliableFrom);
-            m_input_calories.setText(m_currentMeal.Calories);
+            m_switch_containsGluten.setChecked(m_currentMeal.getContainsGluten());
+            m_switch_containsMilk.setChecked(m_currentMeal.getContainsMilk());
+            m_switch_isVegan.setChecked(m_currentMeal.getVegan());
+            m_switch_isVegiterian.setChecked(m_currentMeal.getVegiterian());
+            m_txt_pickDateTo.setText(m_currentMeal.getHoursAvaliableTo());
+            m_txt_pickDateFrom.setText(m_currentMeal.getHoursAvaliableFrom());
+            m_input_calories.setText(m_currentMeal.getCalories());
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
@@ -115,8 +110,8 @@ public class MealRegistration extends AppCompatActivity
         else
         {
             m_currentMeal = new Meal();
-            m_currentMeal.OwnerUsername = LocalSettings.LocalUser.Username;
-            m_currentMeal.OwnerId = LocalSettings.LocalUser.Id;
+            m_currentMeal.setOwnerUsername(LocalSettings.LocalUser.Username);
+            m_currentMeal.setOwnerId(LocalSettings.LocalUser.Id);
 
             //Since the meal is new, don't need to delete it...
             btn_delete.setVisibility(View.INVISIBLE);
@@ -140,7 +135,7 @@ public class MealRegistration extends AppCompatActivity
                 if(GetAndValidateMeal())
                 {
                     AddMealCallback amc = new AddMealCallback();
-                    amc.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_mealTable + " WHERE meal_name = '" + m_currentMeal.Name + "')" + m_dbComms.m_mealInsert + "(" + m_currentMeal.GetInsertString() + ");");
+                    amc.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_mealTable + " WHERE meal_name = '" + m_currentMeal.getName() + "')" + m_dbComms.m_mealInsert + "(" + m_currentMeal.GetInsertString() + ");");
                     m_dbComms.GenericUpload(amc);
                 }
             }
@@ -154,7 +149,7 @@ public class MealRegistration extends AppCompatActivity
                 if(GetAndValidateMeal())
                 {
                     UpdateMealCallback umc = new UpdateMealCallback();
-                    umc.SetMessage("UPDATE " + m_dbComms.m_mealTable + " SET " + m_currentMeal.GetUpdateString() + "WHERE id = '" + m_currentMeal.Id + "';");
+                    umc.SetMessage("UPDATE " + m_dbComms.m_mealTable + " SET " + m_currentMeal.GetUpdateString() + "WHERE id = '" + m_currentMeal.getId() + "';");
                     m_dbComms.GenericUpload(umc);
                 }
             }
@@ -166,7 +161,7 @@ public class MealRegistration extends AppCompatActivity
             public void onClick(View view)
             {
                 DeleteMealCallback dmc = new DeleteMealCallback();
-                dmc.SetMessage("DELETE FROM " + m_dbComms.m_mealTable + " WHERE id='" + m_currentMeal.Id + "';");
+                dmc.SetMessage("DELETE FROM " + m_dbComms.m_mealTable + " WHERE id='" + m_currentMeal.getId() + "';");
                 m_dbComms.GenericUpload(dmc);
             }
         });
@@ -176,7 +171,7 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1)
             {
-                m_currentMeal.HoursAvaliableFrom = (i + ":" + i1);
+                m_currentMeal.setHoursAvaliableFrom((i + ":" + i1));
                 m_txt_pickDateFrom.setText(i + ":" + i1);
             }
         };
@@ -186,7 +181,7 @@ public class MealRegistration extends AppCompatActivity
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1)
             {
-                m_currentMeal.HoursAvaliableTo = (i + ":" + i1);
+                m_currentMeal.setHoursAvaliableTo((i + ":" + i1));
                 m_txt_pickDateTo.setText(i + ":" + i1);
             }
         };
@@ -221,19 +216,19 @@ public class MealRegistration extends AppCompatActivity
 
     private Boolean GetAndValidateMeal()
     {
-        m_currentMeal.MaxNoPortions = m_input_maxNumberOfDishes.getText().toString();
-        m_currentMeal.Name = m_input_name.getText().toString();
+        m_currentMeal.setMaxNoPortions(m_input_maxNumberOfDishes.getText().toString());
+        m_currentMeal.setName(m_input_name.getText().toString());
         m_currentMeal.Picture = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
-        m_currentMeal.Ingredients = m_input_ingredients.getText().toString();
-        m_currentMeal.Price = m_input_price.getText().toString();
+        m_currentMeal.setIngredients(m_input_ingredients.getText().toString());
+        m_currentMeal.setPrice(m_input_price.getText().toString());
         m_currentMeal.SetEatIn(m_switch_eatIn.isChecked(), m_switch_takeaway.isChecked());
-        m_currentMeal.ContainsMilk = m_switch_containsMilk.isChecked();
-        m_currentMeal.IsHalal = m_switch_isHalal.isChecked();
-        m_currentMeal.ContainsGluten = m_switch_containsGluten.isChecked();
-        m_currentMeal.ContainsMilk = m_switch_containsMilk.isChecked();
-        m_currentMeal.IsVegan = m_switch_isVegan.isChecked();
-        m_currentMeal.IsVegiterian = m_switch_isVegiterian.isChecked();
-        m_currentMeal.Calories = m_input_calories.getText().toString();
+        m_currentMeal.setContainsMilk(m_switch_containsMilk.isChecked());
+        m_currentMeal.setHalal(m_switch_isHalal.isChecked());
+        m_currentMeal.setContainsGluten(m_switch_containsGluten.isChecked());
+        m_currentMeal.setContainsMilk(m_switch_containsMilk.isChecked());
+        m_currentMeal.setVegan(m_switch_isVegan.isChecked());
+        m_currentMeal.setVegiterian(m_switch_isVegiterian.isChecked());
+        m_currentMeal.setCalories(m_input_calories.getText().toString());
 
         m_switch_containsMilk.isChecked();
         m_switch_isVegan.isChecked();

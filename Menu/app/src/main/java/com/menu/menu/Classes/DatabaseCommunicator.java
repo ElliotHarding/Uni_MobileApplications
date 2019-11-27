@@ -9,8 +9,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class DatabaseCommunicator
 {
@@ -139,22 +137,22 @@ public class DatabaseCommunicator
                         String userElements[] = meal.split(",");
 
                         Meal m = new Meal();
-                        m.OwnerId = userElements[0];
-                        m.Name = userElements[1];
-                        m.IsHalal = userElements[2].equals("true");
-                        m.IsVegan = userElements[3].equals("true");
-                        m.IsVegiterian = userElements[4].equals("true");
-                        m.ContainsMilk = userElements[5].equals("true");
-                        m.ContainsGluten = userElements[6].equals("true");
-                        m.Ingredients = userElements[7];
-                        m.Calories = userElements[8];
-                        m.Price = userElements[9];
-                        m.MaxNoPortions = userElements[10];
-                        m.Id = userElements[11];
-                        m.OwnerUsername = userElements[12];
-                        m.EatIn = userElements[13];
-                        m.HoursAvaliableFrom = userElements[14];
-                        m.HoursAvaliableTo = userElements[15];
+                        m.setOwnerId(userElements[0]);
+                        m.setName(userElements[1]);
+                        m.setHalal(userElements[2].equals("true"));
+                        m.setVegan(userElements[3].equals("true"));
+                        m.setVegiterian(userElements[4].equals("true"));
+                        m.setContainsMilk(userElements[5].equals("true"));
+                        m.setContainsGluten(userElements[6].equals("true"));
+                        m.setIngredients(userElements[7]);
+                        m.setCalories(userElements[8]);
+                        m.setPrice(userElements[9]);
+                        m.setMaxNoPortions(userElements[10]);
+                        m.setId(userElements[11]);
+                        m.setOwnerUsername(userElements[12]);
+                        m.setEatIn(userElements[13]);
+                        m.setHoursAvaliableFrom(userElements[14]);
+                        m.setHoursAvaliableTo(userElements[15]);
                         m.SetPicutreFromSql(userElements[16]);
 
                         meals.add(m);
@@ -203,11 +201,11 @@ public class DatabaseCommunicator
                         String userElements[] = order.split(",");
 
                         Order o = new Order();
-                        o.Id = userElements[0];
-                        o.MealId = userElements[1];
-                        o.NumberOfMeals = userElements[2];
-                        o.OrdererId = userElements[4];
-                        o.CurrentState = userElements[5];
+                        o.SetId(userElements[0]);
+                        o.SetMealId(userElements[1]);
+                        o.SetNumberOfMeals(userElements[2]);
+                        o.SetOrdererId(userElements[4]);
+                        o.SetState(userElements[5]);
 
                         orders.add(o);
                     }
@@ -292,157 +290,6 @@ public class DatabaseCommunicator
     public boolean TryLogout()
     {
         return true;
-    }
-
-    public User GetUserViaUsername(String username)
-    {
-        return GetUserViaSelect("SELECT * FROM " + m_userTable + " WHERE username = '" + username + "';");
-    }
-
-    public User GetUserViaEmail(String email)
-    {
-        return GetUserViaSelect("SELECT * FROM " + m_userTable + " WHERE email = '" + email + "';");
-    }
-
-    private User GetUserViaSelect(String select)
-    {
-        return ReturnFakeUser();
-    }
-
-    private User ReturnFakeUser()
-    {
-        User elliot = new User();
-        elliot.AddressLine1 = "aaaaaa";
-        elliot.AddressLine2 = "bbbbbb";
-        elliot.AddressLine3 = "cccccc";
-        elliot.Email = "elliot.test@test.com";
-        elliot.AddressPostCode = "666565";
-        elliot.FullName = "elliot harding";
-        elliot.LoggedIn = "true";
-        elliot.Password = "password";
-        elliot.Phone = "07450232555";
-        elliot.Username = "elliot";
-        return elliot;
-    }
-
-
-    public boolean UpdateUser(User u)
-    {
-        return true;
-    }
-
-    public boolean AddUser(User user)
-    {
-        return true;
-    }
-
-    public ArrayList<Meal> GetChefsMeals(String username)
-    {
-        ArrayList<Meal> meals = new ArrayList<Meal>();
-
-        //Test data:
-        for (int i = 0; i < 4; i++)
-        {
-            Meal m = new Meal();
-            m.Name = "Meal " + Integer.toString(i);
-            m.EatIn = (i == 2) ? "no":"yes";
-            m.Price = "6.10";
-            m.MaxNoPortions = "10";
-            m.Ingredients = "A \n B \n C";
-            m.OwnerUsername = "Elliot";
-            meals.add(m);
-        }
-
-        return meals;
-    }
-
-    public Meal GetMeal(String s)
-    {
-        Meal m = new Meal();
-        m.Name = "Meal";
-        m.EatIn = "no";
-        m.Price = "6.10";
-        m.MaxNoPortions = "10";
-        m.Ingredients = "A \n B \n C";
-        m.OwnerUsername = "Elliot";
-        return  m;
-    }
-
-    public ArrayList<Meal> GetNearbyMeals(User user)
-    {
-        ArrayList<Meal> meals = new ArrayList<Meal>();
-
-        //Test data:
-        for (int i = 0; i < 4; i++)
-        {
-            Meal m = new Meal();
-            m.Name = "Meal " + Integer.toString(i);
-            m.EatIn = (i == 2) ? "no":"yes";
-            m.Price = "6.10";
-            m.MaxNoPortions = "10";
-            m.Ingredients = "A \n B \n C";
-            m.OwnerUsername = "Elliot";
-            meals.add(m);
-        }
-
-        return meals;
-    }
-
-    public boolean AddMeal(Meal meal)
-    {
-        return true;
-    }
-
-    public boolean DeleteMeal(Meal meal)
-    {
-        return true;
-    }
-
-    //Returns null if failed
-    public Order AddOrder(Meal meal, User localUser)
-    {
-        Order o = new Order();
-
-        //Test Data:
-        o.ArrivalTime = (new Date(2019, 10, 3, 3, 3, 3)).toString();
-        o.Id = "SKNEIOENFE";
-        o.NumberOfMeals = "2";
-        o.SetState(Order.State.AwatingResponse);
-
-        return o;
-    }
-
-    public Order GetOrderUpdate(String id)
-    {
-        Order o = new Order();
-
-        //Test Data:
-        o.ArrivalTime = (new Date(2019, 10, 3, 3, 3, 3)).toString();
-        o.Id = id;
-        o.NumberOfMeals = "2";
-        o.SetState(Order.State.AwatingResponse);
-
-        return o;
-    }
-
-    public List<Meal> GetFilteredMeals(String searchString)
-    {
-        ArrayList<Meal> meals = new ArrayList<Meal>();
-
-        //Test data:
-        for (int i = 0; i < 4; i++)
-        {
-            Meal m = new Meal();
-            m.Name = "Meal " + Integer.toString(i);
-            m.EatIn = (i == 2) ? "no":"yes";
-            m.Price = "6.10";
-            m.MaxNoPortions = "10";
-            m.Ingredients = "A \n B \n C";
-            m.OwnerUsername = "Elliot";
-            meals.add(m);
-        }
-
-        return meals;
     }
 
 }

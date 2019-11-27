@@ -48,10 +48,10 @@ public class MealOrder extends AppCompatActivity
 
     private void Update()
     {
-        m_order = m_dbComms.GetOrderUpdate(m_order.Id);
+        //todo
 
-        m_txt_eta.setText(m_order.ArrivalTime);
-        m_txt_state.setText(m_order.CurrentState);
+        m_txt_eta.setText(m_order.GetArrivalTime());
+        m_txt_state.setText(m_order.GetState());
     }
 
     private void SetError(String errorString)

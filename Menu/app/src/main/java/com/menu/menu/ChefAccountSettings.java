@@ -1,20 +1,21 @@
 package com.menu.menu;
 
+/*
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.widget.TimePicker;
+import com.menu.menu.Classes.BaseCallback;
+import com.menu.menu.Classes.DatabaseCommunicator;
+*/
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.menu.menu.Classes.BaseCallback;
-import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
 
@@ -26,8 +27,8 @@ public class ChefAccountSettings extends AppCompatActivity
     TextView m_txt_pickDateTo = null;
     TextView m_txt_hoursAvaliableFrom = null;
     TextView m_txt_hoursAvaliableTo = null;
-    TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
-    TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
+    //TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
+    //TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
     String m_hoursAvaliableFrom = null;
     String m_hoursAvaliableTo = null;
 
@@ -45,6 +46,10 @@ public class ChefAccountSettings extends AppCompatActivity
         m_txt_hoursAvaliableFrom = findViewById(R.id.txt_hoursAvaliableFrom);
         m_txt_hoursAvaliableTo = findViewById(R.id.txt_hoursAvaliableTo);
 
+        //May remove...
+        m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+        m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+
         if(m_currentUser != null)
         {
             Boolean isChef = m_currentUser.IsChef.equals("true");
@@ -56,8 +61,8 @@ public class ChefAccountSettings extends AppCompatActivity
                 findViewById(R.id.txt_foodSpeciality).setVisibility(View.INVISIBLE);
                 m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
                 m_txt_pickDateTo.setVisibility(View.INVISIBLE);
-                m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
-                m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+                //m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+                //m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -74,23 +79,25 @@ public class ChefAccountSettings extends AppCompatActivity
 
                 if(!switch_chef.isChecked() || (m_hoursAvaliableFrom == null && m_hoursAvaliableTo == null))
                 {
-                    startActivity(new Intent(ChefAccountSettings.this, Settings.class));
+                    onBackPressed();
                 }
-                else
+                /*else
                 {
                     if(m_hoursAvaliableFrom != null && m_hoursAvaliableTo != null)
                     {
-                        //todo set loading bar
+
+                        //to-do set loading bar
                         UpdateMealCallback umc = new UpdateMealCallback();
                         DatabaseCommunicator dbComms = new DatabaseCommunicator();
                         umc.SetMessage("UPDATE " + dbComms.m_mealTable + " SET hoursAvaliableFrom='" + m_hoursAvaliableFrom + "' WHERE owner_user_id='" + LocalSettings.LocalUser.Id + "';");
+                        dbComms.GenericUpload(umc);
 
                     }
                     else
                     {
                         SetError("Make sure both time to & from are set for meal times.");
                     }
-                }
+                }*/
             }
         });
 
@@ -103,23 +110,24 @@ public class ChefAccountSettings extends AppCompatActivity
                 {
                     input_foodType.setVisibility(View.VISIBLE);
                     findViewById(R.id.txt_foodSpeciality).setVisibility(View.VISIBLE);
-                    m_txt_pickDateFrom.setVisibility(View.VISIBLE);
-                    m_txt_pickDateTo.setVisibility(View.VISIBLE);
-                    m_txt_hoursAvaliableFrom.setVisibility(View.VISIBLE);
-                    m_txt_hoursAvaliableTo.setVisibility(View.VISIBLE);
+                    //m_txt_pickDateFrom.setVisibility(View.VISIBLE);
+                    //m_txt_pickDateTo.setVisibility(View.VISIBLE);
+                    //m_txt_hoursAvaliableFrom.setVisibility(View.VISIBLE);
+                    //m_txt_hoursAvaliableTo.setVisibility(View.VISIBLE);
                 }
                 else
                 {
                     input_foodType.setVisibility(View.INVISIBLE);
                     findViewById(R.id.txt_foodSpeciality).setVisibility(View.INVISIBLE);
-                    m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
-                    m_txt_pickDateTo.setVisibility(View.INVISIBLE);
-                    m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
-                    m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+                    //m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
+                    //m_txt_pickDateTo.setVisibility(View.INVISIBLE);
+                    //m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+                    //m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
+        /*
         m_onHoursFromSetListener = new TimePickerDialog.OnTimeSetListener()
         {
             @Override
@@ -165,6 +173,7 @@ public class ChefAccountSettings extends AppCompatActivity
         };
         m_txt_pickDateTo.setOnClickListener(pickDateToListener);
         m_txt_hoursAvaliableTo.setOnClickListener(pickDateToListener);
+         */
     }
 
     private void SetError(String errorString)
@@ -173,28 +182,28 @@ public class ChefAccountSettings extends AppCompatActivity
         t.show();
     }
 
-    private class UpdateMealCallback extends BaseCallback
+    /*private class UpdateMealCallback extends BaseCallback
     {
         @Override
         public Void call() throws Exception
         {
-            if(m_message.equals("null"))
+            runOnUiThread(new Runnable()
             {
-
-            }
-            else
-            {
-                runOnUiThread(new Runnable()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
+                    if(m_message.equals("null"))
+                    {
+                        onBackPressed();
+                    }
+                    else
                     {
                         SetError("Update failed! Check internet connection.");
                     }
-                });
-            }
+                }
+            });
 
             return null;
         }
-    }
+    }*/
 }

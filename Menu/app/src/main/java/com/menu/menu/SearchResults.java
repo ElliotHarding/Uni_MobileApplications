@@ -150,7 +150,7 @@ public class SearchResults extends AppCompatActivity
 
             //Subject text
             TextView subjectText = itemView.findViewById(R.id.li_text);
-            subjectText.setText(currentMeal.Name);
+            subjectText.setText(currentMeal.getName());
 
             //On sale
             TextView onSale = itemView.findViewById(R.id.li_infoRight);

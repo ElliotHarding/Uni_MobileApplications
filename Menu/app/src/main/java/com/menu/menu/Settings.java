@@ -106,6 +106,13 @@ public class Settings extends AppCompatActivity
         });
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        m_currentUser = LocalSettings.LocalUser;
+    }
+
     //Overridden so we can get the uploaded image
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {

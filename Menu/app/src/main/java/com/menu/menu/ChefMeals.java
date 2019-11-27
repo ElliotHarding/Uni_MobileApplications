@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
-import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.MealsCallback;
 
@@ -91,12 +89,12 @@ public class ChefMeals extends AppCompatActivity
 
             //Name
             TextView subjectText = itemView.findViewById(R.id.li_text);
-            subjectText.setText(currentMeal.Name);
+            subjectText.setText(currentMeal.getName());
 
 
             //On sale
             TextView onSale = itemView.findViewById(R.id.li_infoRight);
-            String whenAvaliable = "Avaliable; " + currentMeal.HoursAvaliableFrom + "-" + currentMeal.HoursAvaliableTo;
+            String whenAvaliable = "Avaliable; " + currentMeal.getHoursAvaliableFrom() + "-" + currentMeal.getHoursAvaliableTo();
             onSale.setText(whenAvaliable);
             if (currentMeal.CurrentlyOnSale())
             {

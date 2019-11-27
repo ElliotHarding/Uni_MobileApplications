@@ -107,12 +107,12 @@ public class ChefSettings extends AppCompatActivity
 
             //Name
             TextView subjectText = itemView.findViewById(R.id.li_text);
-            subjectText.setText(currentMeal.Name);
+            subjectText.setText(currentMeal.getName());
 
 
             //On sale
             TextView onSale = itemView.findViewById(R.id.li_infoRight);
-            String whenAvaliable = "Avaliable; " + currentMeal.HoursAvaliableFrom + "-" + currentMeal.HoursAvaliableTo;
+            String whenAvaliable = "Avaliable; " + currentMeal.getHoursAvaliableFrom() + "-" + currentMeal.getHoursAvaliableTo();
             onSale.setText(whenAvaliable);
             if (currentMeal.CurrentlyOnSale())
             {

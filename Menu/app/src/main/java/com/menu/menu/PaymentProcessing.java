@@ -8,15 +8,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
-import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.Order;
-import com.menu.menu.Classes.ReturnPage;
 
 public class PaymentProcessing extends AppCompatActivity
 {
     public static Meal m_meal = null;
+    public static Order m_order = null;
     public static int m_numberOfMeals = 0;
 
     @Override
@@ -31,8 +31,8 @@ public class PaymentProcessing extends AppCompatActivity
 
         if (m_meal != null)
         {
-            txt_name.setText("Meal : " + m_meal.Name);
-            txt_price.setText("Price : " + Double.toString(m_numberOfMeals * Double.parseDouble(m_meal.Price)));
+            txt_name.setText("Meal : " + m_meal.getName());
+            txt_price.setText("Price : " + Double.toString(m_numberOfMeals * Double.parseDouble(m_meal.getPrice())));
         }
         else
         {
@@ -44,16 +44,10 @@ public class PaymentProcessing extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Order newOrder = new DatabaseCommunicator().AddOrder(m_meal, LocalSettings.LocalUser);
-                if (newOrder != null)
-                {
-                    MealOrder.m_order = newOrder;
-                    startActivity(new Intent(PaymentProcessing.this, MealOrder.class));
-                }
-                else
-                {
-                    SetError("Failed to place order! Check internet.");
-                }
+                //todo set message
+                UploadOrderCallBack uocb = new UploadOrderCallBack();
+                uocb.SetMessage("");
+                new DatabaseCommunicator().GenericUpload(uocb);
             }
         });
     }
@@ -62,5 +56,30 @@ public class PaymentProcessing extends AppCompatActivity
     {
         Toast t = Toast.makeText(PaymentProcessing.this, errorString, Toast.LENGTH_LONG);
         t.show();
+    }
+
+    class UploadOrderCallBack extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    if(m_message.equals("null"))
+                    {
+                        MeetupChat.m_order = m_order;
+                        startActivity(new Intent(PaymentProcessing.this, MeetupChat.class));
+                    }
+                    else
+                    {
+                        SetError("Failed to place order! Check internet.");
+                    }
+                }
+            });
+            return null;
+        }
     }
 }
