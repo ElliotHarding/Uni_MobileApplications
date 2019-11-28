@@ -3,16 +3,16 @@ package com.menu.menu.Classes;
 public class Meal extends ClassWithBitmap
 {
     private String m_ownerId = null;
-    private String m_Name = null;
-    private Boolean m_IsHalal = null;
-    private Boolean m_IsVegan = null;
-    private Boolean m_IsVegiterian = null;
-    private Boolean m_ContainsMilk = null;
-    private Boolean m_ContainsGluten = null;
-    private String m_Ingredients = null;
-    private String m_Calories = null;
-    private String m_Price = null;
-    private String m_MaxNoPortions = null;
+    private String m_name = null;
+    private Boolean m_bIsHalal = null;
+    private Boolean m_bIsVegan = null;
+    private Boolean m_bIsVegiterian = null;
+    private Boolean m_bContainsMilk = null;
+    private Boolean m_bContainsGluten = null;
+    private String m_ingredients = null;
+    private String m_calories = null;
+    private String m_price = null;
+    private String m_maxNoPortions = null;
     private String m_id = null;
     private String m_ownerUsername = null;
     private String m_eatIn = null;
@@ -23,18 +23,23 @@ public class Meal extends ClassWithBitmap
     public String GetInsertString()
     {
         final String d = "','";
-        return "'" + getOwnerId() + d + getName() + d + getHalal() + d + getVegan() + d + getVegiterian() + d + getContainsMilk() + d + getContainsGluten() + d +
+        return "'" + getOwnerId() + d + getName() + d + btos(getHalal()) + d + btos(getVegan()) + d + btos(getVegiterian()) + d + btos(getContainsMilk()) + d + btos(getContainsGluten()) + d +
                 getIngredients() + d + getCalories() + d + getPrice() + d + getMaxNoPortions() + "', NEWID(),'"
-                + getOwnerUsername() + d + getEatIn() + d + getHoursAvaliableFrom() + d + getHoursAvaliableTo() + d + getRating() + "'";
+                + getOwnerUsername() + d + getEatIn() + d + getHoursAvaliableFrom() + d + getHoursAvaliableTo() + d + pictureToSql() + d + getRating() + "'";
     }
 
     public String GetUpdateString()
     {
         String d = "',";
-        return "owner_user_id='" + getOwnerId() + d + "meal_name='" + getName() + d + "is_halal='" + getHalal() + d + "is_vegan='" + getVegan() + d + "is_vegiterian='" + getVegiterian() + d + "contains_milk='" +
-                getContainsMilk() + d + "contains_gluten='" + getContainsGluten() + d + "ingredients_list='" + getIngredients() + d + "estimated_calories='" + getCalories() + d + "price='" +
+        return "owner_user_id='" + getOwnerId() + d + "meal_name='" + getName() + d + "is_halal='" + btos(getHalal()) + d + "is_vegan='" + btos(getVegan()) + d + "is_vegiterian='" + btos(getVegiterian()) + d + "contains_milk='" +
+                btos(getContainsMilk()) + d + "contains_gluten='" + btos(getContainsGluten()) + d + "ingredients_list='" + getIngredients() + d + "estimated_calories='" + getCalories() + d + "price='" +
                 getPrice() + d + "number_of_portions_avaliable='" + getMaxNoPortions() + d + "id='" + getId() + d + "OwnerUsername='" + getOwnerUsername() + d + "eatIn='" + getEatIn() +
-                d + "hoursAvaliableFrom='" + getHoursAvaliableFrom() + d + "hoursAvaliableTo='" + getHoursAvaliableTo() + d + "picture='" + PictureToSql() + d + "rating='" + getRating() + "'";
+                d + "hoursAvaliableFrom='" + getHoursAvaliableFrom() + d + "hoursAvaliableTo='" + getHoursAvaliableTo() + d + "picture='" + pictureToSql() + d + "rating='" + getRating() + "'";
+    }
+
+    private String btos(Boolean b)
+    {
+        return b ? "true" : "false";
     }
 
     public void SetEatIn(boolean eatIn, boolean takeaway)
@@ -69,139 +74,173 @@ public class Meal extends ClassWithBitmap
         return (getEatIn().equals("BOTH") || getEatIn().equals("TAKEAWAY"));
     }
 
-    public String getOwnerId() {
-        return OwnerId;
+    public String getOwnerId()
+    {
+        return m_ownerId;
     }
 
-    public void setOwnerId(String ownerId) {
-        OwnerId = ownerId;
+    public void setOwnerId(String ownerId)
+    {
+        m_ownerId = ownerId;
     }
 
-    public String getName() {
-        return Name;
+    public String getName()
+    {
+        return m_name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String name)
+    {
+        m_name = name;
     }
 
-    public Boolean getHalal() {
-        return IsHalal;
+    public Boolean getHalal()
+    {
+        return m_bIsHalal;
     }
 
-    public void setHalal(Boolean halal) {
-        IsHalal = halal;
+    public void setHalal(Boolean halal)
+    {
+        m_bIsHalal = halal;
     }
 
-    public Boolean getVegan() {
-        return IsVegan;
+    public Boolean getVegan()
+    {
+        return m_bIsVegan;
     }
 
-    public void setVegan(Boolean vegan) {
-        IsVegan = vegan;
+    public void setVegan(Boolean vegan)
+    {
+        m_bIsVegan = vegan;
     }
 
-    public Boolean getVegiterian() {
-        return IsVegiterian;
+    public Boolean getVegiterian()
+    {
+        return m_bIsVegiterian;
     }
 
-    public void setVegiterian(Boolean vegiterian) {
-        IsVegiterian = vegiterian;
+    public void setVegiterian(Boolean vegiterian)
+    {
+        m_bIsVegiterian = vegiterian;
     }
 
-    public Boolean getContainsMilk() {
-        return ContainsMilk;
+    public Boolean getContainsMilk()
+    {
+        return m_bContainsMilk;
     }
 
-    public void setContainsMilk(Boolean containsMilk) {
-        ContainsMilk = containsMilk;
+    public void setContainsMilk(Boolean containsMilk)
+    {
+        m_bContainsMilk = containsMilk;
     }
 
-    public Boolean getContainsGluten() {
-        return ContainsGluten;
+    public Boolean getContainsGluten()
+    {
+        return m_bContainsGluten;
     }
 
-    public void setContainsGluten(Boolean containsGluten) {
-        ContainsGluten = containsGluten;
+    public void setContainsGluten(Boolean containsGluten)
+    {
+        m_bContainsGluten = containsGluten;
     }
 
-    public String getIngredients() {
-        return Ingredients;
+    public String getIngredients()
+    {
+        return m_ingredients;
     }
 
-    public void setIngredients(String ingredients) {
-        Ingredients = ingredients;
+    public void setIngredients(String ingredients)
+    {
+        m_ingredients = ingredients;
     }
 
-    public String getCalories() {
-        return Calories;
+    public String getCalories()
+    {
+        return m_calories;
     }
 
-    public void setCalories(String calories) {
-        Calories = calories;
+    public void setCalories(String calories)
+    {
+        m_calories = calories;
     }
 
-    public String getPrice() {
-        return Price;
+    public String getPrice()
+    {
+        return m_price;
     }
 
-    public void setPrice(String price) {
-        Price = price;
+    public void setPrice(String price)
+    {
+        m_price = price;
     }
 
-    public String getMaxNoPortions() {
-        return MaxNoPortions;
+    public String getMaxNoPortions()
+    {
+        return m_maxNoPortions;
     }
 
-    public void setMaxNoPortions(String maxNoPortions) {
-        MaxNoPortions = maxNoPortions;
+    public void setMaxNoPortions(String maxNoPortions)
+    {
+        m_maxNoPortions = maxNoPortions;
     }
 
-    public String getId() {
-        return Id;
+    public String getId()
+    {
+        return m_id;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setId(String id)
+    {
+        m_id = id;
     }
 
-    public String getOwnerUsername() {
-        return OwnerUsername;
+    public String getOwnerUsername()
+    {
+        return m_ownerUsername;
     }
 
-    public void setOwnerUsername(String ownerUsername) {
-        OwnerUsername = ownerUsername;
+    public void setOwnerUsername(String ownerUsername)
+    {
+        m_ownerUsername = ownerUsername;
     }
 
-    public String getEatIn() {
-        return EatIn;
+    public String getEatIn()
+    {
+        return m_eatIn;
     }
 
-    public void setEatIn(String eatIn) {
-        EatIn = eatIn;
+    public void setEatIn(String eatIn)
+    {
+        m_eatIn = eatIn;
     }
 
-    public String getHoursAvaliableFrom() {
-        return HoursAvaliableFrom;
+    public String getHoursAvaliableFrom()
+    {
+        return m_hoursAvaliableFrom;
     }
 
-    public void setHoursAvaliableFrom(String hoursAvaliableFrom) {
-        HoursAvaliableFrom = hoursAvaliableFrom;
+    public void setHoursAvaliableFrom(String hoursAvaliableFrom)
+    {
+        m_hoursAvaliableFrom = hoursAvaliableFrom;
     }
 
-    public String getHoursAvaliableTo() {
-        return HoursAvaliableTo;
+    public String getHoursAvaliableTo()
+    {
+        return m_hoursAvaliableTo;
     }
 
-    public void setHoursAvaliableTo(String hoursAvaliableTo) {
-        HoursAvaliableTo = hoursAvaliableTo;
+    public void setHoursAvaliableTo(String hoursAvaliableTo)
+    {
+        m_hoursAvaliableTo = hoursAvaliableTo;
     }
 
-    public String getRating() {
-        return Rating;
+    public String getRating()
+    {
+        return m_rating;
     }
 
-    public void setRating(String rating) {
-        Rating = rating;
+    public void setRating(String rating)
+    {
+        m_rating = rating;
     }
 }

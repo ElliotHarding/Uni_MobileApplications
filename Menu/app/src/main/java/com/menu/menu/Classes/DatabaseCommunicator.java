@@ -89,7 +89,7 @@ public class DatabaseCommunicator
                         u.Latitude = userElements[16];
                         u.Longitude = userElements[17];
                         u.FoodType = userElements[18];
-                        u.SetPicutreFromSql(userElements[19]);
+                        u.setPicutreFromSql(userElements[19]);
 
                         users.add(u);
                     }
@@ -153,7 +153,8 @@ public class DatabaseCommunicator
                         m.setEatIn(userElements[13]);
                         m.setHoursAvaliableFrom(userElements[14]);
                         m.setHoursAvaliableTo(userElements[15]);
-                        m.SetPicutreFromSql(userElements[16]);
+                        m.setPicutreFromSql(userElements[16]);
+                        m.setRating(userElements[17]);
 
                         meals.add(m);
                     }
