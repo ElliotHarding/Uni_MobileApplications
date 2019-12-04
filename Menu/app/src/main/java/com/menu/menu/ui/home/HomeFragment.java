@@ -179,9 +179,9 @@ public class HomeFragment extends Fragment
                         {
                             try
                             {
-                                LatLng latLong = new LatLng(Integer.parseInt(user.Latitude), Integer.parseInt(user.Longitude));
-                                m_googleMap.addMarker(new MarkerOptions().position(latLong).title(user.Username).snippet(user.FoodType));
-                                m_markerInformaitonList.add(new UsernameIdPair(user.Username, user.Id));
+                                LatLng latLong = new LatLng(Integer.parseInt(user.getLatitude()), Integer.parseInt(user.getLongitude()));
+                                m_googleMap.addMarker(new MarkerOptions().position(latLong).title(user.getUsername()).snippet(user.getFoodType()));
+                                m_markerInformaitonList.add(new UsernameIdPair(user.getUsername(), user.getId()));
                             }
                             catch (Exception e)
                             {

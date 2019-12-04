@@ -57,7 +57,7 @@ class MealListViewItem extends ArrayAdapter<Meal>
 
         //Img
         ImageView img = itemView.findViewById(R.id.img);
-        img.setImageBitmap(currentMeal.Picture);
+        img.setImageBitmap(currentMeal.getPicture());
 
         return itemView;
     }

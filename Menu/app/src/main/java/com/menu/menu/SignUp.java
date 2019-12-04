@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.BaseCallback;
@@ -38,13 +37,13 @@ public class SignUp extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                m_currentUser.Username = input_username.getText().toString();
-                m_currentUser.Email = input_email.getText().toString();
-                m_currentUser.Phone = input_phone.getText().toString();
-                m_currentUser.FullName = input_fullName.getText().toString();
-                m_currentUser.Password = input_password.getText().toString();
-                m_currentUser.DOB = input_dob.getText().toString();
-                m_currentUser.LoggedIn = "true";
+                m_currentUser.setUsername(input_username.getText().toString());
+                m_currentUser.setEmail(input_email.getText().toString());
+                m_currentUser.setPhone(input_phone.getText().toString());
+                m_currentUser.setFullName(input_fullName.getText().toString());
+                m_currentUser.setPassword(input_password.getText().toString());
+                m_currentUser.setDOB(input_dob.getText().toString());
+                m_currentUser.setLoggedIn("true");
 
                 String errorString = ValidateSettings(m_currentUser);
                 if (errorString.equals("NO-ERROR"))
@@ -52,7 +51,7 @@ public class SignUp extends AppCompatActivity
                     //Upload user
                     LocalSettings.UpdateLocalUser(m_currentUser);
                     RegisterCallback rcb = new RegisterCallback();
-                    rcb.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.Username + "')" + m_dbComms.m_userInsert + "(" + m_currentUser.GetInsertString() + ");");
+                    rcb.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.getUsername() + "')" + m_dbComms.m_userInsert + "(" + m_currentUser.GetInsertString() + ");");
                     m_dbComms.GenericUpload(rcb);
                 }
                 else

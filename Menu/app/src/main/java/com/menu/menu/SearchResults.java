@@ -88,8 +88,8 @@ public class SearchResults extends AppCompatActivity
             {
                 if(m_bShowingUsers)
                 {
-                    ChefMeals.ChefId = m_userInfoArray.get(position).Id;
-                    ChefMeals.ChefUsername = m_userInfoArray.get(position).Username;
+                    ChefMeals.ChefId = m_userInfoArray.get(position).getId();
+                    ChefMeals.ChefUsername = m_userInfoArray.get(position).getUsername();
                     startActivity(new Intent(SearchResults.this, ChefMeals.class));
                 }
                 else
@@ -167,7 +167,7 @@ public class SearchResults extends AppCompatActivity
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentMeal.Picture);
+            img.setImageBitmap(currentMeal.getPicture());
 
             return itemView;
         }
@@ -195,14 +195,14 @@ public class SearchResults extends AppCompatActivity
             User currentUser = m_userInfoArray.get(position);
 
             TextView subjectText = itemView.findViewById(R.id.li_text);
-            subjectText.setText(currentUser.Username);
+            subjectText.setText(currentUser.getUsername());
 
             TextView onSale = itemView.findViewById(R.id.li_infoRight);
-            onSale.setText(currentUser.FoodType);
+            onSale.setText(currentUser.getFoodType());
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentUser.Picture);//todo
+            img.setImageBitmap(currentUser.getPicture());
 
             return itemView;
         }

@@ -24,20 +24,20 @@ public class AddressEdit extends AppCompatActivity
         final EditText input_addressLine3 = findViewById(R.id.input_firstName);
         final EditText input_postCode = findViewById(R.id.input_lastName);
 
-        input_addressLine1.setText((m_currentUser.AddressLine1 != null) ? m_currentUser.AddressLine1 : "");
-        input_addressLine2 .setText((m_currentUser.AddressLine2 != null) ? m_currentUser.AddressLine2 : "");
-        input_addressLine3.setText((m_currentUser.AddressLine3 != null) ? m_currentUser.AddressLine3 : "");
-        input_postCode.setText((m_currentUser.AddressPostCode != null) ? m_currentUser.AddressPostCode : "");
+        input_addressLine1.setText((m_currentUser.getAddressLine1() != null) ? m_currentUser.getAddressLine1() : "");
+        input_addressLine2 .setText((m_currentUser.getAddressLine2() != null) ? m_currentUser.getAddressLine2() : "");
+        input_addressLine3.setText((m_currentUser.getAddressLine3() != null) ? m_currentUser.getAddressLine3() : "");
+        input_postCode.setText((m_currentUser.getAddressPostCode() != null) ? m_currentUser.getAddressPostCode() : "");
 
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                m_currentUser.AddressLine1 = input_addressLine1.getText().toString();
-                m_currentUser.AddressLine2 = input_addressLine2.getText().toString();
-                m_currentUser.AddressLine3 = input_addressLine3.getText().toString();
-                m_currentUser.AddressPostCode = input_postCode.getText().toString();
+                m_currentUser.setAddressLine1(input_addressLine1.getText().toString());
+                m_currentUser.setAddressLine2(input_addressLine2.getText().toString());
+                m_currentUser.setAddressLine3(input_addressLine3.getText().toString());
+                m_currentUser.setAddressPostCode(input_postCode.getText().toString());
 
                 String errorString = ValidateUserAddress(m_currentUser);
                 if (errorString.equals("NO-ERROR"))

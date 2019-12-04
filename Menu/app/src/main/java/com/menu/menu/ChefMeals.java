@@ -108,7 +108,7 @@ public class ChefMeals extends AppCompatActivity
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentMeal.Picture);
+            img.setImageBitmap(currentMeal.getPicture());
 
             return itemView;
         }

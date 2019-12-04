@@ -7,19 +7,14 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
-import com.menu.menu.Classes.ReturnPage;
 import com.menu.menu.Classes.User;
-import com.menu.menu.Classes.UsersCallback;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,14 +38,14 @@ public class Settings extends AppCompatActivity
         final EditText input_password = findViewById(R.id.input_password);
         m_img_image = findViewById(R.id.img_image);
 
-        input_email.setText(m_currentUser.Email);
-        input_phone.setText(m_currentUser.Phone);
-        input_first.setText(m_currentUser.FullName.split("|$|")[0]);
-        input_last.setText(m_currentUser.FullName.split("|$|")[1]);
-        input_password.setText(m_currentUser.Password);
-        if(m_currentUser.Picture != null)
+        input_email.setText(m_currentUser.getEmail());
+        input_phone.setText(m_currentUser.getPhone());
+        input_first.setText(m_currentUser.getFullName().split("|$|")[0]);
+        input_last.setText(m_currentUser.getFullName().split("|$|")[1]);
+        input_password.setText(m_currentUser.getPassword());
+        if(m_currentUser.getPicture() != null)
         {
-            m_img_image.setImageBitmap(m_currentUser.Picture);
+            m_img_image.setImageBitmap(m_currentUser.getPicture());
         }
 
 
@@ -59,16 +54,16 @@ public class Settings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                m_currentUser.Email = input_email.getText().toString();
-                m_currentUser.Phone = input_phone.getText().toString();
-                m_currentUser.FullName = input_first.getText().toString() + "|$|" + input_last.getText().toString();
-                m_currentUser.Password = input_password.getText().toString();
+                m_currentUser.setEmail(input_email.getText().toString());
+                m_currentUser.setPhone(input_phone.getText().toString());
+                m_currentUser.setFullName(input_first.getText().toString() + "|$|" + input_last.getText().toString());
+                m_currentUser.setPassword(input_password.getText().toString());
 
                 String errorString = SignUp.ValidateSettings(m_currentUser);
                 if (errorString.equals("NO-ERROR"))
                 {
                     UpdateUserCallback umc = new UpdateUserCallback();
-                    umc.SetMessage("UPDATE " + m_dbComms.m_userTable + " SET " + m_currentUser.GetUpdateString() + " WHERE id = '" + m_currentUser.Id + "';");
+                    umc.SetMessage("UPDATE " + m_dbComms.m_userTable + " SET " + m_currentUser.GetUpdateString() + " WHERE id = '" + m_currentUser.getId() + "';");
                     m_dbComms.GenericUpload(umc);
                 }
                 else
@@ -124,8 +119,8 @@ public class Settings extends AppCompatActivity
             Uri selectedImage = data.getData();
             try
             {
-                m_currentUser.Picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                m_img_image.setImageBitmap(m_currentUser.Picture);
+                m_currentUser.setPicture(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage));
+                m_img_image.setImageBitmap(m_currentUser.getPicture());
             }
             catch (FileNotFoundException e)
             {

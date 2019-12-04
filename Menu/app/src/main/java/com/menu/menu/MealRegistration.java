@@ -92,7 +92,7 @@ public class MealRegistration extends AppCompatActivity
             m_input_ingredients.setText(m_currentMeal.getIngredients());
             m_input_maxNumberOfDishes.setText(m_currentMeal.getMaxNoPortions());
             m_input_price.setText(m_currentMeal.getPrice());
-            m_img_image.setImageBitmap(m_currentMeal.Picture);
+            m_img_image.setImageBitmap(m_currentMeal.getPicture());
             m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());
             m_switch_eatIn.setChecked(m_currentMeal.IsEatIn());
             m_switch_isHalal.setChecked(m_currentMeal.IsEatIn());
@@ -110,8 +110,8 @@ public class MealRegistration extends AppCompatActivity
         else
         {
             m_currentMeal = new Meal();
-            m_currentMeal.setOwnerUsername(LocalSettings.LocalUser.Username);
-            m_currentMeal.setOwnerId(LocalSettings.LocalUser.Id);
+            m_currentMeal.setOwnerUsername(LocalSettings.LocalUser.getUsername());
+            m_currentMeal.setOwnerId(LocalSettings.LocalUser.getId());
 
             //Since the meal is new, don't need to delete it...
             btn_delete.setVisibility(View.INVISIBLE);
@@ -218,7 +218,7 @@ public class MealRegistration extends AppCompatActivity
     {
         m_currentMeal.setMaxNoPortions(m_input_maxNumberOfDishes.getText().toString());
         m_currentMeal.setName(m_input_name.getText().toString());
-        m_currentMeal.Picture = ((BitmapDrawable)m_img_image.getDrawable()).getBitmap();
+        m_currentMeal.setPicture(((BitmapDrawable)m_img_image.getDrawable()).getBitmap());
         m_currentMeal.setIngredients(m_input_ingredients.getText().toString());
         m_currentMeal.setPrice(m_input_price.getText().toString());
         m_currentMeal.SetEatIn(m_switch_eatIn.isChecked(), m_switch_takeaway.isChecked());
@@ -275,8 +275,8 @@ public class MealRegistration extends AppCompatActivity
             Uri selectedImage = data.getData();
             try
             {
-                m_currentMeal.Picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                m_img_image.setImageBitmap(m_currentMeal.Picture);
+                m_currentMeal.setPicture(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage));
+                m_img_image.setImageBitmap(m_currentMeal.getPicture());
             }
             catch (FileNotFoundException e)
             {

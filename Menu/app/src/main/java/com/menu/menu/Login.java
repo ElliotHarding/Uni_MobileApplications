@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
-import com.menu.menu.Classes.User;
 import com.menu.menu.Classes.UsersCallback;
-
-import org.w3c.dom.Text;
 
 public class Login extends AppCompatActivity
 {
@@ -30,7 +26,7 @@ public class Login extends AppCompatActivity
         if (LocalSettings.IsLoginSaved())
         {
             UserDataCallback ucb = new UserDataCallback();
-            ucb.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + LocalSettings.LocalUser.Username + "' and password = '" + LocalSettings.LocalUser.Password + "';");
+            ucb.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + LocalSettings.LocalUser.getUsername() + "' and password = '" + LocalSettings.LocalUser.getPassword() + "';");
             m_dbComms.RequestUserData(ucb);
         }
 

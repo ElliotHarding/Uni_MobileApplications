@@ -17,6 +17,6 @@ public class LocalSettings
 
     public static boolean IsLoginSaved()
     {
-        return (LocalUser != null || (LocalUser.Password != null && LocalUser.Username != null));
+        return (LocalUser != null || (LocalUser.getPassword() != null && LocalUser.getUsername() != null));
     }
 }

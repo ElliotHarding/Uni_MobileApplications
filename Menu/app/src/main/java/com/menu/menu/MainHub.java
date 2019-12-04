@@ -93,10 +93,10 @@ public class MainHub extends AppCompatActivity
         });
 
         TextView title = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
-        title.setText(LocalSettings.LocalUser.Username);
+        title.setText(LocalSettings.LocalUser.getUsername());
 
         TextView subTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_subTitle);
-        subTitle.setText(LocalSettings.LocalUser.Email);
+        subTitle.setText(LocalSettings.LocalUser.getEmail());
 
         Bundle extras = getIntent().getExtras();
         if(extras == null || !extras.containsKey("fragment"))

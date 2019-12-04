@@ -47,7 +47,7 @@ public class MealView extends AppCompatActivity
             txt_pricePerDish.setText(m_meal.getPrice() + "£");
             txt_ingredients.setText(m_meal.getIngredients());
             txt_numberMeals.setText("Number of dishes (Max : " + m_meal.getMaxNoPortions() + ")");
-            img_image.setImageBitmap(m_meal.Picture);
+            img_image.setImageBitmap(m_meal.getPicture());
             txt_rating.setText(m_meal.getRating() +"/5");
             ((RadioButton)findViewById(R.id.radio_containsGluten)).setChecked(m_meal.getContainsGluten());
             ((RadioButton)findViewById(R.id.radio_containsMilk)).setChecked(m_meal.getContainsMilk());

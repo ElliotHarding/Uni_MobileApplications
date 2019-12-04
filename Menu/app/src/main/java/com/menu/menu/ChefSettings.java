@@ -78,7 +78,7 @@ public class ChefSettings extends AppCompatActivity
     private void UpdateList()
     {
         GetMealsListCallback gmlc = new GetMealsListCallback();
-        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + LocalSettings.LocalUser.Id + "';");
+        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + LocalSettings.LocalUser.getId() + "';");
         m_dbComms.RequestMealData(gmlc);
     }
 
@@ -126,7 +126,7 @@ public class ChefSettings extends AppCompatActivity
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentMeal.Picture);
+            img.setImageBitmap(currentMeal.getPicture());
 
             return itemView;
         }
