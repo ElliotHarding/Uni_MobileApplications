@@ -1,7 +1,6 @@
 package com.menu.menu;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -31,7 +30,7 @@ public class SearchResults extends AppCompatActivity
     List<User> m_userInfoArray = new ArrayList<>();
     ListView m_displayList;
     EditText m_searchText;
-    Boolean m_bShowingUsers = false;//todo
+    Boolean m_bShowingUsers = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,13 +44,11 @@ public class SearchResults extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         if(extras == null || !extras.containsKey("search"))
         {
-            //UpdateListWithUsers(null); todo
-            UpdateListWithMeals(null);
+            UpdateListWithUsers(null);
         }
         else
         {
-            //todo UpdateListWithUsers(extras.getString("search"));
-            UpdateListWithMeals(null);
+            UpdateListWithUsers(extras.getString("search"));
         }
 
         Button btn_home = findViewById(R.id.btn_home);
@@ -129,53 +126,6 @@ public class SearchResults extends AppCompatActivity
         m_displayList.setAdapter(new MealListViewItem(getApplicationContext(),m_mealInfoArray));
         m_dbComms.RequestMealData(gmlc);
     }
-
-    /*
-    //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
-    //These UI elements are then added into m_displayList
-    private class MealListAdaptor extends ArrayAdapter<Meal>
-    {
-        public MealListAdaptor()
-        {
-            super(SearchResults.this, R.layout.layout_meal_info, m_mealInfoArray);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            //get view from activity_forms.xml
-            View itemView = convertView;
-            if (itemView == null)
-            {
-                itemView = getLayoutInflater().inflate(R.layout.layout_meal_info, parent, false);
-            }
-
-            Meal currentMeal = m_mealInfoArray.get(position);
-
-            //Subject text
-            TextView subjectText = itemView.findViewById(R.id.li_text);
-            subjectText.setText(currentMeal.getName());
-
-            //On sale
-            TextView onSale = itemView.findViewById(R.id.li_infoRight);
-            if (currentMeal.CurrentlyOnSale())
-            {
-                onSale.setText("On Sale");
-                onSale.setTextColor(Color.GREEN);
-            }
-            else
-            {
-                onSale.setText("Marked Unavailable");
-                onSale.setTextColor(Color.RED);
-            }
-
-            //Img
-            ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentMeal.getPicture());
-
-            return itemView;
-        }
-    }*/
 
     //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
     //These UI elements are then added into m_displayList

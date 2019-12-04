@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/li_text"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/li_top"
+        android:layout_alignBottom="@+id/img"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/btn_portionsSub"
+        android:layout_toEndOf="@+id/img"
+        android:text="Text"
+        android:textAlignment="textStart"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/li_infoAmount"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/btn_portionsAdd"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/btn_portionsAdd"
+        android:text="0"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#00535151" />
+
+    <Button
+        android:id="@+id/btn_remove"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center"
+        android:text="x" />
+
+    <Button
+        android:id="@+id/btn_portionsAdd"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/btn_remove"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_portionsSub"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/li_infoAmount"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/li_infoAmount"
+        android:gravity="center"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/li_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/btn_remove"
+        android:layout_toEndOf="@+id/img"
+        android:text="TextView" />
+
+</RelativeLayout>

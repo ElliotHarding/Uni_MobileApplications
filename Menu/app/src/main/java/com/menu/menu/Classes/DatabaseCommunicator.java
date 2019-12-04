@@ -273,7 +273,6 @@ public class DatabaseCommunicator
         //Get rid of last ]
         response = response.substring(0, response.length()-1);
 
-
         //Put into array seperated by "["
         String results[];
         if(!response.contains("["))

@@ -156,6 +156,11 @@ public class User extends ClassWithBitmap implements Serializable
         return m_isAdmin;
     }
 
+    public Boolean getIsAdmin_b()
+    {
+        return m_isAdmin.equals("true");
+    }
+
     public void setIsAdmin(String isAdmin)
     {
         m_isAdmin = isAdmin;
@@ -184,6 +189,11 @@ public class User extends ClassWithBitmap implements Serializable
 
     public String getIsChef() {
         return m_isChef;
+    }
+
+    public Boolean getIsChef_b()
+    {
+        return m_isChef.equals("true");
     }
 
     public void setIsChef(String isChef) {

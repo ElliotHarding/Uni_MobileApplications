@@ -52,7 +52,12 @@ public class ChefAccountSettings extends AppCompatActivity
 
         if(m_currentUser != null)
         {
-            Boolean isChef = m_currentUser.getIsChef().equals("true");
+            Boolean isChef = m_currentUser.getIsChef_b();
+            String foodType = m_currentUser.getFoodType();
+            if (foodType != null)
+                input_foodType.setText(foodType);
+            else
+                input_foodType.setText("");
             switch_chef.setChecked(isChef);
 
             if(!isChef)
@@ -74,7 +79,7 @@ public class ChefAccountSettings extends AppCompatActivity
 
                 //todo validate food type
                 m_currentUser.setFoodType(input_foodType.getText().toString());
-                m_currentUser.setIsChef(switch_chef.isChecked() ? "true" : "false");
+                m_currentUser.setIsChef_b(switch_chef.isChecked());
                 LocalSettings.UpdateLocalUser(m_currentUser);
 
                 if(!switch_chef.isChecked() || (m_hoursAvaliableFrom == null && m_hoursAvaliableTo == null))

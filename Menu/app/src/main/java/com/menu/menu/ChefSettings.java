@@ -1,32 +1,26 @@
 package com.menu.menu;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.MealListViewItem;
 import com.menu.menu.Classes.MealsCallback;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChefSettings extends AppCompatActivity
 {
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    List<Meal> m_mealInfoArray = new ArrayList<>();
+    ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
     ListView m_displayList;
 
     @Override
@@ -82,56 +76,6 @@ public class ChefSettings extends AppCompatActivity
         m_dbComms.RequestMealData(gmlc);
     }
 
-    //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
-    //These UI elements are then added into m_displayList
-    private class MealListAdaptor extends ArrayAdapter<Meal>
-    {
-        MealListAdaptor()
-        {
-            super(ChefSettings.this, R.layout.layout_meal_info, m_mealInfoArray);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            //get view from activity_forms.xml
-            View itemView = convertView;
-            if (itemView == null)
-            {
-                itemView = getLayoutInflater().inflate(R.layout.layout_meal_info, parent, false);
-            }
-
-            Meal currentMeal = m_mealInfoArray.get(position);
-
-
-            //Name
-            TextView subjectText = itemView.findViewById(R.id.li_text);
-            subjectText.setText(currentMeal.getName());
-
-
-            //On sale
-            TextView onSale = itemView.findViewById(R.id.li_infoRight);
-            String whenAvaliable = "Avaliable; " + currentMeal.getHoursAvaliableFrom() + "-" + currentMeal.getHoursAvaliableTo();
-            onSale.setText(whenAvaliable);
-            if (currentMeal.CurrentlyOnSale())
-            {
-                onSale.setTextColor(Color.GREEN);
-            }
-            else
-            {
-                onSale.setTextColor(Color.RED);
-            }
-
-
-            //Img
-            ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentMeal.getPicture());
-
-            return itemView;
-        }
-    }
-
     private class GetMealsListCallback extends MealsCallback
     {
         @Override
@@ -145,7 +89,7 @@ public class ChefSettings extends AppCompatActivity
                     if(!m_meals.isEmpty())
                     {
                         m_mealInfoArray = m_meals;
-                        m_displayList.setAdapter(new ChefSettings.MealListAdaptor());
+                        m_displayList.setAdapter(new MealListViewItem(getApplicationContext(),m_mealInfoArray));
                     }
                     else
                     {
