@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Basket extends Fragment
 {
     private View.OnClickListener m_drawerListener;
-    public static ArrayList<Order> orders = null;
+    public static ArrayList<Order> orders = new ArrayList<>();
 
     public Basket()
     {

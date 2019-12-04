@@ -3,6 +3,7 @@ package com.menu.menu;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -90,7 +91,6 @@ public class MealRegistration extends AppCompatActivity
             m_input_ingredients.setText(m_currentMeal.getIngredients());
             m_input_maxNumberOfDishes.setText(m_currentMeal.getMaxNoPortions());
             m_input_price.setText(m_currentMeal.getPrice());
-            m_img_image.setImageBitmap(m_currentMeal.getPicture());
             m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());
             m_switch_eatIn.setChecked(m_currentMeal.IsEatIn());
             m_switch_isHalal.setChecked(m_currentMeal.IsEatIn());
@@ -101,6 +101,10 @@ public class MealRegistration extends AppCompatActivity
             m_txt_pickDateTo.setText(m_currentMeal.getHoursAvaliableTo());
             m_txt_pickDateFrom.setText(m_currentMeal.getHoursAvaliableFrom());
             m_input_calories.setText(m_currentMeal.getCalories());
+
+            Bitmap bmp = m_currentMeal.getPicture();
+            if(bmp != null)
+                m_img_image.setImageBitmap(m_currentMeal.getPicture());
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);

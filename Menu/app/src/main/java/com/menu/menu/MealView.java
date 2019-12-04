@@ -2,6 +2,7 @@ package com.menu.menu;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,7 +47,9 @@ public class MealView extends AppCompatActivity
             ((TextView)findViewById(R.id.txt_pricePerDish)).setText(m_meal.getPrice() + "£");
             ((TextView)findViewById(R.id.txt_ingredients)).setText(m_meal.getIngredients());
             ((TextView)findViewById(R.id.txt_numberMeals)).setText("Number of dishes (Max : " + m_meal.getMaxNoPortions() + ")");
-            ((ImageView)findViewById(R.id.img_image)).setImageBitmap(m_meal.getPicture());
+            Bitmap bmp = m_meal.getPicture();
+            if(bmp != null)
+                ((ImageView)findViewById(R.id.img_image)).setImageBitmap(bmp);
             ((TextView)findViewById(R.id.txt_rating)).setText(m_meal.getRating() +"/5");
             ((RadioButton)findViewById(R.id.radio_containsGluten)).setChecked(m_meal.getContainsGluten());
             ((RadioButton)findViewById(R.id.radio_containsMilk)).setChecked(m_meal.getContainsMilk());
