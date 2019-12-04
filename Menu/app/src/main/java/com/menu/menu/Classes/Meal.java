@@ -181,6 +181,18 @@ public class Meal extends ClassWithBitmap implements Serializable
         return m_maxNoPortions;
     }
 
+    public int getMaxNoPortions_n()
+    {
+        try
+        {
+            return Integer.parseInt(m_maxNoPortions);
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+    }
+
     public void setMaxNoPortions(String maxNoPortions)
     {
         m_maxNoPortions = maxNoPortions;

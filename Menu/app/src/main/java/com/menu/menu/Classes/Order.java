@@ -14,11 +14,12 @@ public class Order implements Serializable
     }
 
     private String m_id = null;
-    private String m_mealId = null;
+    private String m_mealId = null; //Even though we have m_meal, it may not be set at all times...
     private String m_numberOfMeals = null;
     private String m_ordererId = null;
     private String m_currentState = null;
     private String m_arrivalTime = null;
+    private Meal m_meal = null;
 
     public Order()
     {
@@ -26,9 +27,10 @@ public class Order implements Serializable
     }
 
     //Creating a basket order
-    public Order(String mealId, String numberOfMeals)
+    public Order(Meal meal, String numberOfMeals)
     {
-        m_mealId = mealId;
+        m_meal = meal;
+        m_mealId = meal.getId();
         m_numberOfMeals = numberOfMeals;
         m_currentState = "In Basket";
     }
@@ -79,14 +81,24 @@ public class Order implements Serializable
         m_id = id;
     }
 
+    public Meal GetMeal()
+    {
+        return m_meal;
+    }
+
+    public void SetMeal(Meal meal)
+    {
+        m_meal = meal;
+    }
+
+    public void SetMealId(String id)
+    {
+        m_mealId = id;
+    }
+
     public String GetMealId()
     {
         return m_mealId;
-    }
-
-    public void SetMealId(String mealId)
-    {
-        m_mealId = mealId;
     }
 
     public String GetNumberOfMeals()
@@ -94,9 +106,27 @@ public class Order implements Serializable
         return m_numberOfMeals;
     }
 
+    public int GetNumberOfMeals_n()
+    {
+        try
+        {
+            return Integer.parseInt(m_numberOfMeals);
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+    }
+
+
     public void SetNumberOfMeals(String numberOfMeals)
     {
         m_numberOfMeals = numberOfMeals;
+    }
+
+    public void SetNumberOfMeals_n(int num)
+    {
+        m_numberOfMeals = String.valueOf(num);
     }
 
     public String GetOrdererId()

@@ -6,6 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Basket">
 
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Basket"
+        android:textSize="24sp" />
+
     <android.support.design.widget.FloatingActionButton
     android:id="@+id/drawerToggle"
     android:layout_width="wrap_content"
@@ -20,5 +28,17 @@
     app:layout_constraintTop_toTopOf="parent"
     app:maxImageSize="20dp"
     app:srcCompat="?attr/actionModeCloseDrawable" />
+
+    <ListView
+        android:id="@+id/listView_basket"
+        android:layout_width="match_parent"
+        android:layout_height="451dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addMeal">
+
+    </ListView>
 
 </FrameLayout>

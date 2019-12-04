@@ -106,7 +106,7 @@ public class MealView extends AppCompatActivity
                         };
 
                         //Add meal to basket
-                        Basket.orders.add(new Order(m_meal.getId(), input_numDishesOrdered.getText().toString()));
+                        Basket.orders.add(new Order(m_meal, input_numDishesOrdered.getText().toString()));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MealView.this);
                         builder.setMessage("Continue shopping?")
