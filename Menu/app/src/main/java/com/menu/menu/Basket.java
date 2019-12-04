@@ -2,6 +2,7 @@ package com.menu.menu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class Basket extends Fragment
 
     private void Update()
     {
-        m_displayList.setAdapter(new BasketListViewItem(getContext(),orders));
+        BasicUpdate();
         DatabaseCommunicator dbComms = new DatabaseCommunicator();
 
         for (Order order : orders)
@@ -75,6 +76,11 @@ public class Basket extends Fragment
             umoo.SetMessage("SELECT * FROM " + dbComms.m_mealTable + " WHERE id='"+order.GetMealId()+"';");
             dbComms.RequestMealData(umoo);
         }
+    }
+
+    private void BasicUpdate()
+    {
+        m_displayList.setAdapter(new BasketListViewItem(getContext(),orders));
     }
 
     private class UpdateMealOfOrder extends MealsCallback
@@ -126,7 +132,7 @@ public class Basket extends Fragment
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
+        public View getView(final int position, View convertView, ViewGroup parent)
         {
             //get view from activity_forms.xml
             View itemView = convertView;
@@ -151,7 +157,9 @@ public class Basket extends Fragment
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
-            img.setImageBitmap(currentMeal.getPicture());
+            Bitmap bmp = currentMeal.getPicture();
+            if(bmp!=null)
+                img.setImageBitmap(bmp);
 
             itemView.findViewById(R.id.btn_portionsAdd).setOnClickListener(new View.OnClickListener()
             {
@@ -159,12 +167,13 @@ public class Basket extends Fragment
                 public void onClick(View view)
                 {
                     int mealNumber = currentOrder.GetNumberOfMeals_n();
-                    if(mealNumber < currentOrder.GetNumberOfMeals_n())
+                    if(mealNumber < currentOrder.GetMeal().getMaxNoPortions_n())
                     {
                         mealNumber+=1;
                         currentOrder.SetNumberOfMeals_n(mealNumber);
                         txt_orderAmount.setText(currentOrder.GetNumberOfMeals());
                     }
+                    BasicUpdate();
                 }
             });
 
@@ -179,6 +188,7 @@ public class Basket extends Fragment
                         mealNumber-=1;
                         currentOrder.SetNumberOfMeals_n(mealNumber);
                     }
+                    BasicUpdate();
                 }
             });
 
@@ -187,7 +197,8 @@ public class Basket extends Fragment
                 @Override
                 public void onClick(View view)
                 {
-                    m_orderListRef.remove(this);
+                    m_orderListRef.remove(position);
+                    BasicUpdate();
                 }
             });
 

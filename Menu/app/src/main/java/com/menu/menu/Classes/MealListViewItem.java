@@ -1,6 +1,7 @@
 package com.menu.menu.Classes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,9 @@ public class MealListViewItem extends ArrayAdapter<Meal>
 
         //Img
         ImageView img = itemView.findViewById(R.id.img);
-        img.setImageBitmap(currentMeal.getPicture());
+        Bitmap bmp = currentMeal.getPicture();
+        if(bmp!=null)
+            img.setImageBitmap(bmp);
 
         return itemView;
     }
