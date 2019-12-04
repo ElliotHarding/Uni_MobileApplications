@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.MealListViewItem;
 import com.menu.menu.Classes.MealsCallback;
 import com.menu.menu.Classes.User;
 import com.menu.menu.Classes.UsersCallback;
@@ -26,11 +27,11 @@ import java.util.List;
 public class SearchResults extends AppCompatActivity
 {
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    List<Meal> m_mealInfoArray = new ArrayList<>();
+    ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
     List<User> m_userInfoArray = new ArrayList<>();
     ListView m_displayList;
     EditText m_searchText;
-    Boolean m_bShowingUsers = true;
+    Boolean m_bShowingUsers = false;//todo
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,11 +45,13 @@ public class SearchResults extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         if(extras == null || !extras.containsKey("search"))
         {
-            UpdateListWithUsers(null);
+            //UpdateListWithUsers(null); todo
+            UpdateListWithMeals(null);
         }
         else
         {
-            UpdateListWithUsers(extras.getString("search"));
+            //todo UpdateListWithUsers(extras.getString("search"));
+            UpdateListWithMeals(null);
         }
 
         Button btn_home = findViewById(R.id.btn_home);
@@ -123,10 +126,11 @@ public class SearchResults extends AppCompatActivity
             message += where;
         }
         gmlc.SetMessage(message + ";");
-        m_displayList.setAdapter(new SearchResults.MealListAdaptor());
+        m_displayList.setAdapter(new MealListViewItem(getApplicationContext(),m_mealInfoArray));
         m_dbComms.RequestMealData(gmlc);
     }
 
+    /*
     //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
     //These UI elements are then added into m_displayList
     private class MealListAdaptor extends ArrayAdapter<Meal>
@@ -171,7 +175,7 @@ public class SearchResults extends AppCompatActivity
 
             return itemView;
         }
-    }
+    }*/
 
     //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
     //These UI elements are then added into m_displayList
@@ -227,7 +231,7 @@ public class SearchResults extends AppCompatActivity
                     if(!m_meals.isEmpty())
                     {
                         m_mealInfoArray = m_meals;
-                        m_displayList.setAdapter(new SearchResults.MealListAdaptor());
+                        m_displayList.setAdapter(new MealListViewItem(getApplicationContext(), m_mealInfoArray));
                     }
                     else
                     {

@@ -1,7 +1,9 @@
 package com.menu.menu.Classes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,14 +15,14 @@ import java.util.ArrayList;
 
 //Class used to create a corresponding UI element for each Meal in an arraylist of meals
 //These UI elements are then added into displayList
-class MealListViewItem extends ArrayAdapter<Meal>
+public class MealListViewItem extends ArrayAdapter<Meal>
 {
     ArrayList<Meal> m_mealListRef;
-    Activity m_activity;
 
-    public MealListViewItem(Activity activity, ArrayList<Meal> mealListRef)
-    {
-        super(activity, R.layout.layout_meal_info, mealListRef);
+    public MealListViewItem(Context c, ArrayList<Meal> mealListRef)
+        {
+        super(c, R.layout.layout_meal_info, mealListRef);
+        m_mealListRef = mealListRef;
     }
 
     @Override
@@ -30,7 +32,7 @@ class MealListViewItem extends ArrayAdapter<Meal>
         View itemView = convertView;
         if (itemView == null)
         {
-            itemView = m_activity.getLayoutInflater().inflate(R.layout.layout_meal_info, parent, false);
+            itemView = (LayoutInflater.from(getContext())).inflate(R.layout.layout_meal_info, parent, false);
         }
 
         Meal currentMeal = m_mealListRef.get(position);
