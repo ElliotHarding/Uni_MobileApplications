@@ -1,6 +1,8 @@
 package com.menu.menu.Classes;
 
-public class Meal extends ClassWithBitmap
+import java.io.Serializable;
+
+public class Meal extends ClassWithBitmap implements Serializable
 {
     private String m_ownerId = null;
     private String m_name = null;
@@ -236,6 +238,8 @@ public class Meal extends ClassWithBitmap
 
     public String getRating()
     {
+        if(m_rating == null || m_rating.equals("null"))
+            return "-";
         return m_rating;
     }
 

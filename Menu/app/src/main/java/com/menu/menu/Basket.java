@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.Order;
 
 import java.util.ArrayList;

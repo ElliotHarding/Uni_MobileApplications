@@ -18,9 +18,7 @@ import java.util.ArrayList;
 
 public class ChefMeals extends AppCompatActivity
 {
-    public static String ChefId = null;
-    public static String ChefUsername = null;
-
+    String m_chefId = null;
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
     ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
     ListView m_displayList;
@@ -31,19 +29,29 @@ public class ChefMeals extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_meals);
 
-        ((TextView)findViewById(R.id.txt_username)).setText(ChefUsername);
-
-        m_displayList = findViewById(R.id.mealsList);
-        UpdateList();
-
-        m_displayList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        Bundle extras = getIntent().getExtras();
+        if(extras == null || !extras.containsKey("chefId") || !extras.containsKey("chefUsername"))
         {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            SetError("Error. Page loaded incorrectly.");
+        }
+        else
+        {
+            m_chefId = extras.getString("chefId");
+            ((TextView)findViewById(R.id.txt_username)).setText(extras.getString("chefUsername"));
+
+            m_displayList = findViewById(R.id.mealsList);
+            UpdateList();
+
+            m_displayList.setOnItemClickListener(new AdapterView.OnItemClickListener()
             {
-                MealView.m_meal = m_mealInfoArray.get(position);
-                startActivity(new Intent(ChefMeals.this, MealView.class));
-            }
-        });
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
+                    Intent intent = new Intent(ChefMeals.this, MealView.class);
+                    intent.putExtra("meal", m_mealInfoArray.get(position));
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void SetError(String errorString)
@@ -55,7 +63,7 @@ public class ChefMeals extends AppCompatActivity
     private void UpdateList()
     {
         ChefMeals.GetMealsListCallback gmlc = new ChefMeals.GetMealsListCallback();
-        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + ChefId + "';");
+        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + m_chefId + "';");
         m_dbComms.RequestMealData(gmlc);
     }
 

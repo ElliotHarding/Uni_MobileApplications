@@ -88,14 +88,16 @@ public class SearchResults extends AppCompatActivity
             {
                 if(m_bShowingUsers)
                 {
-                    ChefMeals.ChefId = m_userInfoArray.get(position).getId();
-                    ChefMeals.ChefUsername = m_userInfoArray.get(position).getUsername();
-                    startActivity(new Intent(SearchResults.this, ChefMeals.class));
+                    Intent intent = new Intent(SearchResults.this, ChefMeals.class);
+                    intent.putExtra("chefId", m_userInfoArray.get(position).getId());
+                    intent.putExtra("chefUsername", m_userInfoArray.get(position).getUsername());
+                    startActivity(intent);
                 }
                 else
                 {
-                    MealView.m_meal = m_mealInfoArray.get(position);
-                    startActivity(new Intent(SearchResults.this, MealView.class));
+                    Intent intent = new Intent(SearchResults.this, MealView.class);
+                    intent.putExtra("meal", m_mealInfoArray.get(position));
+                    startActivity(intent);
                 }
             }
         });
