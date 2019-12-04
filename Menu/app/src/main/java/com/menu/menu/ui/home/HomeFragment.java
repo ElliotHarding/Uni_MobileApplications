@@ -106,9 +106,10 @@ public class HomeFragment extends Fragment
                         {
                             if(uip.Username.equals(marker.getTitle()))
                             {
-                                ChefMeals.ChefId = uip.Id;
-                                ChefMeals.ChefUsername = uip.Username;
-                                startActivity(new Intent(getActivity(), ChefMeals.class));
+                                Intent intent = new Intent(getActivity(), ChefMeals.class);
+                                intent.putExtra("chefId", uip.Id);
+                                intent.putExtra("chefUsername", uip.Username);
+                                startActivity(intent);
                             }
                         }
                     }

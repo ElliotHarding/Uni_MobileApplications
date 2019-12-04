@@ -11,15 +11,25 @@ import com.menu.menu.Classes.Order;
 
 public class MeetupChat extends AppCompatActivity
 {
-    public static Meal m_meal = null;
-    public static Order m_order = null;
-    public static int m_numberOfMeals = 0;
+    Meal m_meal = null;
+    Order m_order = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetup_chat);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.containsKey("meal") && extras.containsKey("order"))
+        {
+            m_meal = (Meal)extras.getSerializable("meal");
+            m_order = (Order)extras.getSerializable("order");
+        }
+        else
+        {
+            SetError("Meal not found! Check internet?");
+        }
     }
 
     private void SetError(String errorString)

@@ -29,13 +29,8 @@ import java.io.IOException;
 
 public class MealRegistration extends AppCompatActivity
 {
-    private static Meal m_currentMeal = null;
-    public static void SetMeal(Meal meal)
-    {
-        m_currentMeal = meal;
-    }
-
-    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    private Meal m_currentMeal = null;
+    private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
 
     ImageView m_img_image = null;
     EditText m_input_name = null;
@@ -86,8 +81,11 @@ public class MealRegistration extends AppCompatActivity
         final Button btn_delete = findViewById(R.id.btn_delete);
         final Button btn_update = findViewById(R.id.btn_update);
 
-        if (m_currentMeal != null)
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.containsKey("meal"))
         {
+            m_currentMeal = (Meal)extras.getSerializable("meal");
+
             m_input_name.setText(m_currentMeal.getName());
             m_input_ingredients.setText(m_currentMeal.getIngredients());
             m_input_maxNumberOfDishes.setText(m_currentMeal.getMaxNoPortions());

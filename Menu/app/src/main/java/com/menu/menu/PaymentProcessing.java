@@ -15,9 +15,9 @@ import com.menu.menu.Classes.Order;
 
 public class PaymentProcessing extends AppCompatActivity
 {
-    public static Meal m_meal = null;
-    public static Order m_order = null;
-    public static int m_numberOfMeals = 0;
+    Meal m_meal = null;
+    int m_numberOfMeals = 0; //can probs remove if end up using order
+    Order m_order = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,27 +29,30 @@ public class PaymentProcessing extends AppCompatActivity
         final TextView txt_name = findViewById(R.id.txt_name);
         final TextView txt_price = findViewById(R.id.txt_price);
 
-        if (m_meal != null)
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.containsKey("meal"))
         {
+            m_meal = (Meal)extras.getSerializable("meal");
+
             txt_name.setText("Meal : " + m_meal.getName());
             txt_price.setText("Price : " + Double.toString(m_numberOfMeals * Double.parseDouble(m_meal.getPrice())));
+
+            btn_pay.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    //todo set message
+                    UploadOrderCallBack uocb = new UploadOrderCallBack();
+                    uocb.SetMessage("");
+                    new DatabaseCommunicator().GenericUpload(uocb);
+                }
+            });
         }
         else
         {
             SetError("Meal not found! Check internet?");
         }
-
-        btn_pay.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                //todo set message
-                UploadOrderCallBack uocb = new UploadOrderCallBack();
-                uocb.SetMessage("");
-                new DatabaseCommunicator().GenericUpload(uocb);
-            }
-        });
     }
 
     private void SetError(String errorString)
@@ -70,8 +73,10 @@ public class PaymentProcessing extends AppCompatActivity
                 {
                     if(m_message.equals("null"))
                     {
-                        MeetupChat.m_order = m_order;
-                        startActivity(new Intent(PaymentProcessing.this, MeetupChat.class));
+                        Intent intent = new Intent(PaymentProcessing.this, MeetupChat.class);
+                        intent.putExtra("meal", m_meal);
+                        intent.putExtra("order", m_order);
+                        startActivity(intent);
                     }
                     else
                     {

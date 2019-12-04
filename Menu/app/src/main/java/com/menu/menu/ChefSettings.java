@@ -38,7 +38,7 @@ public class ChefSettings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                MealRegistration.SetMeal(null); //null signifies new meal...
+                //Not adding intent with meal key signifies new meal...
                 startActivity(new Intent(ChefSettings.this, MealRegistration.class));
             }
         });
@@ -47,8 +47,9 @@ public class ChefSettings extends AppCompatActivity
         {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                MealRegistration.SetMeal(m_mealInfoArray.get(position));
-                startActivity(new Intent(ChefSettings.this, MealRegistration.class));
+                Intent intent = new Intent(ChefSettings.this, MealRegistration.class);
+                intent.putExtra("meal", m_mealInfoArray.get(position));
+                startActivity(intent);
             }
         });
 

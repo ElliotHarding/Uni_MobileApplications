@@ -1,6 +1,8 @@
 package com.menu.menu.Classes;
 
-public class Order
+import java.io.Serializable;
+
+public class Order implements Serializable
 {
     public enum State
     {
