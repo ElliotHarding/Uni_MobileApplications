@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChefAccountSettings"></activity>
+        <activity android:name=".Login"></activity>
+        <activity android:name=".ChefAccountSettings" />
         <activity android:name=".ChefMeals" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -33,7 +34,7 @@
             android:name=".MainHub"
             android:label="@string/title_activity_main_hub"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Login">
+        <activity android:name=".Loader">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

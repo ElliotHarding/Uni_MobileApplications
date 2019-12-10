@@ -22,14 +22,6 @@ public class Login extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LocalSettings.LoadSettings();
-        if (LocalSettings.IsLoginSaved())
-        {
-            UserDataCallback ucb = new UserDataCallback();
-            ucb.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + LocalSettings.LocalUser.getUsername() + "' and password = '" + LocalSettings.LocalUser.getPassword() + "';");
-            m_dbComms.RequestUserData(ucb);
-        }
-
         final Button btn_login = findViewById(R.id.btn_login);
         final Button btn_signUp = findViewById(R.id.btn_signUp);
         final EditText input_usernameOrEmail = findViewById(R.id.input_usernameOrEmail);
