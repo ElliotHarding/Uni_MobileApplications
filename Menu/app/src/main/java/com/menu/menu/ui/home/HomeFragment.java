@@ -1,6 +1,7 @@
 package com.menu.menu.ui.home;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.menu.menu.ChefMeals;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.User;
@@ -34,7 +38,9 @@ public class HomeFragment extends Fragment
     private MapView m_MapView;
     private GoogleMap m_googleMap;
     private View.OnClickListener m_drawerListener;
-    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    private FusedLocationProviderClient m_fusedLocationClient;
+    private Marker m_userMarker = null;
 
     class UsernameIdPair
     {
@@ -73,6 +79,8 @@ public class HomeFragment extends Fragment
         m_MapView.onCreate(savedInstanceState);
         m_MapView.onResume();
 
+        m_fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
         try
         {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -82,38 +90,52 @@ public class HomeFragment extends Fragment
             e.printStackTrace();
         }
 
+        m_fusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>()
+        {
+            @Override
+            public void onSuccess(Location location)
+            {
+                if (location != null)
+                {
+                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                    if(m_userMarker != null)
+                        m_userMarker.remove();
+
+                    m_userMarker = m_googleMap.addMarker(new MarkerOptions().position(userLatLng).title("You"));
+
+                    // For zooming automatically to the location of the marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(userLatLng).zoom(12).build();
+                    m_googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+            }
+        });
+        m_fusedLocationClient.getLastLocation();
+
         m_MapView.getMapAsync(new OnMapReadyCallback()
         {
             @Override
             public void onMapReady(GoogleMap mMap)
             {
                 m_googleMap = mMap;
+            }
+        });
 
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                m_googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                m_googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-                m_googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+        m_googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+        {
+            @Override
+            public void onInfoWindowClick(Marker marker)
+            {
+                for(UsernameIdPair uip : m_markerInformaitonList)
                 {
-                    @Override
-                    public void onInfoWindowClick(Marker marker)
+                    if(uip.Username.equals(marker.getTitle()))
                     {
-                        for(UsernameIdPair uip : m_markerInformaitonList)
-                        {
-                            if(uip.Username.equals(marker.getTitle()))
-                            {
-                                Intent intent = new Intent(getActivity(), ChefMeals.class);
-                                intent.putExtra("chefId", uip.Id);
-                                intent.putExtra("chefUsername", uip.Username);
-                                startActivity(intent);
-                            }
-                        }
+                        Intent intent = new Intent(getActivity(), ChefMeals.class);
+                        intent.putExtra("chefId", uip.Id);
+                        intent.putExtra("chefUsername", uip.Username);
+                        startActivity(intent);
                     }
-                });
+                }
             }
         });
 
