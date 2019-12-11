@@ -11,7 +11,11 @@ import android.support.v4.app.Fragment;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +26,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.menu.menu.ChefMeals;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.User;
@@ -39,7 +42,6 @@ public class HomeFragment extends Fragment
     private GoogleMap m_googleMap;
     private View.OnClickListener m_drawerListener;
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    private FusedLocationProviderClient m_fusedLocationClient;
     private Marker m_userMarker = null;
 
     class UsernameIdPair
@@ -63,6 +65,9 @@ public class HomeFragment extends Fragment
     {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //
+        //Search view
+        //
         final SearchView searchView = root.findViewById(R.id.searchView);
         searchView.setOnSearchClickListener(new View.OnClickListener()
         {
@@ -75,11 +80,13 @@ public class HomeFragment extends Fragment
             }
         });
 
+
+        //
+        //Map view
+        //
         m_MapView = root.findViewById(R.id.mapView);
         m_MapView.onCreate(savedInstanceState);
         m_MapView.onResume();
-
-        m_fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         try
         {
@@ -90,60 +97,89 @@ public class HomeFragment extends Fragment
             e.printStackTrace();
         }
 
-        m_fusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>()
-        {
-            @Override
-            public void onSuccess(Location location)
-            {
-                if (location != null)
-                {
-                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                    if(m_userMarker != null)
-                        m_userMarker.remove();
-
-                    m_userMarker = m_googleMap.addMarker(new MarkerOptions().position(userLatLng).title("You"));
-
-                    // For zooming automatically to the location of the marker
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(userLatLng).zoom(12).build();
-                    m_googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-            }
-        });
-        m_fusedLocationClient.getLastLocation();
-
         m_MapView.getMapAsync(new OnMapReadyCallback()
         {
             @Override
             public void onMapReady(GoogleMap mMap)
             {
                 m_googleMap = mMap;
+
+                m_googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+                {
+                    @Override
+                    public void onInfoWindowClick(Marker marker)
+                    {
+                        for(UsernameIdPair uip : m_markerInformaitonList)
+                        {
+                            if(uip.Username.equals(marker.getTitle()))
+                            {
+                                Intent intent = new Intent(getActivity(), ChefMeals.class);
+                                intent.putExtra("chefId", uip.Id);
+                                intent.putExtra("chefUsername", uip.Username);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                });
+
             }
         });
 
-        m_googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+
+        //
+        //Buttons
+        //
+        root.findViewById(R.id.drawerToggle).setOnClickListener(m_drawerListener);
+
+        root.findViewById(R.id.btn_locate).setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onInfoWindowClick(Marker marker)
+            public void onClick(View view)
             {
-                for(UsernameIdPair uip : m_markerInformaitonList)
-                {
-                    if(uip.Username.equals(marker.getTitle()))
-                    {
-                        Intent intent = new Intent(getActivity(), ChefMeals.class);
-                        intent.putExtra("chefId", uip.Id);
-                        intent.putExtra("chefUsername", uip.Username);
-                        startActivity(intent);
-                    }
-                }
+                UpdateLocation();
             }
         });
 
-        root.findViewById(R.id.drawerToggle).setOnClickListener(m_drawerListener);
+
+        UpdateLocation();
 
         UpdateList();
 
         return root;
+    }
+
+    private void UpdateLocation()
+    {
+        LocationRequest mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationCallback mLocationCallback = new LocationCallback()
+        {
+            @Override
+            public void onLocationResult(LocationResult locationResult)
+            {
+                if (locationResult != null)
+                {
+                    for (Location location : locationResult.getLocations())
+                    {
+                        if (location != null && m_googleMap != null)
+                        {
+                            LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                            if(m_userMarker != null)
+                                m_userMarker.remove();
+
+                            m_userMarker = m_googleMap.addMarker(new MarkerOptions().position(userLatLng).title("You"));
+
+                            // For zooming automatically to the location of the marker
+                            CameraPosition cameraPosition = new CameraPosition.Builder().target(userLatLng).zoom(12).build();
+                            m_googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        }
+                    }
+                }
+
+            }
+        };
+        LocationServices.getFusedLocationProviderClient(getActivity()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
     @Override
