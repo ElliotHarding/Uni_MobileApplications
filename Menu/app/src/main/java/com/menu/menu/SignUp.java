@@ -89,6 +89,12 @@ public class SignUp extends AppCompatActivity
 
     public static String ValidateSettings(User u)
     {
+        if(u.getLongitude() == null || u.getLatitude() == null)
+        {
+            return "Need to add address";
+        }
+
+
         //todo validation...
         return "NO-ERROR";
     }
