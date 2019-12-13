@@ -13,7 +13,7 @@ import com.menu.menu.Classes.User;
 
 public class AddressEdit extends AppCompatActivity
 {
-    User m_currentUser = LocalSettings.LocalUser;
+    User m_currentUser = LocalSettings.GetLocalUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

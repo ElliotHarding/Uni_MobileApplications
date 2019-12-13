@@ -112,8 +112,8 @@ public class MealRegistration extends AppCompatActivity
         else
         {
             m_currentMeal = new Meal();
-            m_currentMeal.setOwnerUsername(LocalSettings.LocalUser.getUsername());
-            m_currentMeal.setOwnerId(LocalSettings.LocalUser.getId());
+            m_currentMeal.setOwnerUsername(LocalSettings.GetLocalUser().getUsername());
+            m_currentMeal.setOwnerId(LocalSettings.GetLocalUser().getId());
 
             //Since the meal is new, don't need to delete it...
             btn_delete.setVisibility(View.INVISIBLE);

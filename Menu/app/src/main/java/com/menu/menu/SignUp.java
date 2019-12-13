@@ -30,7 +30,7 @@ public class SignUp extends AppCompatActivity
         final EditText input_dob = findViewById(R.id.input_dob);
         final EditText input_password = findViewById(R.id.input_password);
 
-        m_currentUser = LocalSettings.LocalUser;
+        m_currentUser = LocalSettings.GetLocalUser();
 
         findViewById(R.id.btn_signUp).setOnClickListener(new View.OnClickListener()
         {
@@ -84,7 +84,7 @@ public class SignUp extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        m_currentUser = LocalSettings.LocalUser;
+        m_currentUser = LocalSettings.GetLocalUser();
     }
 
     public static String ValidateSettings(User u)

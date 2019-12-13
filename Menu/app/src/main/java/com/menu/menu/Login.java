@@ -71,9 +71,10 @@ public class Login extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            if (!m_users.isEmpty()) //Correct user found
+            if (m_users != null && !m_users.isEmpty()) //Correct user found
             {
                 LocalSettings.UpdateLocalUser(m_users.get(0));
+                LocalSettings.SaveLoginDetails(m_users.get(0).getUsername(), m_users.get(0).getPassword(),getParent());
                 startActivity(new Intent(Login.this, MainHub.class));
             }
             else

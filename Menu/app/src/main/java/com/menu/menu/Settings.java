@@ -22,7 +22,7 @@ import java.io.IOException;
 public class Settings extends AppCompatActivity
 {
     DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    User m_currentUser = LocalSettings.LocalUser;
+    User m_currentUser = LocalSettings.GetLocalUser();
     ImageView m_img_image = null;
 
     @Override
@@ -105,7 +105,7 @@ public class Settings extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        m_currentUser = LocalSettings.LocalUser;
+        m_currentUser = LocalSettings.GetLocalUser();
     }
 
     //Overridden so we can get the uploaded image

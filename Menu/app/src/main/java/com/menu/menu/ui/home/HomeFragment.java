@@ -215,6 +215,8 @@ public class HomeFragment extends Fragment
         HomeFragment.GetChefsListCallback gmlc = new HomeFragment.GetChefsListCallback();
         gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE is_chef = 'true';");
         m_dbComms.RequestUserData(gmlc);
+
+        m_googleMap.clear();
     }
 
     private void SetError(String errorString)

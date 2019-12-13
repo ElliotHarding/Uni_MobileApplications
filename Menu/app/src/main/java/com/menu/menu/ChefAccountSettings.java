@@ -21,7 +21,7 @@ import com.menu.menu.Classes.User;
 
 public class ChefAccountSettings extends AppCompatActivity
 {
-    User m_currentUser = LocalSettings.LocalUser;
+    User m_currentUser = LocalSettings.GetLocalUser();
 
     TextView m_txt_pickDateFrom = null;
     TextView m_txt_pickDateTo = null;

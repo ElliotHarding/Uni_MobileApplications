@@ -16,12 +16,12 @@ public class Loader extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
 
-        LocalSettings.LoadSettings();
+        LocalSettings.LoadSettings(this);
         if (LocalSettings.IsLoginSaved())
         {
             UserDataCallback ucb = new UserDataCallback();
             DatabaseCommunicator dbComms = new DatabaseCommunicator();
-            ucb.SetMessage("SELECT * FROM " + dbComms.m_userTable + " WHERE name = '" + LocalSettings.LocalUser.getUsername() + "' and password = '" + LocalSettings.LocalUser.getPassword() + "';");
+            ucb.SetMessage("SELECT * FROM " + dbComms.m_userTable + " WHERE name = '" + LocalSettings.GetLocalUser().getUsername() + "' and password = '" + LocalSettings.GetLocalUser().getPassword() + "';");
             dbComms.RequestUserData(ucb);
         }
         else
@@ -37,7 +37,7 @@ public class Loader extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            if (!m_users.isEmpty())
+            if (m_users != null && !m_users.isEmpty())
             {
                 LocalSettings.UpdateLocalUser(m_users.get(0));
                 startActivity(new Intent(Loader.this, MainHub.class));

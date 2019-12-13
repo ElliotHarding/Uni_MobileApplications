@@ -73,7 +73,7 @@ public class ChefSettings extends AppCompatActivity
     private void UpdateList()
     {
         GetMealsListCallback gmlc = new GetMealsListCallback();
-        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + LocalSettings.LocalUser.getId() + "';");
+        gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + LocalSettings.GetLocalUser().getId() + "';");
         m_dbComms.RequestMealData(gmlc);
     }
 
