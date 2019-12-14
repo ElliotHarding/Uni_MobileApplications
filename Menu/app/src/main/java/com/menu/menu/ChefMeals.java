@@ -77,7 +77,7 @@ public class ChefMeals extends AppCompatActivity
                 @Override
                 public void run()
                 {
-                    if(!m_meals.isEmpty())
+                    if(m_meals != null && !m_meals.isEmpty())
                     {
                         m_mealInfoArray = m_meals;
                         m_displayList.setAdapter(new MealListViewItem(getApplicationContext(),m_mealInfoArray));

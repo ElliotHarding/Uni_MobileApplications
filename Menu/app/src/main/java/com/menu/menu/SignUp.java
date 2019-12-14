@@ -112,7 +112,9 @@ public class SignUp extends AppCompatActivity
                 Date d = new Date(day, month, year);
                 if (d.before(Date.from(Instant.now())))
                 {
-                    m_currentUser.setDOB(String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year));
+                    String dob = year + "-" + month + "-" + day;
+                    m_currentUser.setDOB(dob);
+                    txt_edit_dob.setText(dob);
                 }
                 else
                 {
@@ -135,9 +137,9 @@ public class SignUp extends AppCompatActivity
                 {
                     try
                     {
-                        day = Integer.parseInt(dob.split("/")[0]);
-                        month = Integer.parseInt(dob.split("/")[1]);
-                        year = Integer.parseInt(dob.split("/")[2]);
+                        day = Integer.parseInt(dob.split("-")[0]);
+                        month = Integer.parseInt(dob.split("-")[1]);
+                        year = Integer.parseInt(dob.split("-")[2]);
                     }
                     catch (Exception e)
                     {
@@ -145,6 +147,7 @@ public class SignUp extends AppCompatActivity
                 }
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SignUp.this, m_onDobSetListener, day, month, year);
+                datePickerDialog.setTitle("Date of Birth");
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 datePickerDialog.show();
             }

@@ -21,10 +21,10 @@ public class AddressEdit extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_edit);
 
-        final EditText input_addressLine1 = findViewById(R.id.input_name);
-        final EditText input_addressLine2 = findViewById(R.id.input_phone);
-        final EditText input_addressLine3 = findViewById(R.id.input_firstName);
-        final EditText input_postCode = findViewById(R.id.input_lastName);
+        final EditText input_addressLine1 = findViewById(R.id.input_addressLine1);
+        final EditText input_addressLine2 = findViewById(R.id.input_addressLine2);
+        final EditText input_addressLine3 = findViewById(R.id.input_addressLine3);
+        final EditText input_postCode = findViewById(R.id.input_postCode);
 
         input_addressLine1.setText((m_currentUser.getAddressLine1() != null) ? m_currentUser.getAddressLine1() : "");
         input_addressLine2 .setText((m_currentUser.getAddressLine2() != null) ? m_currentUser.getAddressLine2() : "");
@@ -43,7 +43,7 @@ public class AddressEdit extends AppCompatActivity
 
                 try
                 {
-                    Geocoder coder = new Geocoder(getParent());
+                    Geocoder coder = new Geocoder(AddressEdit.this);
                     Address address = coder.getFromLocationName(addLn1 + " " + addLn2 + " " + addLn3 + " " + addPostCode,1).get(0);
 
                     m_currentUser.setLatitude(String.valueOf(address.getLatitude()) );

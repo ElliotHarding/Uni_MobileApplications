@@ -16,8 +16,8 @@ public class DatabaseCommunicator
 
     public final String m_userTable = "[menudatabase].[dbo].[User]";
     public final String m_orderTable = "[menudatabase].[dbo].[Order]";
-    public final String m_mealTable = "[menudatabase].[dbo].[ic_meal]";
-    public final String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[ic_meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo,picture_id,rating) VALUES ";
+    public final String m_mealTable = "[menudatabase].[dbo].[meal]";
+    public final String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo,picture_id,rating) VALUES ";
     public final String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,is_chef,latitude,longitude,food_type) VALUES ";
     private final String m_dbRequestUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
     private final String m_dbPostUrl = "http://themenuapp.gearhostpreview.com/databaseAPIpost.php";
@@ -55,6 +55,7 @@ public class DatabaseCommunicator
             try
             {
                 URLConnection connection = new URL(m_dbRequestUrl + params[0].GetMessage()).openConnection();
+                params[0].SetMessage("Error");//Shouldn't ever be used, but need to set something different than connection messaged since used as a debug message for recipient class
                 InputStream res = connection.getInputStream();
 
                 String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
@@ -98,7 +99,12 @@ public class DatabaseCommunicator
             }
             catch (Exception e)
             {
-                params[0].SetMessage(e.getMessage());
+                params[0].SetMessage("Failed. Check internet connection");
+            }
+
+            if(params[0].m_users == null)
+            {
+                params[0].SetMessage("Failed. Check internet connection");
             }
 
             //Call callback
@@ -163,7 +169,12 @@ public class DatabaseCommunicator
             }
             catch (Exception e)
             {
-                params[0].SetMessage(e.getMessage());
+                params[0].SetMessage("Failed. Check internet connection");
+            }
+
+            if(params[0].m_meals == null)
+            {
+                params[0].SetMessage("Failed. Check internet connection");
             }
 
             //Call callback

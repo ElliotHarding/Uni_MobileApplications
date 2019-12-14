@@ -116,7 +116,8 @@ public class User extends ClassWithBitmap implements Serializable
         return m_DOB;
     }
 
-    public void setDOB(String DOB) {
+    public void setDOB(String DOB)
+    {
         this.m_DOB = DOB;
     }
 

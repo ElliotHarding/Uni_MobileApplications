@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment
         String Username;
         String Id;
     }
-    ArrayList<UsernameIdPair> m_markerInformaitonList = new ArrayList<>();
+    private ArrayList<UsernameIdPair> m_markerInformaitonList = new ArrayList<>();
 
     public void SetDrawerButtonListner(View.OnClickListener listener)
     {
@@ -137,6 +137,13 @@ public class HomeFragment extends Fragment
             public void onClick(View view)
             {
                 UpdateLocation();
+            }
+        });
+
+        root.findViewById(R.id.btn_refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UpdateList();
             }
         });
 
@@ -235,7 +242,7 @@ public class HomeFragment extends Fragment
                 @Override
                 public void run()
                 {
-                    if(!m_users.isEmpty())
+                    if(m_users != null && !m_users.isEmpty())
                     {
                         if(m_googleMap != null)
                         {
