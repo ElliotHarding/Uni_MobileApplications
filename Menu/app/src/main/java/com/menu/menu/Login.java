@@ -74,7 +74,7 @@ public class Login extends AppCompatActivity
             if (m_users != null && !m_users.isEmpty()) //Correct user found
             {
                 LocalSettings.UpdateLocalUser(m_users.get(0));
-                LocalSettings.SaveLoginDetails(m_users.get(0).getUsername(), m_users.get(0).getPassword(),getParent());
+                LocalSettings.SaveLoginDetails(m_users.get(0).getUsername(), m_users.get(0).getPassword(), Login.this);
                 startActivity(new Intent(Login.this, MainHub.class));
             }
             else

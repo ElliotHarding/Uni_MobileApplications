@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -45,7 +44,7 @@ public class MealView extends AppCompatActivity
             switch_eatIn.setActivated(m_meal.IsEatIn());
             ((TextView)findViewById(R.id.txt_name)).setText(m_meal.getName());
             ((TextView)findViewById(R.id.txt_pricePerDish)).setText(m_meal.getPrice() + "£");
-            ((TextView)findViewById(R.id.txt_ingredients)).setText(m_meal.getIngredients());
+            ((TextView)findViewById(R.id.txt_fullName)).setText(m_meal.getIngredients());
             ((TextView)findViewById(R.id.txt_numberMeals)).setText("Number of dishes (Max : " + m_meal.getMaxNoPortions() + ")");
             Bitmap bmp = m_meal.getPicture();
             if(bmp != null)

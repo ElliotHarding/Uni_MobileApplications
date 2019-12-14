@@ -34,7 +34,7 @@ public class PaymentProcessing extends AppCompatActivity
         {
             m_meal = (Meal)extras.getSerializable("meal");
 
-            txt_name.setText("Meal : " + m_meal.getName());
+            txt_name.setText("ic_meal : " + m_meal.getName());
             txt_price.setText("Price : " + Double.toString(m_numberOfMeals * Double.parseDouble(m_meal.getPrice())));
 
             btn_pay.setOnClickListener(new View.OnClickListener()
@@ -51,7 +51,7 @@ public class PaymentProcessing extends AppCompatActivity
         }
         else
         {
-            SetError("Meal not found! Check internet?");
+            SetError("ic_meal not found! Check internet?");
         }
     }
 

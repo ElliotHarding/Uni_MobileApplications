@@ -216,7 +216,8 @@ public class HomeFragment extends Fragment
         gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE is_chef = 'true';");
         m_dbComms.RequestUserData(gmlc);
 
-        m_googleMap.clear();
+        if(m_googleMap != null)
+            m_googleMap.clear();
     }
 
     private void SetError(String errorString)
@@ -229,33 +230,40 @@ public class HomeFragment extends Fragment
         @Override
         public Void call() throws Exception
         {
-            if(!m_users.isEmpty())
+            ((MainHub) getActivity()).runOnUiThread(new Runnable()
             {
-                ((MainHub)getActivity()).runOnUiThread(new Runnable()
+                @Override
+                public void run()
                 {
-                    @Override
-                    public void run()
+                    if(!m_users.isEmpty())
                     {
-                        for(User user : m_users)
+                        if(m_googleMap != null)
                         {
-                            try
+                            for (User user : m_users)
                             {
-                                LatLng latLong = new LatLng(Integer.parseInt(user.getLatitude()), Integer.parseInt(user.getLongitude()));
-                                m_googleMap.addMarker(new MarkerOptions().position(latLong).title(user.getUsername()).snippet(user.getFoodType()));
-                                m_markerInformaitonList.add(new UsernameIdPair(user.getUsername(), user.getId()));
-                            }
-                            catch (Exception e)
-                            {
-                                SetError("At least one user failed to load!");
+                                try
+                                {
+                                    LatLng latLong = new LatLng(Integer.parseInt(user.getLatitude()), Integer.parseInt(user.getLongitude()));
+                                    m_googleMap.addMarker(new MarkerOptions().position(latLong).title(user.getUsername()).snippet(user.getFoodType()));
+                                    m_markerInformaitonList.add(new UsernameIdPair(user.getUsername(), user.getId()));
+                                }
+                                catch (Exception e)
+                                {
+                                    SetError("At least one user failed to load!");
+                                }
                             }
                         }
+                        else
+                        {
+                            SetError("Map not loaded yet, can't fill.");
+                        }
                     }
-                });
-            }
-            else
-            {
-                SetError(m_message);
-            }
+                    else
+                    {
+                        SetError(m_message);
+                    }
+                }
+            });
             return null;
         }
     }

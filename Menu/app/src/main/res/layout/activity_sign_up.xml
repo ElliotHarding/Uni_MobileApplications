@@ -10,11 +10,11 @@
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
         android:text="Username"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="34dp" />
+        app:layout_constraintTop_toBottomOf="@+id/img_img" />
 
     <EditText
         android:id="@+id/input_name"
@@ -94,7 +94,6 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -115,17 +114,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_fullName" />
 
-    <EditText
-        android:id="@+id/input_dob"
-        android:layout_width="262dp"
-        android:layout_height="48dp"
+    <TextView
+        android:id="@+id/txt_edit_dob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:inputType="date|textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_addressSettings"
+        android:layout_marginTop="16dp"
+        android:text="00/00/00"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_dob" />
 
@@ -138,7 +134,7 @@
         android:text="Password"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_dob" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_edit_dob" />
 
     <EditText
         android:id="@+id/input_password"
@@ -158,18 +154,19 @@
         android:id="@+id/btn_addressSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
         android:text="Address"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_dob" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_beAChef" />
 
     <Button
         android:id="@+id/btn_signUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -179,10 +176,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:text="Be a Chef"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_password" />
+        app:layout_constraintTop_toTopOf="@+id/btn_signUp" />
+
+    <ImageView
+        android:id="@+id/img_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars[0]" />
 
 
 </android.support.constraint.ConstraintLayout>

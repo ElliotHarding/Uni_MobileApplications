@@ -28,7 +28,7 @@ public class MeetupChat extends AppCompatActivity
         }
         else
         {
-            SetError("Meal not found! Check internet?");
+            SetError("ic_meal not found! Check internet?");
         }
     }
 

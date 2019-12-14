@@ -129,7 +129,7 @@ public class SearchResults extends AppCompatActivity
         m_dbComms.RequestMealData(gmlc);
     }
 
-    //Class used to create a corresponding UI element for each Meal in m_mealInfoArray
+    //Class used to create a corresponding UI element for each ic_meal in m_mealInfoArray
     //These UI elements are then added into m_displayList
     private class UserListAdaptor extends ArrayAdapter<User>
     {

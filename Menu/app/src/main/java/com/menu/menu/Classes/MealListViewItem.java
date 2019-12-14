@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.menu.menu.R;
 import java.util.ArrayList;
 
-//Class used to create a corresponding UI element for each Meal in an arraylist of meals
+//Class used to create a corresponding UI element for each ic_meal in an arraylist of meals
 //These UI elements are then added into displayList
 public class MealListViewItem extends ArrayAdapter<Meal>
 {

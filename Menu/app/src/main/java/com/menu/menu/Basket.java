@@ -119,7 +119,7 @@ public class Basket extends Fragment
         Toast.makeText(getActivity(), errorString,  Toast.LENGTH_LONG).show();
     }
 
-    //Class used to create a corresponding UI element for each Meal in an arraylist of meals
+    //Class used to create a corresponding UI element for each ic_meal in an arraylist of meals
     //These UI elements are then added into displayList
     class BasketListViewItem extends ArrayAdapter<Order>
     {
