@@ -2,7 +2,7 @@ package com.menu.menu.Classes;
 
 import java.io.Serializable;
 
-public class Meal extends ClassWithBitmap implements Serializable
+public class Meal extends SerializableBitmap implements Serializable
 {
     private String m_ownerId = null;
     private String m_name = null;
