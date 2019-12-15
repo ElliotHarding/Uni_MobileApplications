@@ -75,7 +75,7 @@ public class Basket extends Fragment
                 }
                 else
                 {
-                    m_orderId = LocalSettings.GetLocalUser().getId() + "$" + basketItems.get(0).GetMeal().getOwnerId();
+                    m_orderId = LocalSettings.GetLocalUser().getId() + "---" + basketItems.get(0).GetMeal().getOwnerId();
 
                     Order newOrder = new Order();
                     newOrder.setId(m_orderId);

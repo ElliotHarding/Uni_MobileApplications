@@ -92,7 +92,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_orders != null && !m_orders.isEmpty())
             {
-                String[] names = m_orders.get(0).getId().split("$");
+                String[] names = m_orders.get(0).getId().split("---");
 
                 OtherUserInfoCallback ouic = new OtherUserInfoCallback();
 
@@ -122,45 +122,52 @@ public class MeetupChat extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            if(m_users != null && !m_users.isEmpty())
+            runOnUiThread(new Runnable()
             {
-                if(m_eater == null)
+                @Override
+                public void run()
                 {
-                    m_eater = m_users.get(0);
-
-                    txt_meetingName.setText("Meeting: " + m_eater.getUsername());
-
-                    if(m_bTakeaway)
+                    if(m_users != null && !m_users.isEmpty())
                     {
-                        txt_addressLine1.setText(m_eater.getAddressLine1());
-                        txt_addressLine2.setText(m_eater.getAddressLine2());
-                        txt_addressLine3.setText(m_eater.getAddressLine3());
-                        txt_postCode.setText(m_eater.getAddressPostCode());
-                    }
-                }
-                else
-                {
-                    m_chef = m_users.get(0);
+                        if(m_eater == null)
+                        {
+                            m_eater = m_users.get(0);
 
-                    txt_meetingName.setText("Meeting: " + m_chef.getUsername());
+                            txt_meetingName.setText("Meeting: " + m_eater.getUsername());
 
-                    if(!m_bTakeaway)
-                    {
-                        txt_addressLine1.setText(m_chef.getAddressLine1());
-                        txt_addressLine2.setText(m_chef.getAddressLine2());
-                        txt_addressLine3.setText(m_chef.getAddressLine3());
-                        txt_postCode.setText(m_chef.getAddressPostCode());
+                            if(m_bTakeaway)
+                            {
+                                txt_addressLine1.setText(m_eater.getAddressLine1());
+                                txt_addressLine2.setText(m_eater.getAddressLine2());
+                                txt_addressLine3.setText(m_eater.getAddressLine3());
+                                txt_postCode.setText(m_eater.getAddressPostCode());
+                            }
+                        }
+                        else
+                        {
+                            m_chef = m_users.get(0);
+
+                            txt_meetingName.setText("Meeting: " + m_chef.getUsername());
+
+                            if(!m_bTakeaway)
+                            {
+                                txt_addressLine1.setText(m_chef.getAddressLine1());
+                                txt_addressLine2.setText(m_chef.getAddressLine2());
+                                txt_addressLine3.setText(m_chef.getAddressLine3());
+                                txt_postCode.setText(m_chef.getAddressPostCode());
+                            }
+                            else
+                            {
+                                txt_state.setText("On route");
+                            }
+                        }
                     }
                     else
                     {
-                        txt_state.setText("On route");
+                        SetError("Data not found! Check internet?");
                     }
                 }
-            }
-            else
-            {
-                SetError("Data not found! Check internet?");
-            }
+            });
             return null;
         }
     }
