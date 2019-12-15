@@ -34,7 +34,7 @@ import com.menu.menu.SearchResults;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment
+public class Home extends Fragment
 {
     private MapView m_MapView;
     private GoogleMap m_googleMap;
@@ -218,7 +218,7 @@ public class HomeFragment extends Fragment
 
     private void UpdateList()
     {
-        HomeFragment.GetChefsListCallback gmlc = new HomeFragment.GetChefsListCallback();
+        Home.GetChefsListCallback gmlc = new Home.GetChefsListCallback();
         gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE is_chef = 'true';");
         m_dbComms.RequestUserData(gmlc);
 

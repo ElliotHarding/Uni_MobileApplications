@@ -30,13 +30,14 @@ import android.widget.Toast;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.OrdersCallback;
-import com.menu.menu.ui.home.HomeFragment;
+import com.menu.menu.ui.home.Home;
 
 public class MainHub extends AppCompatActivity
 {
     //Deal with fragment management
     public static final String HomeFragmentTag = "HOME_FRAGMENT";
-    public static final String BasketFragmentTag = "BASKET FRAGMENT";
+    public static final String BasketFragmentTag = "BASKET_FRAGMENT";
+    public static final String SettingsFragmentTag = "SETTINGS_FRAGMENT";
 
     private NavigationView m_navigationView;
 
@@ -172,8 +173,8 @@ public class MainHub extends AppCompatActivity
         switch (tag)
         {
             case HomeFragmentTag:
-                fragment = new HomeFragment();
-                ((HomeFragment)fragment).SetDrawerButtonListner(m_drawerLisner);
+                fragment = new Home();
+                ((Home)fragment).SetDrawerButtonListner(m_drawerLisner);
                 tag = HomeFragmentTag;
                 break;
 
