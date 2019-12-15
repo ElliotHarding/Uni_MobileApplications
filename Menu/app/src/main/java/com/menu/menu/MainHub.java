@@ -148,6 +148,9 @@ public class MainHub extends AppCompatActivity
         ImageView imgTitle = m_navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
         imgTitle.setImageBitmap(LocalSettings.GetLocalUser().getPicture());
 
+        if(!LocalSettings.GetLocalUser().getIsChef_b())
+            m_navigationView.findViewById(R.id.nav_chefSettigns).setVisibility(View.INVISIBLE);
+
         Bundle extras = getIntent().getExtras();
         if(extras == null || !extras.containsKey("fragment"))
         {
