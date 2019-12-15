@@ -48,6 +48,7 @@ public class MeetupChat extends AppCompatActivity
     private ProgressBar m_progressBar;
     private String m_orderId;
     private ArrayList<String> m_messages = new ArrayList<>();
+    private Thread m_updateThread = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -128,7 +129,7 @@ public class MeetupChat extends AppCompatActivity
         });
 
         //Update messages every second
-        Thread t = new Thread()
+        m_updateThread = new Thread()
         {
             @Override
             public void run()
@@ -151,7 +152,14 @@ public class MeetupChat extends AppCompatActivity
                 }
             }
         };
-        t.start();
+        m_updateThread.start();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        m_updateThread = null;
+        super.onBackPressed();
     }
 
     private void UpdateMessages()
@@ -168,6 +176,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_message.equals("null"))
             {
+                m_updateThread = null;
                 startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
             else

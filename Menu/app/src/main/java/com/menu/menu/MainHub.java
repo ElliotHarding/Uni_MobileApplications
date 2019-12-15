@@ -38,6 +38,8 @@ public class MainHub extends AppCompatActivity
     public static final String HomeFragmentTag = "HOME_FRAGMENT";
     public static final String BasketFragmentTag = "BASKET FRAGMENT";
 
+    private NavigationView m_navigationView;
+
     final View.OnClickListener m_drawerLisner = new View.OnClickListener()
     {
         @Override
@@ -53,8 +55,8 @@ public class MainHub extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_hub);
 
-        final NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        m_navigationView = findViewById(R.id.nav_view);
+        m_navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
@@ -64,18 +66,18 @@ public class MainHub extends AppCompatActivity
                 switch (menuItem.getItemId())
                 {
                     case R.id.nav_chefSettigns:
-                        navigationView.getMenu().getItem(0).setChecked(true);
+                        m_navigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(MainHub.this, ChefSettings.class));
                         break;
                     case R.id.nav_signOut:
                         startActivity(new Intent(MainHub.this, Login.class));
                         break;
                     case R.id.nav_settings:
-                        navigationView.getMenu().getItem(0).setChecked(true);
+                        m_navigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(MainHub.this, Settings.class));
                         break;
                     case R.id.nav_basket:
-                        navigationView.getMenu().getItem(0).setChecked(true);
+                        m_navigationView.getMenu().getItem(3).setChecked(true);
                         //Check not already on that fragment
                         Fragment hf = getSupportFragmentManager().findFragmentByTag(BasketFragmentTag);
                         if (hf == null || !hf.isVisible())
@@ -84,7 +86,7 @@ public class MainHub extends AppCompatActivity
                         }
                         break;
                     case R.id.nav_currentOrders:
-                        navigationView.getMenu().getItem(0).setChecked(true);
+                        m_navigationView.getMenu().getItem(0).setChecked(true);
                         GetOrderInfoCallback goic = new GetOrderInfoCallback();
                         DatabaseCommunicator dbComms = new DatabaseCommunicator();
                         goic.SetMessage("SELECT * FROM " + dbComms.m_orderTable + " WHERE CHARINDEX('"+LocalSettings.GetLocalUser().getId()+"', id) > 0;");
@@ -143,13 +145,13 @@ public class MainHub extends AppCompatActivity
             }
         });
 
-        TextView title = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
+        TextView title = m_navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
         title.setText(LocalSettings.GetLocalUser().getUsername());
 
-        TextView subTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_subTitle);
+        TextView subTitle = m_navigationView.getHeaderView(0).findViewById(R.id.nav_bar_subTitle);
         subTitle.setText(LocalSettings.GetLocalUser().getEmail());
 
-        ImageView imgTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        ImageView imgTitle = m_navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
         imgTitle.setImageBitmap(LocalSettings.GetLocalUser().getPicture());
 
         Bundle extras = getIntent().getExtras();
@@ -190,6 +192,18 @@ public class MainHub extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+    }
+
+    @Override
+    protected void onResume()
+    {
+        //Check not already on that fragment
+        Fragment hf = getSupportFragmentManager().findFragmentByTag(HomeFragmentTag);
+        if (hf == null || !hf.isVisible())
+        {
+            m_navigationView.getMenu().getItem(0).setChecked(true);
+        }
+        super.onResume();
     }
 
     public void SetError(String errorString)
