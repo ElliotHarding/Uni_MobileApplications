@@ -9,7 +9,7 @@ public class Order
     private ArrayList<String> m_numOfPortionsList = new ArrayList<>();
     private String m_currentState = null;
     private String m_mealOrdererId = null;
-    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState) VALUES ";
+    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState) VALUES ";
 
     public String GetInsertString()
     {

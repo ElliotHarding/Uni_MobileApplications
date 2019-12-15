@@ -254,7 +254,7 @@ public class HomeFragment extends Fragment
                                 }
                                 catch (Exception e)
                                 {
-                                    SetError("At least one user failed to load!");
+                                    //SetError("At least one user failed to load!");
                                 }
                             }
                         }

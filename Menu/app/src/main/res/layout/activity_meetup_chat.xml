@@ -6,17 +6,101 @@
     android:layout_height="match_parent"
     tools:context="com.menu.menu.MeetupChat">
 
-    <TextView
-        android:id="@+id/txt_error"
+    <Button
+        android:id="@+id/btn_postMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="175dp"
-        android:layout_marginStart="175dp"
-        android:text="Error!"
-        android:textColor="@android:color/holo_red_dark"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/txt_messageInput"
+        android:layout_width="269dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_addressLine1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_meetingName" />
+
+    <TextView
+        android:id="@+id/txt_addressLine2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/txt_addressLine1"
+        app:layout_constraintTop_toBottomOf="@+id/txt_addressLine1" />
+
+    <TextView
+        android:id="@+id/txt_meetingName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_addressLine3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/txt_addressLine1"
+        app:layout_constraintTop_toBottomOf="@+id/txt_addressLine2" />
+
+    <TextView
+        android:id="@+id/txt_addressPostCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/txt_addressLine1"
+        app:layout_constraintTop_toBottomOf="@+id/txt_addressLine3" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_addressPostCode" />
+
+    <ListView
+        android:id="@+id/listView_messages"
+        android:layout_width="427dp"
+        android:layout_height="541dp"
+        app:layout_constraintBottom_toTopOf="@+id/txt_messageInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/txt_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/txt_meetingName"
+        tools:layout_editor_absoluteX="185dp" />
 
 </android.support.constraint.ConstraintLayout>

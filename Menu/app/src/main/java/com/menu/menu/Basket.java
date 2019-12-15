@@ -92,6 +92,7 @@ public class Basket extends Fragment
 
                     newOrder.setMealIds(mealIds);
                     newOrder.setNumOfPortionsList(numberOfPortions);
+                    newOrder.setMealOrdererId(LocalSettings.GetLocalUser().getId());
 
                     DatabaseCommunicator dbComms = new DatabaseCommunicator();
                     UploadOrderCallback uoc = new UploadOrderCallback();
@@ -165,16 +166,24 @@ public class Basket extends Fragment
         @Override
         public Void call() throws Exception
         {
-            if(m_message.equals("null"))
+            getActivity().runOnUiThread(new Runnable()
             {
-                Intent intent = new Intent(getContext(), MeetupChat.class);
-                intent.putExtra("orderId", m_orderId);
-                startActivity(intent);
-            }
-            else
-            {
-                SetError("Failed to request order, check internet.");
-            }
+                @Override
+                public void run()
+                {
+                    if(m_message.equals("null"))
+                    {
+                        Intent intent = new Intent(getContext(), MeetupChat.class);
+                        intent.putExtra("orderId", m_orderId);
+                        intent.putExtra("forChef", false);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        SetError("Failed to request order, check internet.");
+                    }
+                }
+            });
             return null;
         }
     }

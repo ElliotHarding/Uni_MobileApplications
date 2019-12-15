@@ -49,7 +49,6 @@
         <activity android:name=".SearchResults" />
         <activity android:name=".MealView" />
         <activity android:name=".PaymentProcessing" />
-        <activity android:name=".MealOrder" />
         <activity android:name=".MeetupChat" />
         <activity android:name=".AddressEdit" />
     </application>
