@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.MealsCallback;
@@ -25,8 +26,9 @@ import java.util.ArrayList;
 public class Basket extends Fragment
 {
     private View.OnClickListener m_drawerListener;
-    public static ArrayList<Order> orders = new ArrayList<>();
-    ListView m_displayList;
+    public static ArrayList<Order> orders = new ArrayList<>(); //todo switch this to arraylist to of basketItem class
+    private ListView m_displayList;
+    private String m_orderId = null;
 
     public Basket()
     {
@@ -57,6 +59,20 @@ public class Basket extends Fragment
                 Intent intent = new Intent(getContext(), MealView.class);
                 intent.putExtra("meal", orders.get(position).GetMeal());
                 startActivity(intent);
+            }
+        });
+
+        root.findViewById(R.id.btn_checkout).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                m_orderId = "todo";
+
+                UploadOrderCallback uoc = new UploadOrderCallback();
+                uoc.SetMessage("");
+                DatabaseCommunicator dbComms = new DatabaseCommunicator();
+                dbComms.GenericUpload(uoc);
             }
         });
 
@@ -117,6 +133,25 @@ public class Basket extends Fragment
     private void SetError(String errorString)
     {
         Toast.makeText(getActivity(), errorString,  Toast.LENGTH_LONG).show();
+    }
+
+    class UploadOrderCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(m_message.equals("null"))
+            {
+                Intent intent = new Intent(getContext(), MeetupChat.class);
+                intent.putExtra("orderId", m_orderId);
+                startActivity(intent);
+            }
+            else
+            {
+                SetError("Failed to request order, check internet.");
+            }
+            return null;
+        }
     }
 
     //Class used to create a corresponding UI element for each ic_meal in an arraylist of meals
