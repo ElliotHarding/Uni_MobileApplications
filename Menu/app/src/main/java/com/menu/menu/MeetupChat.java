@@ -72,9 +72,10 @@ public class MeetupChat extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e" : "c") + input_message.getText().toString();
+                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e --- " : "c --- ") + input_message.getText().toString();
                 m_messages.add(message);
                 listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
+                input_message.setText("");
             }
         });
 
@@ -210,7 +211,7 @@ public class MeetupChat extends AppCompatActivity
 
         public MessageListViewAdapter(Context c, ArrayList<String> messageListRef)
         {
-            super(c, R.layout.layout_meal_info, messageListRef);
+            super(c, R.layout.eater_message, messageListRef);
             m_messageListRef = messageListRef;
         }
 
@@ -219,16 +220,25 @@ public class MeetupChat extends AppCompatActivity
         {
             String message = m_messageListRef.get(position);
 
-            String[] messageAndType = message.split("$");
+            String[] messageAndType = message.split(" --- ");
 
             View itemView = convertView;
             if (itemView == null)
             {
                 itemView = (LayoutInflater.from(getContext())).inflate(messageAndType[0].equals("c") ? R.layout.chef_message : R.layout.eater_message, parent, false);
+
             }
 
             //Subject text
-            TextView subjectText = itemView.findViewById(R.id.textView);
+            TextView subjectText;
+            if(messageAndType[0].equals("c"))
+            {
+                subjectText = itemView.findViewById(R.id.txt_chefMessage);
+            }
+            else
+            {
+                subjectText = itemView.findViewById(R.id.txt_eaterMessage);
+            }
             subjectText.setText(messageAndType[1]);
 
             return itemView;

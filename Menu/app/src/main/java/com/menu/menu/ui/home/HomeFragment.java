@@ -142,6 +142,7 @@ public class HomeFragment extends Fragment
             @Override
             public void onClick(View view) {
                 UpdateList();
+                m_userMarker = m_googleMap.addMarker(new MarkerOptions().position(m_userMarker.getPosition()).title("you"));
             }
         });
 

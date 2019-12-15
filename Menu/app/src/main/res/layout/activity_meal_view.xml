@@ -22,44 +22,48 @@
         android:id="@+id/txt_fullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:text="Ingredients"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_pricePerDish" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_address" />
 
     <TextView
         android:id="@+id/txt_Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Address"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_isVegetarian" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_pricePerDish" />
 
     <EditText
         android:id="@+id/input_numerOfDishes"
-        android:layout_width="167dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_width="162dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="20dp"
         android:ems="10"
         android:inputType="number"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/switch_takeaway"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txt_numberMeals"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginEnd="124dp"
         android:text="Number of dishes"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/input_numerOfDishes"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -110,25 +114,23 @@
 
     <TextView
         android:id="@+id/input_ingredients"
-        android:layout_width="352dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_fullName" />
 
     <TextView
         android:id="@+id/txt_address"
-        android:layout_width="352dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_Address" />
 
@@ -136,48 +138,41 @@
         android:id="@+id/radio_isHalal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Halal    "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
+        android:text="Halal "
+        tools:layout_editor_absoluteX="23dp"
+        tools:layout_editor_absoluteY="376dp" />
 
     <RadioButton
         android:id="@+id/radio_isVegan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vegan "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radio_isVegetarian" />
+        app:layout_constraintStart_toStartOf="@+id/radio_isVegetarian"
+        app:layout_constraintTop_toBottomOf="@+id/radio_isVegetarian" />
 
     <RadioButton
         android:id="@+id/radio_isVegetarian"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
         android:text="Vegetarian "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_isHalal" />
+        app:layout_constraintStart_toStartOf="@+id/radio_containsGluten"
+        app:layout_constraintTop_toBottomOf="@+id/radio_containsGluten" />
 
     <RadioButton
         android:id="@+id/radio_containsGluten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gluten  "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radio_isHalal" />
+        android:text="Gluten "
+        app:layout_constraintStart_toStartOf="@+id/radio_containsMilk"
+        app:layout_constraintTop_toBottomOf="@+id/radio_containsMilk" />
 
     <RadioButton
         android:id="@+id/radio_containsMilk"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="20dp"
-        android:text="Milk     "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radio_containsGluten" />
+        android:text="Milk "
+        app:layout_constraintStart_toStartOf="@+id/radio_isHalal"
+        app:layout_constraintTop_toBottomOf="@+id/radio_isHalal" />
 
     <Switch
         android:id="@+id/switch_eatIn"
@@ -199,5 +194,14 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/switch_eatIn"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/txt_numberMeals"
+        tools:layout_editor_absoluteX="1dp" />
 
 </android.support.constraint.ConstraintLayout>
