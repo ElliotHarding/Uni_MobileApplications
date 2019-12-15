@@ -44,12 +44,12 @@ public class MealView extends AppCompatActivity
 
             m_meal = (Meal)extras.getSerializable("meal");
 
-            txt_address = findViewById(R.id.txt_Address);
+            txt_address = findViewById(R.id.txt_addressFill);
             switch_takeaway.setActivated(m_meal.IsTakeaway());
             switch_eatIn.setActivated(m_meal.IsEatIn());
             ((TextView)findViewById(R.id.txt_name)).setText(m_meal.getName());
             ((TextView)findViewById(R.id.txt_pricePerDish)).setText(m_meal.getPrice() + "£");
-            ((TextView)findViewById(R.id.txt_fullName)).setText(m_meal.getIngredients());
+            ((TextView)findViewById(R.id.input_ingredients)).setText(m_meal.getIngredients());
             ((TextView)findViewById(R.id.txt_numberMeals)).setText("Number of dishes (Max : " + m_meal.getMaxNoPortions() + ")");
             Bitmap bmp = m_meal.getPicture();
             if(bmp != null)
