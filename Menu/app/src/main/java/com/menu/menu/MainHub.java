@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
+import com.menu.menu.Classes.OrdersCallback;
 import com.menu.menu.ui.home.HomeFragment;
 
 public class MainHub extends AppCompatActivity
@@ -77,6 +78,12 @@ public class MainHub extends AppCompatActivity
                         {
                             NavigateToFragment(BasketFragmentTag);
                         }
+                        break;
+                    case R.id.nav_currentOrders:
+                        GetOrderInfoCallback goic = new GetOrderInfoCallback();
+                        DatabaseCommunicator dbComms = new DatabaseCommunicator();
+                        goic.SetMessage("SELECT * FROM " + dbComms.m_orderTable + " WHERE id LIKE '%" + LocalSettings.GetLocalUser().getId() + "%';");
+                        dbComms.RequestOrderData(goic);
                         break;
 
                     case R.id.nav_home:
@@ -161,5 +168,33 @@ public class MainHub extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private class GetOrderInfoCallback extends OrdersCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(m_orders != null && !m_orders.isEmpty())
+            {
+                Intent intent = new Intent(MainHub.this, MeetupChat.class);
+                intent.putExtra("orderId", m_orders.get(0).getId());
+                intent.putExtra("forChef", LocalSettings.GetLocalUser().getId() != m_orders.get(0).getId().split("---")[0]);
+                startActivity(intent);
+            }
+            else
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("No current orders");
+                    }
+                });
+
+            }
+            return null;
+        }
     }
 }

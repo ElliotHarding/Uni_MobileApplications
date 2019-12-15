@@ -9,12 +9,13 @@ public class Order
     private ArrayList<String> m_numOfPortionsList = new ArrayList<>();
     private String m_currentState = null;
     private String m_mealOrdererId = null;
-    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState) VALUES ";
+    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway) VALUES ";
+    private String m_isTakeaway = null;
 
     public String GetInsertString()
     {
         final String d = "','";
-        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + "');";
+        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + d + m_isTakeaway + "');";
     }
 
     public String getId()
@@ -103,6 +104,21 @@ public class Order
     public String getMealOrdererId()
     {
         return m_mealOrdererId;
+    }
+
+    public boolean getIsTakeaway()
+    {
+        return m_isTakeaway.equals("true");
+    }
+
+    public void setIsTakeaway_b(Boolean isTakeaway)
+    {
+        m_isTakeaway = isTakeaway ? "true" : "false";
+    }
+
+    public void setIsTakeaway(String isTakeaway)
+    {
+        m_isTakeaway = isTakeaway;
     }
 
     public enum State

@@ -53,12 +53,19 @@ public class MeetupChat extends AppCompatActivity
         txt_addressLine1 = findViewById(R.id.txt_addressLine1);
         txt_addressLine2 = findViewById(R.id.txt_addressLine2);
         txt_addressLine3 = findViewById(R.id.txt_addressLine3);
-        txt_postCode = findViewById(R.id.txt_postCode);
+        txt_postCode = findViewById(R.id.txt_addressPostCode);
         txt_meetingName = findViewById(R.id.txt_meetingName);
         txt_state = findViewById(R.id.txt_state);
         input_message = findViewById(R.id.txt_messageInput);
         listView_messages = findViewById(R.id.listView_messages);
         m_progressBar = findViewById(R.id.progressBar);
+
+        txt_meetingName.setVisibility(View.INVISIBLE);
+        txt_addressLine1.setVisibility(View.INVISIBLE);
+        txt_addressLine2.setVisibility(View.INVISIBLE);
+        txt_addressLine3.setVisibility(View.INVISIBLE);
+        txt_postCode.setVisibility(View.INVISIBLE);
+        txt_state.setVisibility(View.INVISIBLE);
 
         findViewById(R.id.btn_postMessage).setOnClickListener(new View.OnClickListener()
         {
@@ -72,11 +79,10 @@ public class MeetupChat extends AppCompatActivity
         });
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null && extras.containsKey("orderId") && extras.containsKey("forChef") && extras.containsKey("isTakeaway"))
+        if(extras != null && extras.containsKey("orderId") && extras.containsKey("forChef"))
         {
             String orderId = extras.getString("orderId");
             m_bForChef = extras.getBoolean("forChef");
-            m_bTakeaway = extras.getBoolean("isTakeaway");
 
             GetOrderInfoCallback goic = new GetOrderInfoCallback();
             goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + orderId + "';");
@@ -98,7 +104,8 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_orders != null && !m_orders.isEmpty())
             {
-                String[] names = m_orders.get(0).getId().split("---");
+                String[] names = m_orders.get(0).getId().split(" --- ");
+                m_bTakeaway = m_orders.get(0).getIsTakeaway();
 
                 OtherUserInfoCallback ouic = new OtherUserInfoCallback();
 
@@ -142,6 +149,7 @@ public class MeetupChat extends AppCompatActivity
                             m_eater = m_users.get(0);
 
                             txt_meetingName.setText("Meeting: " + m_eater.getUsername());
+                            txt_meetingName.setVisibility(View.VISIBLE);
 
                             if(m_bTakeaway)
                             {
@@ -149,6 +157,11 @@ public class MeetupChat extends AppCompatActivity
                                 txt_addressLine2.setText(m_eater.getAddressLine2());
                                 txt_addressLine3.setText(m_eater.getAddressLine3());
                                 txt_postCode.setText(m_eater.getAddressPostCode());
+
+                                txt_addressLine1.setVisibility(View.VISIBLE);
+                                txt_addressLine2.setVisibility(View.VISIBLE);
+                                txt_addressLine3.setVisibility(View.VISIBLE);
+                                txt_postCode.setVisibility(View.VISIBLE);
                             }
                         }
                         else
@@ -156,6 +169,7 @@ public class MeetupChat extends AppCompatActivity
                             m_chef = m_users.get(0);
 
                             txt_meetingName.setText("Meeting: " + m_chef.getUsername());
+                            txt_meetingName.setVisibility(View.VISIBLE);
 
                             if(!m_bTakeaway)
                             {
@@ -163,10 +177,16 @@ public class MeetupChat extends AppCompatActivity
                                 txt_addressLine2.setText(m_chef.getAddressLine2());
                                 txt_addressLine3.setText(m_chef.getAddressLine3());
                                 txt_postCode.setText(m_chef.getAddressPostCode());
+
+                                txt_addressLine1.setVisibility(View.VISIBLE);
+                                txt_addressLine2.setVisibility(View.VISIBLE);
+                                txt_addressLine3.setVisibility(View.VISIBLE);
+                                txt_postCode.setVisibility(View.VISIBLE);
                             }
                             else
                             {
                                 txt_state.setText("On route");
+                                txt_state.setVisibility(View.VISIBLE);
                             }
                         }
                         m_progressBar.setVisibility(View.INVISIBLE);

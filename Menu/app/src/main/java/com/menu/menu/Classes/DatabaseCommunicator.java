@@ -215,6 +215,7 @@ public class DatabaseCommunicator
                         o.setNumOfPortionsList_sql(userElements[2]);
                         o.setMealOrdererId(userElements[3]);
                         o.setCurrentState(userElements[4]);
+                        o.setIsTakeaway(userElements[5]);
 
                         basketItems.add(o);
                     }

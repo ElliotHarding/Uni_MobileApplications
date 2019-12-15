@@ -14,13 +14,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.BasketItem;
+import com.menu.menu.Classes.UsersCallback;
 
 public class MealView extends AppCompatActivity
 {
     private Meal m_meal = null;
     public static Bitmap FailedBitmap = null;
+    private TextView txt_address = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,6 +44,7 @@ public class MealView extends AppCompatActivity
 
             m_meal = (Meal)extras.getSerializable("meal");
 
+            txt_address = findViewById(R.id.txt_Address);
             switch_takeaway.setActivated(m_meal.IsTakeaway());
             switch_eatIn.setActivated(m_meal.IsEatIn());
             ((TextView)findViewById(R.id.txt_name)).setText(m_meal.getName());
@@ -62,6 +66,11 @@ public class MealView extends AppCompatActivity
             ((RadioButton)findViewById(R.id.radio_isHalal)).setChecked(m_meal.getHalal());
             ((RadioButton)findViewById(R.id.radio_isVegan)).setChecked(m_meal.getVegan());
             ((RadioButton)findViewById(R.id.radio_isVegetarian)).setChecked(m_meal.getVegiterian());
+
+            DatabaseCommunicator dbComms = new DatabaseCommunicator();
+            OtherUserInfoCallback OUIC = new OtherUserInfoCallback();
+            OUIC.SetMessage("SELECT * FROM " + dbComms.m_userTable + " WHERE id='"+m_meal.getOwnerId()+"';");
+            dbComms.RequestUserData(OUIC);
 
             findViewById(R.id.btn_order).setOnClickListener(new View.OnClickListener()
             {
@@ -146,5 +155,29 @@ public class MealView extends AppCompatActivity
     {
         Toast t = Toast.makeText(MealView.this, errorString,  Toast.LENGTH_LONG);
         t.show();
+    }
+
+    private class OtherUserInfoCallback extends UsersCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    if(m_users != null && !m_users.isEmpty())
+                    {
+                        txt_address.setText(m_users.get(0).getAddressLine1() + "\n" + m_users.get(0).getAddressLine2() + "\n" +m_users.get(0).getAddressLine3() + "\n" + m_users.get(0).getAddressPostCode());
+                    }
+                    else
+                    {
+                        SetError("Data not found! Check internet?");
+                    }
+                }
+            });
+            return null;
+        }
     }
 }
