@@ -82,7 +82,7 @@ public class MainHub extends AppCompatActivity
                     case R.id.nav_currentOrders:
                         GetOrderInfoCallback goic = new GetOrderInfoCallback();
                         DatabaseCommunicator dbComms = new DatabaseCommunicator();
-                        goic.SetMessage("SELECT * FROM " + dbComms.m_orderTable + " WHERE id LIKE '%" + LocalSettings.GetLocalUser().getId() + "%';");
+                        goic.SetMessage("SELECT * FROM " + dbComms.m_orderTable + " WHERE CHARINDEX('"+LocalSettings.GetLocalUser().getId()+"', id) > 0;");
                         dbComms.RequestOrderData(goic);
                         break;
 
