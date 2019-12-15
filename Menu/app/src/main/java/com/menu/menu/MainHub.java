@@ -1,6 +1,8 @@
 package com.menu.menu;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.navigation.NavController;
@@ -14,10 +16,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +53,7 @@ public class MainHub extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_hub);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
             @Override
@@ -59,19 +64,18 @@ public class MainHub extends AppCompatActivity
                 switch (menuItem.getItemId())
                 {
                     case R.id.nav_chefSettigns:
+                        navigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(MainHub.this, ChefSettings.class));
                         break;
                     case R.id.nav_signOut:
-                        if (new DatabaseCommunicator().TryLogout())
-                        {
-                            startActivity(new Intent(MainHub.this, Login.class));
-                        }
+                        startActivity(new Intent(MainHub.this, Login.class));
                         break;
                     case R.id.nav_settings:
+                        navigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(MainHub.this, Settings.class));
                         break;
                     case R.id.nav_basket:
-
+                        navigationView.getMenu().getItem(0).setChecked(true);
                         //Check not already on that fragment
                         Fragment hf = getSupportFragmentManager().findFragmentByTag(BasketFragmentTag);
                         if (hf == null || !hf.isVisible())
@@ -80,6 +84,7 @@ public class MainHub extends AppCompatActivity
                         }
                         break;
                     case R.id.nav_currentOrders:
+                        navigationView.getMenu().getItem(0).setChecked(true);
                         GetOrderInfoCallback goic = new GetOrderInfoCallback();
                         DatabaseCommunicator dbComms = new DatabaseCommunicator();
                         goic.SetMessage("SELECT * FROM " + dbComms.m_orderTable + " WHERE CHARINDEX('"+LocalSettings.GetLocalUser().getId()+"', id) > 0;");
@@ -94,6 +99,44 @@ public class MainHub extends AppCompatActivity
                         {
                             NavigateToFragment(HomeFragmentTag);
                         }
+                        break;
+
+                    case R.id.nav_reportIssue:
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainHub.this);
+                        builder.setTitle("Send Error Report");
+
+                        final EditText input = new EditText(MainHub.this);
+                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                        builder.setView(input);
+
+                        // Set up the buttons
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                                intent.setData(Uri.parse("mailto:"));
+                                intent.putExtra(Intent.EXTRA_EMAIL, "MeNU.contact.us@gmail.com");
+                                intent.putExtra(Intent.EXTRA_SUBJECT, "Issue from" + LocalSettings.GetLocalUser().getId());
+                                intent.putExtra(Intent.ACTION_DEFAULT, input.getText().toString());
+                                if (intent.resolveActivity(getPackageManager()) != null)
+                                {
+                                    startActivity(intent);
+                                    SetError("Message sent. We will be sure to get back to you asap.");
+                                }
+                                SetError("Failed to send report. Check internet?");
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+
                         break;
                 }
                 return true;

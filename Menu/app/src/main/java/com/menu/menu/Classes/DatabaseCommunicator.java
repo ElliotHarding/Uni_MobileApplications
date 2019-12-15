@@ -294,10 +294,4 @@ public class DatabaseCommunicator
         }
         return results;
     }
-
-    public boolean TryLogout()
-    {
-        return true;
-    }
-
 }

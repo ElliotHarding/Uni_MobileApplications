@@ -1,6 +1,7 @@
 package com.menu.menu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -114,6 +115,43 @@ public class MeetupChat extends AppCompatActivity
                 input_message.setText("");
             }
         });
+
+        findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                MarkCompleteCallback mcc = new MarkCompleteCallback();
+                mcc.SetMessage("DELETE FROM " + m_dbComms.m_orderTable + " WHERE id='" + m_orderId + "';");
+                m_dbComms.GenericUpload(mcc);
+            }
+        });
+
+        //Update messages every second
+        Thread t = new Thread()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    while (!isInterrupted())
+                    {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                UpdateMessages();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        t.start();
     }
 
     private void UpdateMessages()
@@ -123,16 +161,36 @@ public class MeetupChat extends AppCompatActivity
         m_dbComms.RequestOrderData(umcb);
     }
 
-    private class AddMessageCallback extends BaseCallback
+    private class MarkCompleteCallback extends BaseCallback
     {
         @Override
         public Void call() throws Exception
         {
             if(m_message.equals("null"))
             {
-                UpdateMessages();
+                startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
             else
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Failed. Check internet?");
+                    }
+                });
+            }
+            return null;
+        }
+    }
+
+    private class AddMessageCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(!m_message.equals("null"))
             {
                 runOnUiThread(new Runnable()
                 {

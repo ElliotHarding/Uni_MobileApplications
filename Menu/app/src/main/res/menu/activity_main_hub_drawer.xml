@@ -30,9 +30,13 @@
     <item android:title="Options">
         <menu>
             <item
-                android:id="@+id/nav_signOut"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Sign Out" />
+            android:id="@+id/nav_signOut"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Sign Out" />
+            <item
+                android:id="@+id/nav_reportIssue"
+                android:icon="@android:drawable/ic_menu_report_image"
+                android:title="Report Issue" />
         </menu>
     </item>
 
