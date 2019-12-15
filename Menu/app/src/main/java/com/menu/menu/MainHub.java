@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,6 +98,9 @@ public class MainHub extends AppCompatActivity
 
         TextView subTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_subTitle);
         subTitle.setText(LocalSettings.GetLocalUser().getEmail());
+
+        ImageView imgTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        imgTitle.setImageBitmap(LocalSettings.GetLocalUser().getPicture());
 
         Bundle extras = getIntent().getExtras();
         if(extras == null || !extras.containsKey("fragment"))
