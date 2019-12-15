@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.BasketItem;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
@@ -34,7 +36,6 @@ public class MeetupChat extends AppCompatActivity
     private boolean m_bForChef = false;
     private boolean m_bTakeaway = false;
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    private ArrayList<String> m_messages = new ArrayList<>();
     private TextView txt_addressLine1;
     private TextView txt_addressLine2;
     private TextView txt_addressLine3;
@@ -45,6 +46,7 @@ public class MeetupChat extends AppCompatActivity
     private ListView listView_messages;
     private ProgressBar m_progressBar;
     private String m_orderId;
+    private ArrayList<String> m_messages = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,21 +71,6 @@ public class MeetupChat extends AppCompatActivity
         txt_postCode.setVisibility(View.INVISIBLE);
         txt_state.setVisibility(View.INVISIBLE);
 
-        findViewById(R.id.btn_postMessage).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e -z- " : "c -z- ") + input_message.getText().toString();
-                input_message.setText("");
-
-                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e -z- " : "c -z- ") + input_message.getText().toString();
-                m_messages.add(message);
-                listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
-                input_message.setText("");
-            }
-        });
-
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey("orderId") && extras.containsKey("forChef"))
         {
@@ -101,6 +88,63 @@ public class MeetupChat extends AppCompatActivity
         {
             SetError("Data not found! Check internet?");
         }
+
+        findViewById(R.id.btn_postMessage).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if(m_eater == null)
+                    return;
+
+                //Get message & add to list
+                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e -z- " : "c -z- ") + input_message.getText().toString();
+                m_messages.add(message);
+
+                //Create temp order object to utilize sql function for uploading
+                Order tempOrder = new Order();
+                tempOrder.setMessages(m_messages);
+
+                //Upload new message list
+                AddMessageCallback amcb = new AddMessageCallback();
+                amcb.SetMessage("UPDATE " + m_dbComms.m_orderTable + " SET messages='" + tempOrder.getMessages_sql() + "' WHERE id='" + m_orderId + "';");
+                m_dbComms.GenericUpload(amcb);
+
+                //Clear message input box
+                input_message.setText("");
+            }
+        });
+    }
+
+    private void UpdateMessages()
+    {
+        UpdateMessagesCallback umcb = new UpdateMessagesCallback();
+        umcb.SetMessage("SELECT * FROM " + m_dbComms.m_orderTable + " WHERE id='" + m_orderId + "';");
+        m_dbComms.RequestOrderData(umcb);
+    }
+
+    private class AddMessageCallback extends BaseCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(m_message.equals("null"))
+            {
+                UpdateMessages();
+            }
+            else
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Failed to add message. Check internet?");
+                    }
+                });
+            }
+            return null;
+        }
     }
 
     private class UpdateMessagesCallback extends OrdersCallback
@@ -108,14 +152,22 @@ public class MeetupChat extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            if(m_orders != null && !m_orders.isEmpty())
+            runOnUiThread(new Runnable()
             {
-                listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_orders.get(0).getMessages()));
-            }
-            else
-            {
-                SetError("Failed to update chat! Check internet?");
-            }
+                @Override
+                public void run()
+                {
+                    if(m_orders != null && !m_orders.isEmpty())
+                    {
+                        m_messages = m_orders.get(0).getMessages();
+                        listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
+                    }
+                    else
+                    {
+                        SetError("Failed to update chat! Check internet?");
+                    }
+                }
+            });
             return null;
         }
     }
@@ -127,7 +179,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_orders != null && !m_orders.isEmpty())
             {
-                String[] names = m_orders.get(0).getId().split(" -z- ");
+                String[] names = m_orders.get(0).getId().split(" --- ");
                 m_bTakeaway = m_orders.get(0).getIsTakeaway();
 
                 OtherUserInfoCallback ouic = new OtherUserInfoCallback();
@@ -229,7 +281,7 @@ public class MeetupChat extends AppCompatActivity
 
     public class MessageListViewAdapter extends ArrayAdapter<String>
     {
-        ArrayList<String> m_messageListRef;
+        public ArrayList<String> m_messageListRef;
 
         public MessageListViewAdapter(Context c, ArrayList<String> messageListRef)
         {
@@ -242,7 +294,7 @@ public class MeetupChat extends AppCompatActivity
         {
             String message = m_messageListRef.get(position);
 
-            String[] messageAndType = message.split(" --- ");
+            String[] messageAndType = message.split(" -z- ");
 
             View itemView = convertView;
             if (itemView == null)
@@ -265,7 +317,6 @@ public class MeetupChat extends AppCompatActivity
             return itemView;
         }
     }
-
 
     private void SetError(String errorString)
     {

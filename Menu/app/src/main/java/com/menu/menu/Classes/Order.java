@@ -9,7 +9,7 @@ public class Order
     private ArrayList<String> m_numOfPortionsList = new ArrayList<>();
     private String m_currentState = null;
     private String m_mealOrdererId = null;
-    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway,messeges) VALUES ";
+    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway,messages) VALUES ";
     private String m_isTakeaway = null;
     private ArrayList<String> m_messages = new ArrayList<>();
 
@@ -36,11 +36,15 @@ public class Order
 
     private String getMealIds_sql()
     {
+        if(m_mealIds.size() == 0)
+            return "";
+
         String retString = "";
         for (String s : m_mealIds)
         {
             retString += s + "$";
         }
+
         return retString.substring(0, retString.length()-1);
     }
 
@@ -60,11 +64,15 @@ public class Order
 
     private String getNumOfPortionsList_sql()
     {
+        if(m_numOfPortionsList.size() == 0)
+            return "";
+
         String retString = "";
         for (String s : m_numOfPortionsList)
         {
             retString += s + "$";
         }
+
         return retString.substring(0, retString.length()-1);
     }
 
@@ -198,12 +206,15 @@ public class Order
 
     public String getMessages_sql()
     {
+        if(m_messages.size() == 0)
+            return "";
+
         String combinedMessages = "";
         for (String s : m_messages)
         {
             combinedMessages += s + " --- ";
         }
 
-        return combinedMessages;
+        return combinedMessages.substring(0, combinedMessages.length() - 5);
     }
 }
