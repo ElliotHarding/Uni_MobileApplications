@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.menu.menu.Classes.DatabaseCommunicator;
@@ -25,12 +26,13 @@ import java.util.List;
 
 public class SearchResults extends AppCompatActivity
 {
-    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
-    List<User> m_userInfoArray = new ArrayList<>();
-    ListView m_displayList;
-    EditText m_searchText;
-    Boolean m_bShowingUsers = true;
+    private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    private ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
+    private List<User> m_userInfoArray = new ArrayList<>();
+    private ListView m_displayList;
+    private EditText m_searchText;
+    private Boolean m_bShowingUsers = true;
+    private ProgressBar m_progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +42,7 @@ public class SearchResults extends AppCompatActivity
 
         m_searchText = findViewById(R.id.input_search);
         m_displayList = findViewById(R.id.mealsList);
+        m_progressBar = findViewById(R.id.progressBar);
 
         Bundle extras = getIntent().getExtras();
         if(extras == null || !extras.containsKey("search"))
@@ -105,6 +108,9 @@ public class SearchResults extends AppCompatActivity
 
     private void UpdateListWithUsers(String where)
     {
+        m_progressBar.startNestedScroll(1);
+        m_progressBar.setVisibility(View.VISIBLE);
+
         SearchResults.GetChefsListCallback gclc = new SearchResults.GetChefsListCallback();
         String message = "SELECT * FROM " + m_dbComms.m_userTable + " WHERE is_chef = 'true' ";
         if(where != null)
@@ -118,6 +124,9 @@ public class SearchResults extends AppCompatActivity
 
     private void UpdateListWithMeals(String where)
     {
+        m_progressBar.startNestedScroll(1);
+        m_progressBar.setVisibility(View.VISIBLE);
+
         SearchResults.GetMealsListCallback gmlc = new SearchResults.GetMealsListCallback();
         String message = "SELECT * FROM " + m_dbComms.m_mealTable + " ";
         if(where != null)
@@ -189,6 +198,8 @@ public class SearchResults extends AppCompatActivity
                     {
                         SetError(m_message);
                     }
+                    m_progressBar.setVisibility(View.INVISIBLE);
+                    m_progressBar.stopNestedScroll();
                 }
             });
             return null;
@@ -214,6 +225,8 @@ public class SearchResults extends AppCompatActivity
                     {
                         SetError(m_message);
                     }
+                    m_progressBar.setVisibility(View.INVISIBLE);
+                    m_progressBar.stopNestedScroll();
                 }
             });
             return null;

@@ -19,7 +19,8 @@ import com.menu.menu.Classes.Order;
 
 public class MealView extends AppCompatActivity
 {
-    Meal m_meal = null;
+    private Meal m_meal = null;
+    public static Bitmap FailedBitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +50,12 @@ public class MealView extends AppCompatActivity
             Bitmap bmp = m_meal.getPicture();
             if(bmp != null)
                 ((ImageView)findViewById(R.id.img_image)).setImageBitmap(bmp);
+            else if(FailedBitmap != null)
+            {
+                ((ImageView)findViewById(R.id.img_image)).setImageBitmap(FailedBitmap);
+                FailedBitmap = null;
+            }
+
             ((TextView)findViewById(R.id.txt_rating)).setText(m_meal.getRating() +"/5");
             ((RadioButton)findViewById(R.id.radio_containsGluten)).setChecked(m_meal.getContainsGluten());
             ((RadioButton)findViewById(R.id.radio_containsMilk)).setChecked(m_meal.getContainsMilk());

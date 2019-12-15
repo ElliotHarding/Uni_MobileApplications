@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
@@ -19,15 +21,18 @@ import java.util.ArrayList;
 
 public class ChefSettings extends AppCompatActivity
 {
-    DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
-    ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
-    ListView m_displayList;
+    private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    private ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
+    private ListView m_displayList;
+    private ProgressBar m_progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chef_settings);
+
+        m_progressBar = findViewById(R.id.progressBar);
 
         m_displayList = findViewById(R.id.mealsList);
         UpdateList();
@@ -48,7 +53,10 @@ public class ChefSettings extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Intent intent = new Intent(ChefSettings.this, MealRegistration.class);
-                intent.putExtra("meal", m_mealInfoArray.get(position));
+                Meal parcelMeal = m_mealInfoArray.get(position);
+                MealRegistration.FailedBitmap = parcelMeal.getPicture();
+                parcelMeal.setPicture(null);
+                intent.putExtra("meal", parcelMeal);
                 startActivity(intent);
             }
         });
@@ -72,6 +80,9 @@ public class ChefSettings extends AppCompatActivity
 
     private void UpdateList()
     {
+        m_progressBar.startNestedScroll(1);
+        m_progressBar.setVisibility(View.VISIBLE);
+
         GetMealsListCallback gmlc = new GetMealsListCallback();
         gmlc.SetMessage("SELECT * FROM " + m_dbComms.m_mealTable + " WHERE owner_user_id = '" + LocalSettings.GetLocalUser().getId() + "';");
         m_dbComms.RequestMealData(gmlc);
@@ -96,6 +107,9 @@ public class ChefSettings extends AppCompatActivity
                     {
                         SetError(m_message);
                     }
+
+                    m_progressBar.setVisibility(View.INVISIBLE);
+                    m_progressBar.stopNestedScroll();
                 }
             });
             return null;

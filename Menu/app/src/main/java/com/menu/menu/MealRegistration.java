@@ -32,6 +32,7 @@ public class MealRegistration extends AppCompatActivity
 {
     private Meal m_currentMeal = null;
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
+    public static Bitmap FailedBitmap = null;
 
     ImageView m_img_image = null;
     EditText m_input_name = null;
@@ -83,9 +84,8 @@ public class MealRegistration extends AppCompatActivity
         final Button btn_update = findViewById(R.id.btn_update);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null && extras.containsKey("meal"))
-        {
-            m_currentMeal = (Meal)extras.getSerializable("meal");
+        if(extras != null && extras.containsKey("meal")) {
+            m_currentMeal = (Meal) extras.getSerializable("meal");
 
             m_input_name.setText(m_currentMeal.getName());
             m_input_ingredients.setText(m_currentMeal.getIngredients());
@@ -103,8 +103,14 @@ public class MealRegistration extends AppCompatActivity
             m_input_calories.setText(m_currentMeal.getCalories());
 
             Bitmap bmp = m_currentMeal.getPicture();
-            if(bmp != null)
+            if (bmp != null)
                 m_img_image.setImageBitmap(m_currentMeal.getPicture());
+            else if (FailedBitmap != null)
+            {
+                m_img_image.setImageBitmap(FailedBitmap);
+                FailedBitmap = null;
+            }
+
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
