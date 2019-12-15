@@ -12,10 +12,8 @@ import java.util.ArrayList;
 
 public class DatabaseCommunicator
 {
-    private FirebaseDatabase m_db;
-
     public final String m_userTable = "[menudatabase].[dbo].[User]";
-    public final String m_orderTable = "[menudatabase].[dbo].[Order]";
+    public final String m_orderTable = "[menudatabase].[dbo].[BasketItem]";
     public final String m_mealTable = "[menudatabase].[dbo].[meal]";
     public final String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo,picture,rating) VALUES ";
     public final String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,is_chef,latitude,longitude,food_type) VALUES ";
@@ -24,7 +22,6 @@ public class DatabaseCommunicator
 
     public DatabaseCommunicator()
     {
-        m_db = FirebaseDatabase.getInstance();
     }
 
     public void RequestUserData(UsersCallback usersCallback)
@@ -203,7 +200,7 @@ public class DatabaseCommunicator
                 String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
                 if(webResponse!=null && new Character(webResponse.charAt(0)).equals('['))
                 {
-                    ArrayList<Order> orders = new ArrayList<>();
+                    ArrayList<Order> basketItems = new ArrayList<>();
 
                     String[] results = ParseWebResponse(webResponse);
 
@@ -213,15 +210,15 @@ public class DatabaseCommunicator
                         String userElements[] = order.split(",");
 
                         Order o = new Order();
-                        o.SetId(userElements[0]);
-                        o.SetMealId(userElements[1]);
-                        o.SetNumberOfMeals(userElements[2]);
-                        o.SetOrdererId(userElements[4]);
-                        o.SetState(userElements[5]);
+                        o.setId(userElements[0]);
+                        o.setMealIds_sql(userElements[1]);
+                        o.setNumOfPortionsList_sql(userElements[2]);
+                        o.setMealOrdererId(userElements[3]);
+                        o.setCurrentState(userElements[4]);
 
-                        orders.add(o);
+                        basketItems.add(o);
                     }
-                    params[0].AddOrders(orders);
+                    params[0].AddOrders(basketItems);
                 }
             }
             catch (Exception e)

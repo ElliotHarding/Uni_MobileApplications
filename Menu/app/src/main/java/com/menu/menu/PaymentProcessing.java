@@ -11,13 +11,13 @@ import android.widget.Toast;
 import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.Meal;
-import com.menu.menu.Classes.Order;
+import com.menu.menu.Classes.BasketItem;
 
 public class PaymentProcessing extends AppCompatActivity
 {
     Meal m_meal = null;
     int m_numberOfMeals = 0; //can probs remove if end up using order
-    Order m_order = null;
+    BasketItem m_basketItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,7 +75,7 @@ public class PaymentProcessing extends AppCompatActivity
                     {
                         Intent intent = new Intent(PaymentProcessing.this, MeetupChat.class);
                         intent.putExtra("meal", m_meal);
-                        intent.putExtra("order", m_order);
+                        intent.putExtra("order", m_basketItem);
                         startActivity(intent);
                     }
                     else

@@ -3,16 +3,15 @@ package com.menu.menu;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.menu.menu.Classes.BasketItem;
 import com.menu.menu.Classes.DatabaseCommunicator;
-import com.menu.menu.Classes.Order;
 
 public class MealOrder extends AppCompatActivity
 {
-    public static Order m_order = null;
+    public static BasketItem m_basketItem = null;
 
     TextView m_txt_state;
     TextView m_txt_eta;
@@ -50,8 +49,8 @@ public class MealOrder extends AppCompatActivity
     {
         //todo
 
-        m_txt_eta.setText(m_order.GetArrivalTime());
-        m_txt_state.setText(m_order.GetState());
+        m_txt_eta.setText(m_basketItem.GetArrivalTime());
+        m_txt_state.setText(m_basketItem.GetState());
     }
 
     private void SetError(String errorString)

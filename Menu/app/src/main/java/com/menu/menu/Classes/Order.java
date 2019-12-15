@@ -1,9 +1,110 @@
 package com.menu.menu.Classes;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Order implements Serializable
+public class Order
 {
+    private String m_id = null;
+    private ArrayList<String> m_mealIds = new ArrayList<>();
+    private ArrayList<String> m_numOfPortionsList = new ArrayList<>();
+    private String m_currentState = null;
+    private String m_mealOrdererId = null;
+    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState) VALUES ";
+
+    public String GetInsertString()
+    {
+        final String d = "','";
+        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + "');";
+    }
+
+    public String getId()
+    {
+        return m_id;
+    }
+
+    public void setId(String id)
+    {
+        this.m_id = id;
+    }
+
+    public ArrayList<String> getMealIds()
+    {
+        return m_mealIds;
+    }
+
+    private String getMealIds_sql()
+    {
+        String retString = "";
+        for (String s : m_mealIds)
+        {
+            retString += s + "$";
+        }
+        return retString.substring(0, retString.length()-1);
+    }
+
+    public void setMealIds(ArrayList<String> mealIds)
+    {
+        this.m_mealIds = mealIds;
+    }
+
+    public void setMealIds_sql(String string)
+    {
+        String[] list = string.split("$");
+        for (String s : list)
+        {
+            m_mealIds.add(s);
+        }
+    }
+
+    private String getNumOfPortionsList_sql()
+    {
+        String retString = "";
+        for (String s : m_numOfPortionsList)
+        {
+            retString += s + "$";
+        }
+        return retString.substring(0, retString.length()-1);
+    }
+
+    public ArrayList<String> getNumOfPortionsList()
+    {
+        return m_numOfPortionsList;
+    }
+
+    public void setNumOfPortionsList_sql(String string)
+    {
+        String[] list = string.split("$");
+        for (String s : list)
+        {
+            m_numOfPortionsList.add(s);
+        }
+    }
+
+    public void setNumOfPortionsList(ArrayList<String> numOfPortionsList)
+    {
+        this.m_numOfPortionsList = numOfPortionsList;
+    }
+
+    public String getCurrentState()
+    {
+        return m_currentState;
+    }
+
+    public void setCurrentState(String currentState)
+    {
+        this.m_currentState = currentState;
+    }
+
+    public void setMealOrdererId(String userElement)
+    {
+        m_mealOrdererId = userElement;
+    }
+
+    public String getMealOrdererId()
+    {
+        return m_mealOrdererId;
+    }
+
     public enum State
     {
         AwatingResponse,
@@ -13,31 +114,9 @@ public class Order implements Serializable
         Delivered
     }
 
-    private String m_id = null;
-    private String m_mealId = null; //Even though we have m_meal, it may not be set at all times...
-    private String m_numberOfMeals = null;
-    private String m_ordererId = null;
-    private String m_currentState = null;
-    private String m_arrivalTime = null;
-    private Meal m_meal = null;
-
-    public Order()
+    public State getState_c()
     {
-
-    }
-
-    //Creating a basket order
-    public Order(Meal meal, String numberOfMeals)
-    {
-        m_meal = meal;
-        m_mealId = meal.getId();
-        m_numberOfMeals = numberOfMeals;
-        m_currentState = "In Basket";
-    }
-
-    public State cGetState()
-    {
-        switch (m_currentState)
+        switch (getCurrentState())
         {
             case "Awaiting Response From Chef":
                 return State.AwatingResponse;
@@ -54,7 +133,7 @@ public class Order implements Serializable
         }
     }
 
-    public void cSetState(State cState)
+    public void setState_c(State cState)
     {
         switch (cState)
         {
@@ -71,91 +150,14 @@ public class Order implements Serializable
         }
     }
 
-    public String getId()
-    {
-        return m_id;
-    }
-
-    public void SetId(String id)
-    {
-        m_id = id;
-    }
-
-    public Meal GetMeal()
-    {
-        return m_meal;
-    }
-
-    public void SetMeal(Meal meal)
-    {
-        m_meal = meal;
-    }
-
-    public void SetMealId(String id)
-    {
-        m_mealId = id;
-    }
-
-    public String GetMealId()
-    {
-        return m_mealId;
-    }
-
-    public String GetNumberOfMeals()
-    {
-        return m_numberOfMeals;
-    }
-
-    public int GetNumberOfMeals_n()
-    {
-        try
-        {
-            return Integer.parseInt(m_numberOfMeals);
-        }
-        catch (Exception e)
-        {
-            return 0;
-        }
-    }
-
-
-    public void SetNumberOfMeals(String numberOfMeals)
-    {
-        m_numberOfMeals = numberOfMeals;
-    }
-
-    public void SetNumberOfMeals_n(int num)
-    {
-        m_numberOfMeals = String.valueOf(num);
-    }
-
-    public String GetOrdererId()
-    {
-        return m_ordererId;
-    }
-
-    public void SetOrdererId(String ordererId)
-    {
-        m_ordererId = ordererId;
-    }
-
     public String GetState()
     {
-        return m_currentState;
+        return getCurrentState();
     }
+
 
     public void SetState(String currentState)
     {
-        m_currentState = currentState;
-    }
-
-    public String GetArrivalTime()
-    {
-        return m_arrivalTime;
-    }
-
-    public void SetArrivalTime(String arrivalTime)
-    {
-        m_arrivalTime = arrivalTime;
+        setCurrentState(currentState);
     }
 }

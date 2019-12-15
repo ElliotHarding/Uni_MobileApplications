@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.Meal;
-import com.menu.menu.Classes.Order;
+import com.menu.menu.Classes.BasketItem;
 
 public class MealView extends AppCompatActivity
 {
@@ -112,7 +112,7 @@ public class MealView extends AppCompatActivity
                         };
 
                         //Add meal to basket
-                        Basket.orders.add(new Order(m_meal, input_numDishesOrdered.getText().toString()));
+                        Basket.basketItems.add(new BasketItem(m_meal, input_numDishesOrdered.getText().toString()));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MealView.this);
                         builder.setMessage("Continue shopping?")

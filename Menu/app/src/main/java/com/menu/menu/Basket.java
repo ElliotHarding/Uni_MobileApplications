@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.BaseCallback;
+import com.menu.menu.Classes.BasketItem;
 import com.menu.menu.Classes.DatabaseCommunicator;
+import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.MealsCallback;
 import com.menu.menu.Classes.Order;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 public class Basket extends Fragment
 {
     private View.OnClickListener m_drawerListener;
-    public static ArrayList<Order> orders = new ArrayList<>(); //todo switch this to arraylist to of basketItem class
+    public static ArrayList<BasketItem> basketItems = new ArrayList<>();
     private ListView m_displayList;
     private String m_orderId = null;
 
@@ -57,7 +59,7 @@ public class Basket extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Intent intent = new Intent(getContext(), MealView.class);
-                intent.putExtra("meal", orders.get(position).GetMeal());
+                intent.putExtra("meal", basketItems.get(position).GetMeal());
                 startActivity(intent);
             }
         });
@@ -67,12 +69,35 @@ public class Basket extends Fragment
             @Override
             public void onClick(View view)
             {
-                m_orderId = "todo";
+                if(basketItems.isEmpty())
+                {
+                    SetError("No items to order.");
+                }
+                else
+                {
+                    m_orderId = LocalSettings.GetLocalUser().getId() + "," + basketItems.get(0).GetMeal().getOwnerId();
 
-                UploadOrderCallback uoc = new UploadOrderCallback();
-                uoc.SetMessage("");
-                DatabaseCommunicator dbComms = new DatabaseCommunicator();
-                dbComms.GenericUpload(uoc);
+                    Order newOrder = new Order();
+                    newOrder.setId(m_orderId);
+                    newOrder.setState_c(Order.State.AwatingResponse);
+
+                    ArrayList<String> mealIds = new ArrayList<>();
+                    ArrayList<String> numberOfPortions = new ArrayList<>();
+
+                    for (BasketItem bi : basketItems)
+                    {
+                        mealIds.add(bi.GetMeal().getId());
+                        numberOfPortions.add(bi.GetNumberOfMeals());
+                    }
+
+                    newOrder.setMealIds(mealIds);
+                    newOrder.setNumOfPortionsList(numberOfPortions);
+
+                    DatabaseCommunicator dbComms = new DatabaseCommunicator();
+                    UploadOrderCallback uoc = new UploadOrderCallback();
+                    uoc.SetMessage(newOrder.GetInsertString());
+                    dbComms.GenericUpload(uoc);
+                }
             }
         });
 
@@ -86,17 +111,17 @@ public class Basket extends Fragment
         BasicUpdate();
         DatabaseCommunicator dbComms = new DatabaseCommunicator();
 
-        for (Order order : orders)
+        for (BasketItem basketItem : basketItems)
         {
             UpdateMealOfOrder umoo = new UpdateMealOfOrder();
-            umoo.SetMessage("SELECT * FROM " + dbComms.m_mealTable + " WHERE id='"+order.GetMealId()+"';");
+            umoo.SetMessage("SELECT * FROM " + dbComms.m_mealTable + " WHERE id='"+ basketItem.GetMealId()+"';");
             dbComms.RequestMealData(umoo);
         }
     }
 
     private void BasicUpdate()
     {
-        m_displayList.setAdapter(new BasketListViewItem(getContext(),orders));
+        m_displayList.setAdapter(new BasketListViewItem(getContext(), basketItems));
     }
 
     private class UpdateMealOfOrder extends MealsCallback
@@ -111,14 +136,14 @@ public class Basket extends Fragment
                 {
                     if(!m_meals.isEmpty())
                     {
-                        for (Order order : orders)
+                        for (BasketItem basketItem : basketItems)
                         {
-                            if (order.GetMeal().getId().equals(m_meals.get(0).getId()))
+                            if (basketItem.GetMeal().getId().equals(m_meals.get(0).getId()))
                             {
-                                order.SetMeal(m_meals.get(0));
+                                basketItem.SetMeal(m_meals.get(0));
                             }
                         }
-                        m_displayList.setAdapter(new BasketListViewItem(getContext(),orders));
+                        m_displayList.setAdapter(new BasketListViewItem(getContext(), basketItems));
                     }
                     else
                     {
@@ -156,14 +181,14 @@ public class Basket extends Fragment
 
     //Class used to create a corresponding UI element for each ic_meal in an arraylist of meals
     //These UI elements are then added into displayList
-    class BasketListViewItem extends ArrayAdapter<Order>
+    class BasketListViewItem extends ArrayAdapter<BasketItem>
     {
-        ArrayList<Order> m_orderListRef;
+        ArrayList<BasketItem> m_basketItemListRef;
 
-        public BasketListViewItem(Context c, ArrayList<Order> orderListRef)
+        public BasketListViewItem(Context c, ArrayList<BasketItem> basketItemListRef)
         {
-            super(c, R.layout.layout_meal_info, orderListRef);
-            m_orderListRef = orderListRef;
+            super(c, R.layout.layout_meal_info, basketItemListRef);
+            m_basketItemListRef = basketItemListRef;
         }
 
         @Override
@@ -176,8 +201,8 @@ public class Basket extends Fragment
                 itemView = (LayoutInflater.from(getContext())).inflate(R.layout.layout_basket_item, parent, false);
             }
 
-            final Order currentOrder = m_orderListRef.get(position);
-            final Meal currentMeal = currentOrder.GetMeal();
+            final BasketItem currentBasketItem = m_basketItemListRef.get(position);
+            final Meal currentMeal = currentBasketItem.GetMeal();
 
             //Subject text
             final TextView txt_subject = itemView.findViewById(R.id.li_top);
@@ -185,7 +210,7 @@ public class Basket extends Fragment
 
             //Ammount
             final TextView txt_orderAmount = itemView.findViewById(R.id.li_amount);
-            txt_orderAmount.setText(currentOrder.GetNumberOfMeals());
+            txt_orderAmount.setText(currentBasketItem.GetNumberOfMeals());
 
             //Price
             ((TextView)itemView.findViewById(R.id.li_text)).setText(currentMeal.getPrice() + "£");
@@ -201,12 +226,12 @@ public class Basket extends Fragment
                 @Override
                 public void onClick(View view)
                 {
-                    int mealNumber = currentOrder.GetNumberOfMeals_n();
-                    if(mealNumber < currentOrder.GetMeal().getMaxNoPortions_n())
+                    int mealNumber = currentBasketItem.GetNumberOfMeals_n();
+                    if(mealNumber < currentBasketItem.GetMeal().getMaxNoPortions_n())
                     {
                         mealNumber+=1;
-                        currentOrder.SetNumberOfMeals_n(mealNumber);
-                        txt_orderAmount.setText(currentOrder.GetNumberOfMeals());
+                        currentBasketItem.SetNumberOfMeals_n(mealNumber);
+                        txt_orderAmount.setText(currentBasketItem.GetNumberOfMeals());
                     }
                     BasicUpdate();
                 }
@@ -217,11 +242,11 @@ public class Basket extends Fragment
                 @Override
                 public void onClick(View view)
                 {
-                    int mealNumber = currentOrder.GetNumberOfMeals_n();
+                    int mealNumber = currentBasketItem.GetNumberOfMeals_n();
                     if(mealNumber > 0)
                     {
                         mealNumber-=1;
-                        currentOrder.SetNumberOfMeals_n(mealNumber);
+                        currentBasketItem.SetNumberOfMeals_n(mealNumber);
                     }
                     BasicUpdate();
                 }
@@ -232,7 +257,7 @@ public class Basket extends Fragment
                 @Override
                 public void onClick(View view)
                 {
-                    m_orderListRef.remove(position);
+                    m_basketItemListRef.remove(position);
                     BasicUpdate();
                 }
             });
