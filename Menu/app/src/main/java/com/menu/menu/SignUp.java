@@ -67,7 +67,7 @@ public class SignUp extends AppCompatActivity
                     //Upload user
                     LocalSettings.UpdateLocalUser(m_currentUser);
                     RegisterCallback rcb = new RegisterCallback();
-                    rcb.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.getUsername() + "')" + m_dbComms.m_userInsert + "(" + m_currentUser.GetInsertString() + ");");
+                    rcb.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.getUsername() + "')" + m_currentUser.GetInsertString() + ";");
                     m_dbComms.GenericUpload(rcb);
                 }
                 else
@@ -192,7 +192,6 @@ public class SignUp extends AppCompatActivity
         {
             return "Need to add address";
         }
-
 
         //todo validation...
         return "NO-ERROR";

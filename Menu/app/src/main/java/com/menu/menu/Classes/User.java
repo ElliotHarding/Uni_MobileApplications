@@ -23,12 +23,13 @@ public class User extends SerializableBitmap implements Serializable
     private String m_longitude = null;
     private String m_isChef = null;
     private String m_foodType = null;
+    private final static String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,is_chef,latitude,longitude,food_type) VALUES ";
 
     public String GetInsertString()
     {
         final String d = "','";
-        return getId() + ",'" + getUsername() + d + getPassword() + d + getFullName() + d + getAddressLine1() + d + getAddressLine2() + d + getAddressLine3() + d +
-                getAddressPostCode() + d + getAddressDescription() + d + getDOB() + d + getLoggedIn() + d + getEmail() + d + getPhone() + d + getRating() + d + getIsAdmin() + d + pictureToSql() + d + getIsChef() + d + getLatitude() + d + getLongitude() + d + getFoodType() + d + pictureToSql() + "'";
+        return m_userInsert + "(" + getId() + ",'" + getUsername() + d + getPassword() + d + getFullName() + d + getAddressLine1() + d + getAddressLine2() + d + getAddressLine3() + d +
+                getAddressPostCode() + d + getAddressDescription() + d + getDOB() + d + getLoggedIn() + d + getEmail() + d + getPhone() + d + getRating() + d + getIsAdmin() + d + pictureToSql() + d + getIsChef() + d + getLatitude() + d + getLongitude() + d + getFoodType() + d + pictureToSql() + "')";
     }
 
     public String GetUpdateString()

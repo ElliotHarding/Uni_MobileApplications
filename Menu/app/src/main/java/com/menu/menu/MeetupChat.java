@@ -20,6 +20,7 @@ import com.menu.menu.Classes.BasketItem;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
+import com.menu.menu.Classes.Order;
 import com.menu.menu.Classes.OrdersCallback;
 import com.menu.menu.Classes.User;
 import com.menu.menu.Classes.UsersCallback;
@@ -43,6 +44,7 @@ public class MeetupChat extends AppCompatActivity
     private EditText input_message;
     private ListView listView_messages;
     private ProgressBar m_progressBar;
+    private String m_orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +74,10 @@ public class MeetupChat extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e --- " : "c --- ") + input_message.getText().toString();
+                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e -z- " : "c -z- ") + input_message.getText().toString();
+                input_message.setText("");
+
+                String message = (LocalSettings.GetLocalUser().getId() == m_eater.getId() ? "e -z- " : "c -z- ") + input_message.getText().toString();
                 m_messages.add(message);
                 listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
                 input_message.setText("");
@@ -82,11 +87,11 @@ public class MeetupChat extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey("orderId") && extras.containsKey("forChef"))
         {
-            String orderId = extras.getString("orderId");
+            m_orderId = extras.getString("orderId");
             m_bForChef = extras.getBoolean("forChef");
 
             GetOrderInfoCallback goic = new GetOrderInfoCallback();
-            goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + orderId + "';");
+            goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + m_orderId + "';");
             m_dbComms.RequestOrderData(goic);
 
             m_progressBar.startNestedScroll(1);
@@ -98,6 +103,23 @@ public class MeetupChat extends AppCompatActivity
         }
     }
 
+    private class UpdateMessagesCallback extends OrdersCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if(m_orders != null && !m_orders.isEmpty())
+            {
+                listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_orders.get(0).getMessages()));
+            }
+            else
+            {
+                SetError("Failed to update chat! Check internet?");
+            }
+            return null;
+        }
+    }
+
     private class GetOrderInfoCallback extends OrdersCallback
     {
         @Override
@@ -105,7 +127,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_orders != null && !m_orders.isEmpty())
             {
-                String[] names = m_orders.get(0).getId().split(" --- ");
+                String[] names = m_orders.get(0).getId().split(" -z- ");
                 m_bTakeaway = m_orders.get(0).getIsTakeaway();
 
                 OtherUserInfoCallback ouic = new OtherUserInfoCallback();
@@ -226,7 +248,6 @@ public class MeetupChat extends AppCompatActivity
             if (itemView == null)
             {
                 itemView = (LayoutInflater.from(getContext())).inflate(messageAndType[0].equals("c") ? R.layout.chef_message : R.layout.eater_message, parent, false);
-
             }
 
             //Subject text

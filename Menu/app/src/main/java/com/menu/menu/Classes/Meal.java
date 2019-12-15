@@ -21,13 +21,14 @@ public class Meal extends SerializableBitmap implements Serializable
     private String m_hoursAvaliableFrom = null;
     private String m_hoursAvaliableTo = null;
     private String m_rating = null;
+    private final static String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo,picture,rating) VALUES ";
 
     public String GetInsertString()
     {
         final String d = "','";
-        return "'" + getOwnerId() + d + getName() + d + btos(getHalal()) + d + btos(getVegan()) + d + btos(getVegiterian()) + d + btos(getContainsMilk()) + d + btos(getContainsGluten()) + d +
+        return m_mealInsert + "('" + getOwnerId() + d + getName() + d + btos(getHalal()) + d + btos(getVegan()) + d + btos(getVegiterian()) + d + btos(getContainsMilk()) + d + btos(getContainsGluten()) + d +
                 getIngredients() + d + getCalories() + d + getPrice() + d + getMaxNoPortions() + "', NEWID(),'"
-                + getOwnerUsername() + d + getEatIn() + d + getHoursAvaliableFrom() + d + getHoursAvaliableTo() + d + pictureToSql() + d + getRating() + "'";
+                + getOwnerUsername() + d + getEatIn() + d + getHoursAvaliableFrom() + d + getHoursAvaliableTo() + d + pictureToSql() + d + getRating() + "')";
     }
 
     public String GetUpdateString()

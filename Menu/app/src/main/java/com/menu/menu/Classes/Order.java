@@ -9,13 +9,14 @@ public class Order
     private ArrayList<String> m_numOfPortionsList = new ArrayList<>();
     private String m_currentState = null;
     private String m_mealOrdererId = null;
-    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway) VALUES ";
+    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway,messeges) VALUES ";
     private String m_isTakeaway = null;
+    private ArrayList<String> m_messages = new ArrayList<>();
 
     public String GetInsertString()
     {
         final String d = "','";
-        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + d + m_isTakeaway + "');";
+        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + d + m_isTakeaway + d + getMessages_sql() + "');";
     }
 
     public String getId()
@@ -171,9 +172,38 @@ public class Order
         return getCurrentState();
     }
 
-
     public void SetState(String currentState)
     {
         setCurrentState(currentState);
+    }
+
+    public void setMessages_sql(String stringList)
+    {
+        String[] messages = stringList.split(" --- ");
+        for (String m : messages)
+        {
+            m_messages.add(m);
+        }
+    }
+
+    public void setMessages(ArrayList<String> list)
+    {
+        m_messages = list;
+    }
+
+    public ArrayList<String> getMessages()
+    {
+        return m_messages;
+    }
+
+    public String getMessages_sql()
+    {
+        String combinedMessages = "";
+        for (String s : m_messages)
+        {
+            combinedMessages += s + " --- ";
+        }
+
+        return combinedMessages;
     }
 }

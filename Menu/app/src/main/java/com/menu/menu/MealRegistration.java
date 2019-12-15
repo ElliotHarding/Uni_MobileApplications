@@ -143,7 +143,7 @@ public class MealRegistration extends AppCompatActivity
                 if(GetAndValidateMeal())
                 {
                     AddMealCallback amc = new AddMealCallback();
-                    amc.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_mealTable + " WHERE meal_name = '" + m_currentMeal.getName() + "')" + m_dbComms.m_mealInsert + "(" + m_currentMeal.GetInsertString() + ");");
+                    amc.SetMessage("IF NOT EXISTS (SELECT * FROM " + m_dbComms.m_mealTable + " WHERE meal_name = '" + m_currentMeal.getName() + "') " + m_currentMeal.GetInsertString() + ";");
                     m_dbComms.GenericUpload(amc);
                 }
             }
