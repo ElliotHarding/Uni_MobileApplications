@@ -30,7 +30,6 @@ import android.widget.Toast;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.OrdersCallback;
-import com.menu.menu.ui.home.Home;
 
 public class MainHub extends AppCompatActivity
 {
@@ -70,22 +69,21 @@ public class MainHub extends AppCompatActivity
                         m_navigationView.getMenu().getItem(0).setChecked(true);
                         startActivity(new Intent(MainHub.this, ChefSettings.class));
                         break;
+
                     case R.id.nav_signOut:
                         startActivity(new Intent(MainHub.this, Login.class));
                         break;
+
                     case R.id.nav_settings:
-                        m_navigationView.getMenu().getItem(0).setChecked(true);
-                        startActivity(new Intent(MainHub.this, Settings.class));
+                        m_navigationView.getMenu().getItem(2).setChecked(true);
+                        NavigateToFragment(SettingsFragmentTag);
                         break;
+
                     case R.id.nav_basket:
                         m_navigationView.getMenu().getItem(3).setChecked(true);
-                        //Check not already on that fragment
-                        Fragment hf = getSupportFragmentManager().findFragmentByTag(BasketFragmentTag);
-                        if (hf == null || !hf.isVisible())
-                        {
-                            NavigateToFragment(BasketFragmentTag);
-                        }
+                        NavigateToFragment(BasketFragmentTag);
                         break;
+
                     case R.id.nav_currentOrders:
                         m_navigationView.getMenu().getItem(0).setChecked(true);
                         GetOrderInfoCallback goic = new GetOrderInfoCallback();
@@ -96,12 +94,7 @@ public class MainHub extends AppCompatActivity
 
                     case R.id.nav_home:
 
-                        //Check not already on that fragment
-                        hf = getSupportFragmentManager().findFragmentByTag(HomeFragmentTag);
-                        if (hf == null || !hf.isVisible())
-                        {
-                            NavigateToFragment(HomeFragmentTag);
-                        }
+                        NavigateToFragment(HomeFragmentTag);
                         break;
 
                     case R.id.nav_reportIssue:
@@ -168,26 +161,34 @@ public class MainHub extends AppCompatActivity
 
     private void NavigateToFragment(String tag)
     {
-        Fragment fragment = null;
-
-        switch (tag)
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (fragment == null || !fragment.isVisible())
         {
-            case HomeFragmentTag:
-                fragment = new Home();
-                ((Home)fragment).SetDrawerButtonListner(m_drawerLisner);
-                tag = HomeFragmentTag;
-                break;
+            switch (tag)
+            {
+                case HomeFragmentTag:
+                    fragment = new Home();
+                    ((Home)fragment).SetDrawerButtonListner(m_drawerLisner);
+                    tag = HomeFragmentTag;
+                    break;
 
-            case BasketFragmentTag:
-                fragment = new Basket();
-                ((Basket)fragment).SetDrawerButtonListner(m_drawerLisner);
-                tag = BasketFragmentTag;
-                break;
+                case BasketFragmentTag:
+                    fragment = new Basket();
+                    ((Basket)fragment).SetDrawerButtonListner(m_drawerLisner);
+                    tag = BasketFragmentTag;
+                    break;
+
+                case SettingsFragmentTag:
+                    fragment = new Settings();
+                    ((Settings)fragment).SetDrawerButtonListner(m_drawerLisner);
+                    tag = SettingsFragmentTag;
+                    break;
+            }
+
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragmentHolder, fragment, tag);
+            ft.commit();
         }
-
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragmentHolder, fragment, tag);
-        ft.commit();
     }
 
     @Override

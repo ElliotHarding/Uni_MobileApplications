@@ -2,15 +2,16 @@ package com.menu.menu;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,25 +28,26 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 
-public class Settings extends AppCompatActivity
+public class Settings extends Fragment
 {
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
     private User m_currentUser = LocalSettings.GetLocalUser();
     private ImageView m_img_image = null;
     private DatePickerDialog.OnDateSetListener m_onDobSetListener = null;
+    private View.OnClickListener m_drawerListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        root.findViewById(R.id.drawerToggle).setOnClickListener(m_drawerListener);
 
-        final EditText input_email = findViewById(R.id.input_name);
-        final EditText input_phone = findViewById(R.id.input_phone);
-        final EditText input_fullName = findViewById(R.id.input_fullName);
-        final EditText input_password = findViewById(R.id.input_password);
-        final TextView txt_edit_dob = findViewById(R.id.txt_edit_dob);
-        m_img_image = findViewById(R.id.img_image);
+        final EditText input_email = root.findViewById(R.id.input_name);
+        final EditText input_phone = root.findViewById(R.id.input_phone);
+        final EditText input_fullName = root.findViewById(R.id.input_fullName);
+        final EditText input_password = root.findViewById(R.id.input_password);
+        final TextView txt_edit_dob = root.findViewById(R.id.txt_edit_dob);
+        m_img_image = root.findViewById(R.id.img_image);
 
         input_email.setText(m_currentUser.getEmail());
         input_phone.setText(m_currentUser.getPhone());
@@ -57,8 +59,7 @@ public class Settings extends AppCompatActivity
             m_img_image.setImageBitmap(m_currentUser.getPicture());
         }
 
-
-        findViewById(R.id.btn_saveSettigns).setOnClickListener(new View.OnClickListener()
+        root.findViewById(R.id.btn_saveSettigns).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -82,12 +83,12 @@ public class Settings extends AppCompatActivity
             }
         });
 
-        findViewById(R.id.btn_addressSettings).setOnClickListener(new View.OnClickListener()
+        root.findViewById(R.id.btn_addressSettings).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(Settings.this, AddressEdit.class));
+                startActivity(new Intent(getContext(), AddressEdit.class));
             }
         });
 
@@ -100,12 +101,12 @@ public class Settings extends AppCompatActivity
             }
         });
 
-        findViewById(R.id.btn_chef).setOnClickListener(new View.OnClickListener()
+        root.findViewById(R.id.btn_chef).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(Settings.this, ChefAccountSettings.class));
+                startActivity(new Intent(getContext(), ChefAccountSettings.class));
             }
         });
 
@@ -151,23 +152,30 @@ public class Settings extends AppCompatActivity
                     }
                 }
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Settings.this, m_onDobSetListener, day, month, year);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), m_onDobSetListener, day, month, year);
                 datePickerDialog.setTitle("Date of Birth");
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 datePickerDialog.show();
             }
         });
+
+        return root;
+    }
+
+    public void SetDrawerButtonListner(View.OnClickListener listener)
+    {
+        m_drawerListener = listener;
     }
 
     @Override
-    protected void onResume()
+    public void onResume()
     {
         super.onResume();
         m_currentUser = LocalSettings.GetLocalUser();
     }
 
     //Overridden so we can get the uploaded image
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -177,7 +185,7 @@ public class Settings extends AppCompatActivity
             Uri selectedImage = data.getData();
             try
             {
-                m_currentUser.setPicture(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage));
+                m_currentUser.setPicture(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage));
                 m_img_image.setImageBitmap(m_currentUser.getPicture());
             }
             catch (FileNotFoundException e)
@@ -193,12 +201,14 @@ public class Settings extends AppCompatActivity
 
     private void NavigateHome()
     {
-        startActivity(new Intent(Settings.this, MainHub.class));
+        Intent intent = new Intent(getContext(), MainHub.class);
+        intent.putExtra("fragment", MainHub.HomeFragmentTag);
+        startActivity(intent);
     }
 
     private void SetError(String errorString)
     {
-        Toast t = Toast.makeText(Settings.this, errorString, Toast.LENGTH_LONG);
+        Toast t = Toast.makeText(getActivity(), errorString, Toast.LENGTH_LONG);
         t.show();
     }
 
@@ -214,7 +224,7 @@ public class Settings extends AppCompatActivity
             }
             else
             {
-                runOnUiThread(new Runnable()
+                getActivity().runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run()
@@ -227,4 +237,5 @@ public class Settings extends AppCompatActivity
             return null;
         }
     }
+
 }

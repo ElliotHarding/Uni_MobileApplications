@@ -1,4 +1,4 @@
-package com.menu.menu.ui.home;
+package com.menu.menu;
 
 import android.content.Intent;
 import android.location.Location;
@@ -24,13 +24,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.menu.menu.ChefMeals;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.User;
 import com.menu.menu.Classes.UsersCallback;
-import com.menu.menu.MainHub;
-import com.menu.menu.R;
-import com.menu.menu.SearchResults;
 
 import java.util.ArrayList;
 
