@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class MeetupChat extends AppCompatActivity
     private TextView txt_state;
     private EditText input_message;
     private ListView listView_messages;
+    private ProgressBar m_progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,6 +58,7 @@ public class MeetupChat extends AppCompatActivity
         txt_state = findViewById(R.id.txt_state);
         input_message = findViewById(R.id.txt_messageInput);
         listView_messages = findViewById(R.id.listView_messages);
+        m_progressBar = findViewById(R.id.progressBar);
 
         findViewById(R.id.btn_postMessage).setOnClickListener(new View.OnClickListener()
         {
@@ -78,6 +81,9 @@ public class MeetupChat extends AppCompatActivity
             GetOrderInfoCallback goic = new GetOrderInfoCallback();
             goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + orderId + "';");
             m_dbComms.RequestOrderData(goic);
+
+            m_progressBar.startNestedScroll(1);
+            m_progressBar.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -112,6 +118,8 @@ public class MeetupChat extends AppCompatActivity
             else
             {
                 SetError("Data not found! Check internet?");
+                m_progressBar.setVisibility(View.INVISIBLE);
+                m_progressBar.stopNestedScroll();
             }
             return null;
         }
@@ -161,10 +169,14 @@ public class MeetupChat extends AppCompatActivity
                                 txt_state.setText("On route");
                             }
                         }
+                        m_progressBar.setVisibility(View.INVISIBLE);
+                        m_progressBar.stopNestedScroll();
                     }
                     else
                     {
                         SetError("Data not found! Check internet?");
+                        m_progressBar.setVisibility(View.INVISIBLE);
+                        m_progressBar.stopNestedScroll();
                     }
                 }
             });
