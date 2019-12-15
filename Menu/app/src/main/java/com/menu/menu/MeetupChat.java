@@ -74,6 +74,10 @@ public class MeetupChat extends AppCompatActivity
             String orderId = extras.getString("orderId");
             m_bForChef = extras.getBoolean("forChef");
             m_bTakeaway = extras.getBoolean("isTakeaway");
+
+            GetOrderInfoCallback goic = new GetOrderInfoCallback();
+            goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + orderId + "';");
+            m_dbComms.RequestOrderData(goic);
         }
         else
         {
@@ -88,7 +92,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_orders != null && !m_orders.isEmpty())
             {
-                String[] names = m_orders.get(0).getId().split(",");
+                String[] names = m_orders.get(0).getId().split("$");
 
                 OtherUserInfoCallback ouic = new OtherUserInfoCallback();
 

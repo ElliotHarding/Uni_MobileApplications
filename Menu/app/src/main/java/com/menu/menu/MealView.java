@@ -98,21 +98,17 @@ public class MealView extends AppCompatActivity
 
                                     case DialogInterface.BUTTON_NEGATIVE:
 
-                                        if (switch_takeaway.isChecked())
-                                        {
-                                            Intent intent = new Intent(MealView.this, MainHub.class);
-                                            intent.putExtra("fragment", MainHub.BasketFragmentTag);
-                                            finish();
-                                            startActivity(intent);
-                                        }
-
+                                        Intent intent = new Intent(MealView.this, MainHub.class);
+                                        intent.putExtra("fragment", MainHub.BasketFragmentTag);
+                                        finish();
+                                        startActivity(intent);
                                         break;
                                 }
                             }
                         };
 
                         //Add meal to basket
-                        Basket.basketItems.add(new BasketItem(m_meal, input_numDishesOrdered.getText().toString()));
+                        Basket.basketItems.add(new BasketItem(m_meal, input_numDishesOrdered.getText().toString(), switch_takeaway.isChecked()));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MealView.this);
                         builder.setMessage("Continue shopping?")

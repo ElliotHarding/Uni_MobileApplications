@@ -8,17 +8,19 @@ public class BasketItem implements Serializable
     private String m_mealId = null; //Even though we have m_meal, it may not be set at all times...
     private String m_numberOfMeals = null;
     private Meal m_meal = null;
+    private Boolean m_isTakeaway = null;
 
     public BasketItem()
     {
     }
 
     //Creating a basket order
-    public BasketItem(Meal meal, String numberOfMeals)
+    public BasketItem(Meal meal, String numberOfMeals, boolean isTakeaway)
     {
         m_meal = meal;
         m_mealId = meal.getId();
         m_numberOfMeals = numberOfMeals;
+        m_isTakeaway = isTakeaway;
     }
 
     public String getId()
@@ -77,5 +79,15 @@ public class BasketItem implements Serializable
     public void SetNumberOfMeals_n(int num)
     {
         m_numberOfMeals = String.valueOf(num);
+    }
+
+    public Boolean getTakeaway()
+    {
+        return m_isTakeaway;
+    }
+
+    public void setTakeaway(Boolean takeaway)
+    {
+        m_isTakeaway = takeaway;
     }
 }

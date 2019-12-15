@@ -75,7 +75,7 @@ public class Basket extends Fragment
                 }
                 else
                 {
-                    m_orderId = LocalSettings.GetLocalUser().getId() + "," + basketItems.get(0).GetMeal().getOwnerId();
+                    m_orderId = LocalSettings.GetLocalUser().getId() + "$" + basketItems.get(0).GetMeal().getOwnerId();
 
                     Order newOrder = new Order();
                     newOrder.setId(m_orderId);
@@ -176,6 +176,7 @@ public class Basket extends Fragment
                         Intent intent = new Intent(getContext(), MeetupChat.class);
                         intent.putExtra("orderId", m_orderId);
                         intent.putExtra("forChef", false);
+                        intent.putExtra("isTakeaway", basketItems.get(0).getTakeaway());
                         startActivity(intent);
                     }
                     else
