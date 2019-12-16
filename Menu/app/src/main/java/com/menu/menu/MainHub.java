@@ -103,10 +103,6 @@ public class MainHub extends AppCompatActivity
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainHub.this);
                         builder.setTitle("Send Error Report");
 
-                        final EditText input = new EditText(MainHub.this);
-                        input.setInputType(InputType.TYPE_CLASS_TEXT);
-                        builder.setView(input);
-
                         // Set up the buttons
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -115,14 +111,16 @@ public class MainHub extends AppCompatActivity
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                                 intent.setData(Uri.parse("mailto:"));
                                 intent.putExtra(Intent.EXTRA_EMAIL, "MeNU.contact.us@gmail.com");
-                                intent.putExtra(Intent.EXTRA_SUBJECT, "Issue from" + LocalSettings.GetLocalUser().getId());
-                                intent.putExtra(Intent.ACTION_DEFAULT, input.getText().toString());
+                                intent.putExtra(Intent.EXTRA_SUBJECT, "Issue from " + LocalSettings.GetLocalUser().getId());
                                 if (intent.resolveActivity(getPackageManager()) != null)
                                 {
                                     startActivity(intent);
-                                    SetError("Message sent. We will be sure to get back to you asap.");
                                 }
-                                SetError("Failed to send report. Check internet?");
+                                else
+                                {
+                                    SetError("Failed to send report. Check internet?");
+                                }
+
                             }
                         });
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
