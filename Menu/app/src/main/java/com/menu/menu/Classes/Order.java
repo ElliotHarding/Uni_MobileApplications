@@ -207,7 +207,7 @@ public class Order
     public String getMessages_sql()
     {
         if(m_messages.size() == 0)
-            return "";
+            return "null";
 
         String combinedMessages = "";
         for (String s : m_messages)

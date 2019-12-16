@@ -146,12 +146,12 @@ public class MeetupChat extends AppCompatActivity
                 }
             }
         };
-        m_updateThread.start();
     }
 
     @Override
     public void onBackPressed()
     {
+        m_updateThread.stop();
         m_updateThread = null;
         super.onBackPressed();
     }
@@ -170,6 +170,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_message.equals("null"))
             {
+                m_updateThread.stop();
                 m_updateThread = null;
                 startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
@@ -221,6 +222,9 @@ public class MeetupChat extends AppCompatActivity
                     if(m_orders != null && !m_orders.isEmpty())
                     {
                         m_messages = m_orders.get(0).getMessages();
+                        if(m_messages.get(0).equals("null"))
+                            m_messages.remove(0);
+
                         listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
                     }
                     else
@@ -260,7 +264,15 @@ public class MeetupChat extends AppCompatActivity
             }
             else
             {
-                SetError("Data not found! Check internet?");
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Data not found! Check internet?");
+                    }
+                });
+
                 m_progressBar.setVisibility(View.INVISIBLE);
                 m_progressBar.stopNestedScroll();
             }
@@ -325,15 +337,14 @@ public class MeetupChat extends AppCompatActivity
                                 txt_state.setVisibility(View.VISIBLE);
                             }
                         }
-                        m_progressBar.setVisibility(View.INVISIBLE);
-                        m_progressBar.stopNestedScroll();
                     }
                     else
                     {
                         SetError("Data not found! Check internet?");
-                        m_progressBar.setVisibility(View.INVISIBLE);
-                        m_progressBar.stopNestedScroll();
                     }
+                    m_progressBar.setVisibility(View.INVISIBLE);
+                    m_progressBar.stopNestedScroll();
+                    m_updateThread.start();
                 }
             });
             return null;
