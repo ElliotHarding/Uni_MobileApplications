@@ -262,7 +262,10 @@ public class MealRegistration extends AppCompatActivity
 
     private void NavigateToPreviousPage()
     {
-        startActivity(new Intent(MealRegistration.this, ChefSettings.class));
+        Intent intent = new Intent(MealRegistration.this, MainHub.class);
+        intent.putExtra("fragment", MainHub.MyMealsFragmentTag);
+        finish();
+        startActivity(intent);
     }
 
     private String ValidateMeal(Meal meal)

@@ -32,10 +32,6 @@ public class Basket extends Fragment
     private ListView m_displayList;
     private String m_orderId = null;
 
-    public Basket()
-    {
-    }
-
     public void SetDrawerButtonListner(View.OnClickListener listener)
     {
         m_drawerListener = listener;

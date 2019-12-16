@@ -2,8 +2,6 @@ package com.menu.menu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,18 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.BaseCallback;
-import com.menu.menu.Classes.BasketItem;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
-import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.Order;
 import com.menu.menu.Classes.OrdersCallback;
 import com.menu.menu.Classes.User;

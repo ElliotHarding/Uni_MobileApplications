@@ -37,6 +37,7 @@ public class MainHub extends AppCompatActivity
     public static final String HomeFragmentTag = "HOME_FRAGMENT";
     public static final String BasketFragmentTag = "BASKET_FRAGMENT";
     public static final String SettingsFragmentTag = "SETTINGS_FRAGMENT";
+    public static final String MyMealsFragmentTag = "MY_MEALS_FRAGMENT";
 
     private NavigationView m_navigationView;
 
@@ -66,8 +67,8 @@ public class MainHub extends AppCompatActivity
                 switch (menuItem.getItemId())
                 {
                     case R.id.nav_chefSettigns:
-                        m_navigationView.getMenu().getItem(0).setChecked(true);
-                        startActivity(new Intent(MainHub.this, ChefSettings.class));
+                        m_navigationView.getMenu().getItem(1).setChecked(true);
+                        NavigateToFragment(MyMealsFragmentTag);
                         break;
 
                     case R.id.nav_signOut:
@@ -185,6 +186,12 @@ public class MainHub extends AppCompatActivity
                     fragment = new Settings();
                     ((Settings)fragment).SetDrawerButtonListner(m_drawerLisner);
                     tag = SettingsFragmentTag;
+                    break;
+
+                case MyMealsFragmentTag:
+                    fragment = new MyMeals();
+                    ((MyMeals)fragment).SetDrawerButtonListner(m_drawerLisner);
+                    tag = MyMealsFragmentTag;
                     break;
             }
 
