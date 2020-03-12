@@ -34,11 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:text="Address"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_isVegan" />
+        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
 
     <TextView
         android:id="@+id/txt_addressFill"
@@ -130,55 +129,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_ingredients" />
 
-    <RadioButton
-        android:id="@+id/radio_isHalal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="20dp"
-        android:enabled="false"
-        android:text="Halal "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
-
-    <RadioButton
-        android:id="@+id/radio_isVegan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="Vegan "
-        app:layout_constraintEnd_toEndOf="@+id/radio_containsGluten"
-        app:layout_constraintTop_toBottomOf="@+id/radio_containsGluten" />
-
-    <RadioButton
-        android:id="@+id/radio_isVegetarian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="35dp"
-        android:enabled="false"
-        android:text="Vegetarian "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radio_isHalal" />
-
-    <RadioButton
-        android:id="@+id/radio_containsGluten"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="Gluten "
-        app:layout_constraintEnd_toStartOf="@+id/radio_isVegetarian"
-        app:layout_constraintStart_toEndOf="@+id/radio_isHalal"
-        app:layout_constraintTop_toTopOf="@+id/radio_isHalal" />
-
-    <RadioButton
-        android:id="@+id/radio_containsMilk"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:enabled="false"
-        android:text="Milk "
-        app:layout_constraintStart_toStartOf="@+id/radio_isHalal"
-        app:layout_constraintTop_toBottomOf="@+id/radio_isHalal" />
-
     <Switch
         android:id="@+id/switch_eatIn"
         android:layout_width="140dp"
@@ -208,5 +158,16 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/txt_numberMeals"
         tools:layout_editor_absoluteX="1dp" />
+
+    <Button
+        android:id="@+id/btn_viewAllergenInfo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="3dp"
+        android:background="@android:drawable/ic_menu_info_details"
+        android:backgroundTint="#FD0F0F0F"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_ingredients"
+        app:layout_constraintStart_toEndOf="@+id/txt_ingredients"
+        app:layout_constraintTop_toTopOf="@+id/txt_ingredients" />
 
 </android.support.constraint.ConstraintLayout>
