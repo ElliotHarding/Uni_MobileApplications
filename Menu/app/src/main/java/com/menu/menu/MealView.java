@@ -72,10 +72,15 @@ public class MealView extends AppCompatActivity
             final Dialog allergenDialog = new Dialog(this);
             allergenDialog.setContentView(R.layout.alergen_info_dialog);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_containsGluten)).setChecked(m_meal.getContainsGluten());
+            allergenDialog.findViewById(R.id.radio_containsGluten).setEnabled(false);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_containsMilk)).setChecked(m_meal.getContainsMilk());
+            allergenDialog.findViewById(R.id.radio_containsMilk).setEnabled(false);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_isHalal)).setChecked(m_meal.getHalal());
+            allergenDialog.findViewById(R.id.radio_isHalal).setEnabled(false);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_isVegan)).setChecked(m_meal.getVegan());
+            allergenDialog.findViewById(R.id.radio_isVegan).setEnabled(false);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_isVegetarian)).setChecked(m_meal.getVegiterian());
+            allergenDialog.findViewById(R.id.radio_isVegetarian).setEnabled(false);
             findViewById(R.id.btn_viewAllergenInfo).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

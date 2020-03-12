@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.menu.menu.MealRegistration">
 
+    <Button
+        android:id="@+id/btn_viewAllergenInfo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:drawable/ic_menu_info_details"
+        android:backgroundTint="#FD0F0F0F"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_ingredients"
+        app:layout_constraintStart_toEndOf="@+id/txt_fullName"
+        app:layout_constraintTop_toTopOf="@+id/txt_fullName" />
+
     <EditText
         android:id="@+id/input_name"
         android:layout_width="0dp"
@@ -185,57 +196,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_order"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Switch
-        android:id="@+id/switch_isHalal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:text="Halal    "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
-
-    <Switch
-        android:id="@+id/switch_isVegan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:text="Vegan "
-        app:layout_constraintEnd_toStartOf="@+id/switch_isVegetarian"
-        app:layout_constraintStart_toEndOf="@+id/switch_isHalal"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
-
-    <Switch
-        android:id="@+id/switch_isVegetarian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:text="Vegetarian "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
-
-    <Switch
-        android:id="@+id/switch_containsGluten"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:text="Gluten  "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_isHalal" />
-
-    <Switch
-        android:id="@+id/switch_containsMilk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Milk     "
-        app:layout_constraintStart_toStartOf="@+id/switch_isVegan"
-        app:layout_constraintTop_toBottomOf="@+id/switch_isVegan" />
-
     <TextView
         android:id="@+id/txt_HoursAvaliableFrom"
         android:layout_width="175dp"
@@ -244,21 +204,21 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Hours Avaliable From"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_containsMilk" />
+        app:layout_constraintTop_toBottomOf="@+id/input_ingredients" />
 
     <TextView
         android:id="@+id/txt_HoursAvaliableTo"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:gravity="center"
         android:text="Hours Avaliable To"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_pickDateFrom" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_HoursAvaliableFrom"
+        app:layout_constraintTop_toTopOf="@+id/txt_HoursAvaliableFrom" />
 
     <TextView
         android:id="@+id/txt_pickDateFrom"

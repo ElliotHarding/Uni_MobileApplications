@@ -1,6 +1,7 @@
 package com.menu.menu;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -42,11 +44,11 @@ public class MealRegistration extends AppCompatActivity
     EditText m_input_calories = null;
     Switch m_switch_takeaway = null;
     Switch m_switch_eatIn = null;
-    Switch m_switch_isHalal = null;
-    Switch m_switch_isVegan = null;
-    Switch m_switch_isVegiterian = null;
-    Switch m_switch_containsMilk = null;
-    Switch m_switch_containsGluten = null;
+    RadioButton m_switch_isHalal = null;
+    RadioButton m_switch_isVegan = null;
+    RadioButton m_switch_isVegiterian = null;
+    RadioButton m_switch_containsMilk = null;
+    RadioButton m_switch_containsGluten = null;
     TextView m_txt_pickDateFrom = null;
     TextView m_txt_pickDateTo = null;
     TextView m_txt_hoursAvaliableFrom = null;
@@ -68,16 +70,25 @@ public class MealRegistration extends AppCompatActivity
         m_input_ingredients = findViewById(R.id.input_ingredients);
         m_switch_takeaway = findViewById(R.id.switch_takeaway);
         m_switch_eatIn = findViewById(R.id.switch_eatIn);
-        m_switch_isHalal = findViewById(R.id.switch_isHalal);
-        m_switch_containsGluten = findViewById(R.id.switch_containsGluten);
-        m_switch_containsMilk = findViewById(R.id.switch_containsMilk);
-        m_switch_isVegan = findViewById(R.id.switch_isVegan);
-        m_switch_isVegiterian = findViewById(R.id.switch_isVegetarian);
         m_txt_pickDateFrom = findViewById(R.id.txt_pickDateFrom);
         m_txt_pickDateTo = findViewById(R.id.txt_pickDateTo);
         m_txt_hoursAvaliableFrom = findViewById(R.id.txt_HoursAvaliableFrom);
         m_txt_hoursAvaliableTo = findViewById(R.id.txt_HoursAvaliableTo);
         m_input_calories = findViewById(R.id.input_calories);
+
+        final Dialog allergenDialog = new Dialog(this);
+        allergenDialog.setContentView(R.layout.alergen_info_dialog);
+        findViewById(R.id.btn_viewAllergenInfo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allergenDialog.show();
+            }
+        });
+        m_switch_isHalal = allergenDialog.findViewById(R.id.radio_isHalal);
+        m_switch_containsGluten = allergenDialog.findViewById(R.id.radio_containsGluten);
+        m_switch_containsMilk = allergenDialog.findViewById(R.id.radio_containsMilk);
+        m_switch_isVegan = allergenDialog.findViewById(R.id.radio_isVegan);
+        m_switch_isVegiterian = allergenDialog.findViewById(R.id.radio_isVegetarian);
 
         final Button btn_add = findViewById(R.id.btn_order);
         final Button btn_delete = findViewById(R.id.btn_delete);
