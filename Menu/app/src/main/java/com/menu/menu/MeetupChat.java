@@ -43,6 +43,7 @@ public class MeetupChat extends AppCompatActivity
     private String m_orderId;
     private ArrayList<String> m_messages = new ArrayList<>();
     private Thread m_updateThread = null;
+    private boolean m_bContinueUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -123,6 +124,7 @@ public class MeetupChat extends AppCompatActivity
         });
 
         //Update messages every second
+        m_bContinueUpdate = true;
         m_updateThread = new Thread()
         {
             @Override
@@ -130,7 +132,7 @@ public class MeetupChat extends AppCompatActivity
             {
                 try
                 {
-                    while (!isInterrupted())
+                    while (!isInterrupted() && m_bContinueUpdate)
                     {
                         Thread.sleep(1000);
                         runOnUiThread(new Runnable()
@@ -151,9 +153,17 @@ public class MeetupChat extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        m_updateThread.stop();
+        m_bContinueUpdate = false;
         m_updateThread = null;
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        m_bContinueUpdate = false;
+        m_updateThread = null;
+        super.onStop();
     }
 
     private void UpdateMessages()
@@ -170,7 +180,7 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_message.equals("null"))
             {
-                m_updateThread.stop();
+                m_bContinueUpdate = false;
                 m_updateThread = null;
                 startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
@@ -344,6 +354,7 @@ public class MeetupChat extends AppCompatActivity
                     }
                     m_progressBar.setVisibility(View.INVISIBLE);
                     m_progressBar.stopNestedScroll();
+                    m_bContinueUpdate = true;
                     m_updateThread.start();
                 }
             });

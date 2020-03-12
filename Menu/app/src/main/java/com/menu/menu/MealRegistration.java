@@ -95,7 +95,8 @@ public class MealRegistration extends AppCompatActivity
         final Button btn_update = findViewById(R.id.btn_update);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null && extras.containsKey("meal")) {
+        if(extras != null && extras.containsKey("meal"))
+        {
             m_currentMeal = (Meal) extras.getSerializable("meal");
 
             m_input_name.setText(m_currentMeal.getName());
@@ -121,7 +122,10 @@ public class MealRegistration extends AppCompatActivity
                 m_img_image.setImageBitmap(FailedBitmap);
                 FailedBitmap = null;
             }
-
+            else
+            {
+                m_img_image.setImageResource(R.drawable.ic_meal);
+            }
 
             btn_add.setVisibility(View.INVISIBLE);
             btn_update.setVisibility(View.VISIBLE);
@@ -131,6 +135,8 @@ public class MealRegistration extends AppCompatActivity
             m_currentMeal = new Meal();
             m_currentMeal.setOwnerUsername(LocalSettings.GetLocalUser().getUsername());
             m_currentMeal.setOwnerId(LocalSettings.GetLocalUser().getId());
+
+            m_img_image.setImageResource(R.drawable.ic_meal);
 
             //Since the meal is new, don't need to delete it...
             btn_delete.setVisibility(View.INVISIBLE);

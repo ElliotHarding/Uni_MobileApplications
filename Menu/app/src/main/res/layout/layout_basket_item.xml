@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/li_text"
@@ -31,7 +32,7 @@
         android:gravity="center"
         android:textSize="16sp" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -39,7 +40,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:background="#00535151" />
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:srcCompat="@drawable/ic_meal" />
 
     <Button
         android:id="@+id/btn_remove"

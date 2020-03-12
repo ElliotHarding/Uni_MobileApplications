@@ -60,6 +60,10 @@ public class MealView extends AppCompatActivity
                 ((ImageView)findViewById(R.id.img_image)).setImageBitmap(FailedBitmap);
                 FailedBitmap = null;
             }
+            else
+            {
+                ((ImageView)findViewById(R.id.img_image)).setImageResource(R.drawable.ic_meal);
+            }
 
             ((TextView)findViewById(R.id.txt_rating)).setText(m_meal.getRating() +"/5");
 

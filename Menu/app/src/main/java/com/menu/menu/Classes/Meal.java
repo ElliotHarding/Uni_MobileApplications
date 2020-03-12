@@ -252,7 +252,7 @@ public class Meal extends SerializableBitmap implements Serializable
     public String getRating()
     {
         if(m_rating == null || m_rating.equals("null"))
-            return "-";
+            return "0";
         return m_rating;
     }
 

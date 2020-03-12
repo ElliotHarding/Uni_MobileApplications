@@ -33,6 +33,7 @@ dependencies {
     implementation files('libs/commons-io-2.6.jar')
     implementation 'com.google.android.gms:play-services-maps:11.0.4'
     implementation 'com.google.android.gms:play-services-location:11.0.4'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }
 
 

@@ -62,6 +62,8 @@ public class MealListViewItem extends ArrayAdapter<Meal>
         Bitmap bmp = currentMeal.getPicture();
         if(bmp!=null)
             img.setImageBitmap(bmp);
+        else
+            img.setImageResource(R.drawable.ic_meal);
 
         return itemView;
     }
