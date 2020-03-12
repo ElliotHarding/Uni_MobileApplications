@@ -5,22 +5,22 @@ import java.io.Serializable;
 public class Meal extends SerializableBitmap implements Serializable
 {
     private String m_ownerId = null;
-    private String m_name = null;
-    private Boolean m_bIsHalal = null;
-    private Boolean m_bIsVegan = null;
-    private Boolean m_bIsVegiterian = null;
-    private Boolean m_bContainsMilk = null;
-    private Boolean m_bContainsGluten = null;
-    private String m_ingredients = null;
-    private String m_calories = null;
-    private String m_price = null;
-    private String m_maxNoPortions = null;
+    private String m_name = "No name";
+    private Boolean m_bIsHalal = false;
+    private Boolean m_bIsVegan = false;
+    private Boolean m_bIsVegiterian = false;
+    private Boolean m_bContainsMilk = false;
+    private Boolean m_bContainsGluten = false;
+    private String m_ingredients = "No ingredients";
+    private String m_calories = "0";
+    private String m_price = "0";
+    private String m_maxNoPortions = "0";
     private String m_id = null;
     private String m_ownerUsername = null;
-    private String m_eatIn = null;
-    private String m_hoursAvaliableFrom = null;
-    private String m_hoursAvaliableTo = null;
-    private String m_rating = null;
+    private String m_eatIn = "false";
+    private String m_hoursAvaliableFrom = "0";
+    private String m_hoursAvaliableTo = "0";
+    private String m_rating = "5";
     private final static String m_mealInsert = "INSERT INTO [menudatabase].[dbo].[meal] (owner_user_id,meal_name,is_halal,is_vegan,is_vegiterian,contains_milk,contains_gluten,ingredients_list,estimated_calories,price,number_of_portions_avaliable,id,ownerUsername,eatIn,hoursAvaliableFrom,hoursAvaliableTo,picture,rating) VALUES ";
 
     public String GetInsertString()

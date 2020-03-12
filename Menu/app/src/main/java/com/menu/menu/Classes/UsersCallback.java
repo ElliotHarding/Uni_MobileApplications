@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class UsersCallback extends BaseCallback
 {
     protected ArrayList<User> m_users = null;
-    void AddUsers(ArrayList<User> u)
+    public void AddUsers(ArrayList<User> u)
     {
         m_users = u;
     }

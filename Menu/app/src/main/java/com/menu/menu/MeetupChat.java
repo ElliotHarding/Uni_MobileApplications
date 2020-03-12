@@ -368,7 +368,7 @@ public class MeetupChat extends AppCompatActivity
 
         public MessageListViewAdapter(Context c, ArrayList<String> messageListRef)
         {
-            super(c, R.layout.eater_message, messageListRef);
+            super(c, R.layout.layout_message_eater, messageListRef);
             m_messageListRef = messageListRef;
         }
 
@@ -382,7 +382,7 @@ public class MeetupChat extends AppCompatActivity
             View itemView = convertView;
             if (itemView == null)
             {
-                itemView = (LayoutInflater.from(getContext())).inflate(messageAndType[0].equals("c") ? R.layout.chef_message : R.layout.eater_message, parent, false);
+                itemView = (LayoutInflater.from(getContext())).inflate(messageAndType[0].equals("c") ? R.layout.layout_message_chef : R.layout.layout_message_eater, parent, false);
             }
 
             //Subject text

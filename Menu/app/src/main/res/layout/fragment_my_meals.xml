@@ -46,10 +46,23 @@
         android:id="@+id/btn_addMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:text="New"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_myMeals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:text="My Meals"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_addMeal"
+        app:layout_constraintEnd_toStartOf="@+id/btn_addMeal"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toEndOf="@+id/drawerToggle"
+        app:layout_constraintTop_toTopOf="@+id/btn_addMeal" />
 
 </android.support.constraint.ConstraintLayout>

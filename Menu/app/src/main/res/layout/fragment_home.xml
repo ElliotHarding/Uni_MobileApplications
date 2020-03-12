@@ -49,22 +49,20 @@
         android:id="@+id/btn_locate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_refresh"
+        app:layout_constraintTop_toBottomOf="@+id/btn_refresh"
         app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/btn_locate"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/drawerToggle"
+        app:layout_constraintTop_toBottomOf="@+id/drawerToggle"
         app:srcCompat="@drawable/ic_meal" />
 
 </android.support.constraint.ConstraintLayout>
