@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="140dp"
+    android:layout_height="180dp"
+    android:orientation="vertical">
+
+    <Switch
+        android:id="@+id/radio_isVegan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:enabled="true"
+        android:text="Vegan "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/radio_isVegetarian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="Vegetarian "
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/radio_isVegan"
+        app:layout_constraintTop_toBottomOf="@+id/radio_isVegan" />
+
+    <Switch
+        android:id="@+id/radio_containsGluten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="Gluten "
+        app:layout_constraintStart_toStartOf="@+id/radio_containsMilk"
+        app:layout_constraintTop_toBottomOf="@+id/radio_containsMilk" />
+
+    <Switch
+        android:id="@+id/radio_containsMilk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="Milk "
+        app:layout_constraintStart_toStartOf="@+id/radio_isVegetarian"
+        app:layout_constraintTop_toBottomOf="@+id/radio_isVegetarian" />
+
+    <Switch
+        android:id="@+id/radio_isHalal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="Halal "
+        app:layout_constraintStart_toStartOf="@+id/radio_containsGluten"
+        app:layout_constraintTop_toBottomOf="@+id/radio_containsGluten" />
+
+</android.support.constraint.ConstraintLayout>

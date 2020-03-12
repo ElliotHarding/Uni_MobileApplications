@@ -44,11 +44,11 @@ public class MealRegistration extends AppCompatActivity
     EditText m_input_calories = null;
     Switch m_switch_takeaway = null;
     Switch m_switch_eatIn = null;
-    RadioButton m_switch_isHalal = null;
-    RadioButton m_switch_isVegan = null;
-    RadioButton m_switch_isVegiterian = null;
-    RadioButton m_switch_containsMilk = null;
-    RadioButton m_switch_containsGluten = null;
+    Switch m_switch_isHalal = null;
+    Switch m_switch_isVegan = null;
+    Switch m_switch_isVegiterian = null;
+    Switch m_switch_containsMilk = null;
+    Switch m_switch_containsGluten = null;
     TextView m_txt_pickDateFrom = null;
     TextView m_txt_pickDateTo = null;
     TextView m_txt_hoursAvaliableFrom = null;
@@ -77,7 +77,7 @@ public class MealRegistration extends AppCompatActivity
         m_input_calories = findViewById(R.id.input_calories);
 
         final Dialog allergenDialog = new Dialog(this);
-        allergenDialog.setContentView(R.layout.alergen_info_dialog);
+        allergenDialog.setContentView(R.layout.dialog_alergen_info_editable);
         findViewById(R.id.btn_viewAllergenInfo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

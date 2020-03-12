@@ -74,7 +74,7 @@ public class MealView extends AppCompatActivity
 
 
             final Dialog allergenDialog = new Dialog(this);
-            allergenDialog.setContentView(R.layout.alergen_info_dialog);
+            allergenDialog.setContentView(R.layout.dialog_alergen_info);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_containsGluten)).setChecked(m_meal.getContainsGluten());
             allergenDialog.findViewById(R.id.radio_containsGluten).setEnabled(false);
             ((RadioButton)allergenDialog.findViewById(R.id.radio_containsMilk)).setChecked(m_meal.getContainsMilk());
