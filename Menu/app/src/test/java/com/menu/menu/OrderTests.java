@@ -2,212 +2,86 @@ package com.menu.menu;
 
 import com.menu.menu.Classes.Order;
 
+import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+
 public class OrderTests
 {
     Order m_testOrder = new Order();
 
-    public String GetInsertString()
+    @Test
+    public void Test_InsertString()
     {
-        final String d = "','";
-        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + d + m_isTakeaway + d + getMessages_sql() + "');";
+        assertEquals(m_testOrder.GetInsertString(), "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway,messages) VALUES ('null','','','null','null','null','null');");
     }
 
-    public String getId()
+    @Test
+    public void Test_Id()
     {
-        return m_id;
+        m_testOrder.setId("id");
+        assertEquals(m_testOrder.getId(), "id");
     }
 
-    public void setId(String id)
+    @Test
+    public void Test_MealIds()
     {
-        this.m_id = id;
+        ArrayList<String> mealIds = new ArrayList<>();
+        mealIds.add("s");
+        m_testOrder.setMealIds_sql("s");
+        assertEquals(m_testOrder.getMealIds(), mealIds);
+        m_testOrder.setMealIds(mealIds);
+        assertEquals(m_testOrder.getMealIds(), mealIds);
     }
 
-    public ArrayList<String> getMealIds()
+    @Test
+    public void Test_NumOfPortionsList()
     {
-        return m_mealIds;
+        ArrayList<String> numOfPortions = new ArrayList<>();
+        numOfPortions.add("s");
+        m_testOrder.setNumOfPortionsList(numOfPortions);
+        assertEquals(m_testOrder.getNumOfPortionsList(), numOfPortions);
     }
 
-    private String getMealIds_sql()
+    @Test
+    public void Test_CurrentState()
     {
-        if(m_mealIds.size() == 0)
-            return "";
+        m_testOrder.setCurrentState("state");
+        assertEquals(m_testOrder.getCurrentState(), "state");
 
-        String retString = "";
-        for (String s : m_mealIds)
-        {
-            retString += s + "$";
-        }
+        m_testOrder.setState_c(Order.State.AwatingResponse);
+        assertEquals(m_testOrder.getState_c(), Order.State.AwatingResponse);
+        assertEquals(m_testOrder.getCurrentState(), "Awaiting Response From Chef");
 
-        return retString.substring(0, retString.length()-1);
+        m_testOrder.setState_c(Order.State.BeingMade);
+        assertEquals(m_testOrder.getState_c(), Order.State.BeingMade);
+        assertEquals(m_testOrder.getCurrentState(), "Being Made");
     }
 
-    public void setMealIds(ArrayList<String> mealIds)
+    @Test
+    public void Test_MealOrdererId()
     {
-        this.m_mealIds = mealIds;
+        m_testOrder.setMealOrdererId("yyy");
+        assertEquals(m_testOrder.getMealOrdererId(), "yyy");
     }
 
-    public void setMealIds_sql(String string)
+    @Test
+    public void Test_Takeaway()
     {
-        String[] list = string.split("$");
-        for (String s : list)
-        {
-            m_mealIds.add(s);
-        }
+        m_testOrder.setIsTakeaway_b(true);
+        assertEquals(m_testOrder.getIsTakeaway(), true);
     }
 
-    private String getNumOfPortionsList_sql()
+    @Test
+    public void Test_Messages()
     {
-        if(m_numOfPortionsList.size() == 0)
-            return "";
+        ArrayList<String> list = new ArrayList<>();
+        list.add("s");
+        m_testOrder.setMessages(list);
 
-        String retString = "";
-        for (String s : m_numOfPortionsList)
-        {
-            retString += s + "$";
-        }
-
-        return retString.substring(0, retString.length()-1);
-    }
-
-    public ArrayList<String> getNumOfPortionsList()
-    {
-        return m_numOfPortionsList;
-    }
-
-    public void setNumOfPortionsList_sql(String string)
-    {
-        String[] list = string.split("$");
-        for (String s : list)
-        {
-            m_numOfPortionsList.add(s);
-        }
-    }
-
-    public void setNumOfPortionsList(ArrayList<String> numOfPortionsList)
-    {
-        this.m_numOfPortionsList = numOfPortionsList;
-    }
-
-    public String getCurrentState()
-    {
-        return m_currentState;
-    }
-
-    public void setCurrentState(String currentState)
-    {
-        this.m_currentState = currentState;
-    }
-
-    public void setMealOrdererId(String userElement)
-    {
-        m_mealOrdererId = userElement;
-    }
-
-    public String getMealOrdererId()
-    {
-        return m_mealOrdererId;
-    }
-
-    public boolean getIsTakeaway()
-    {
-        return m_isTakeaway.equals("true");
-    }
-
-    public void setIsTakeaway_b(Boolean isTakeaway)
-    {
-        m_isTakeaway = isTakeaway ? "true" : "false";
-    }
-
-    public void setIsTakeaway(String isTakeaway)
-    {
-        m_isTakeaway = isTakeaway;
-    }
-
-    public enum State
-    {
-        AwatingResponse,
-        InBasket,
-        BeingMade,
-        OnRoute,
-        Delivered
-    }
-
-    public State getState_c()
-    {
-        switch (getCurrentState())
-        {
-            case "Awaiting Response From Chef":
-                return State.AwatingResponse;
-            case "Being Made":
-                return State.BeingMade;
-            case "On Route":
-                return State.OnRoute;
-            case "Delivered":
-                return State.Delivered;
-            case "In Basket":
-                return State.InBasket;
-            default:
-                return null;
-        }
-    }
-
-    public void setState_c(State cState)
-    {
-        switch (cState)
-        {
-            case AwatingResponse:
-                SetState("Awaiting Response From Chef");
-            case BeingMade:
-                SetState("Being Made");
-            case OnRoute:
-                SetState("On Route");
-            case Delivered:
-                SetState("Delivered");
-            case InBasket:
-                SetState("In Basket");
-        }
-    }
-
-    public String GetState()
-    {
-        return getCurrentState();
-    }
-
-    public void SetState(String currentState)
-    {
-        setCurrentState(currentState);
-    }
-
-    public void setMessages_sql(String stringList)
-    {
-        String[] messages = stringList.split(" --- ");
-        for (String m : messages)
-        {
-            m_messages.add(m);
-        }
-    }
-
-    public void setMessages(ArrayList<String> list)
-    {
-        m_messages = list;
-    }
-
-    public ArrayList<String> getMessages()
-    {
-        return m_messages;
-    }
-
-    public String getMessages_sql()
-    {
-        if(m_messages.size() == 0)
-            return "null";
-
-        String combinedMessages = "";
-        for (String s : m_messages)
-        {
-            combinedMessages += s + " --- ";
-        }
-
-        return combinedMessages.substring(0, combinedMessages.length() - 5);
+        assertEquals(m_testOrder.getMessages(), list);
+        assertEquals(m_testOrder.getMessages_sql(), "s");
     }
 }

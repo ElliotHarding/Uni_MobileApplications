@@ -164,14 +164,19 @@ public class Order
         {
             case AwatingResponse:
                 SetState("Awaiting Response From Chef");
+                break;
             case BeingMade:
                 SetState("Being Made");
+                break;
             case OnRoute:
                 SetState("On Route");
+                break;
             case Delivered:
                 SetState("Delivered");
+                break;
             case InBasket:
                 SetState("In Basket");
+                break;
         }
     }
 
