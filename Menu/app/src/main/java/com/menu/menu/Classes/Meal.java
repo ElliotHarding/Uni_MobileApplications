@@ -149,7 +149,21 @@ public class Meal extends SerializableBitmap implements Serializable
 
     public String getIngredients()
     {
-        return m_ingredients;
+        String retval = "";
+        for(int i = 0; i < m_ingredients.length(); i++)
+        {
+            if(m_ingredients.charAt(i) == 92)
+            {
+                retval += "\n";
+                i++;
+            }
+            else
+            {
+                retval += m_ingredients.charAt(i);
+            }
+        }
+
+        return retval;
     }
 
     public void setIngredients(String ingredients)

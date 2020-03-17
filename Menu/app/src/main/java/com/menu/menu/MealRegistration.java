@@ -97,9 +97,8 @@ public class MealRegistration extends AppCompatActivity
         if(extras != null && extras.containsKey("meal"))
         {
             m_currentMeal = (Meal) extras.getSerializable("meal");
-
-            m_input_name.setText(m_currentMeal.getName());
             m_input_ingredients.setText(m_currentMeal.getIngredients());
+            m_input_name.setText(m_currentMeal.getName());
             m_input_maxNumberOfDishes.setText(m_currentMeal.getMaxNoPortions());
             m_input_price.setText(m_currentMeal.getPrice());
             m_switch_takeaway.setChecked(m_currentMeal.IsTakeaway());

@@ -1,7 +1,6 @@
 package com.menu.menu.Classes;
 
 import android.os.AsyncTask;
-import com.google.firebase.database.FirebaseDatabase;
 import org.apache.commons.io.IOUtils;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -62,7 +61,6 @@ public class DatabaseCommunicator
 
                     for (String user: results)
                     {
-                        user = user.substring(0, user.length()-1);
                         String userElements[] = user.split(",");
 
                         User u = new User();
@@ -203,7 +201,6 @@ public class DatabaseCommunicator
 
                     for (String order: results)
                     {
-                        order = order.substring(0, order.length()-1);
                         String userElements[] = order.split(",");
 
                         Order o = new Order();
