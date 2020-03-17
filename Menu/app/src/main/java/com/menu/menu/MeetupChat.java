@@ -182,6 +182,7 @@ public class MeetupChat extends AppCompatActivity
             {
                 m_bContinueUpdate = false;
                 m_updateThread = null;
+                Basket.basketItems.clear();
                 startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
             else

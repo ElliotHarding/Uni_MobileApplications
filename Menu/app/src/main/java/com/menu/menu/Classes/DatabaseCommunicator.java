@@ -134,7 +134,6 @@ public class DatabaseCommunicator
 
                     for (String meal: results)
                     {
-                        meal = meal.substring(0, meal.length()-1);
                         String userElements[] = meal.split(",");
 
                         Meal m = new Meal();
@@ -169,7 +168,7 @@ public class DatabaseCommunicator
 
             if(params[0].m_meals == null)
             {
-                params[0].SetMessage("Failed. Check internet connection");
+                params[0].SetMessage("No meals. Check internet connection?");
             }
 
             //Call callback
@@ -292,6 +291,12 @@ public class DatabaseCommunicator
         {
             results = response.split("\\[");
         }
+
+        for (int x = 0; x < results.length; x++)
+        {
+            results[x] = results[x].replaceAll("]", "");
+        }
+
         return results;
     }
 }

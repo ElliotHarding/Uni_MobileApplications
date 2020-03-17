@@ -226,6 +226,8 @@ public class Basket extends Fragment
             Bitmap bmp = currentMeal.getPicture();
             if(bmp!=null)
                 img.setImageBitmap(bmp);
+            else
+                img.setImageResource(R.drawable.ic_meal);
 
             itemView.findViewById(R.id.btn_portionsAdd).setOnClickListener(new View.OnClickListener()
             {
