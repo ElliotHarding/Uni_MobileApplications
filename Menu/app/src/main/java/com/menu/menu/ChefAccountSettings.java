@@ -1,14 +1,14 @@
 package com.menu.menu;
 
-/*
+
 import android.app.TimePickerDialog;
-import android.content.Intent;
+//import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.TimePicker;
-import com.menu.menu.Classes.BaseCallback;
-import com.menu.menu.Classes.DatabaseCommunicator;
-*/
+//import com.menu.menu.Classes.BaseCallback;
+//import com.menu.menu.Classes.DatabaseCommunicator;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +27,8 @@ public class ChefAccountSettings extends AppCompatActivity
     TextView m_txt_pickDateTo = null;
     TextView m_txt_hoursAvaliableFrom = null;
     TextView m_txt_hoursAvaliableTo = null;
-    //TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
-    //TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
+    TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
+    TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
     String m_hoursAvaliableFrom = null;
     String m_hoursAvaliableTo = null;
 
@@ -47,8 +47,8 @@ public class ChefAccountSettings extends AppCompatActivity
         m_txt_hoursAvaliableTo = findViewById(R.id.txt_hoursAvaliableTo);
 
         //May remove...
-        m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
-        m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+        //m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+        //m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
 
         if(m_currentUser != null)
         {
@@ -66,8 +66,8 @@ public class ChefAccountSettings extends AppCompatActivity
                 findViewById(R.id.txt_foodSpeciality).setVisibility(View.INVISIBLE);
                 m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
                 m_txt_pickDateTo.setVisibility(View.INVISIBLE);
-                //m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
-                //m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+                m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+                m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -76,33 +76,41 @@ public class ChefAccountSettings extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
-                //todo validate food type
-                m_currentUser.setFoodType(input_foodType.getText().toString());
                 m_currentUser.setIsChef_b(switch_chef.isChecked());
-                LocalSettings.UpdateLocalUser(m_currentUser);
 
-                if(!switch_chef.isChecked() || (m_hoursAvaliableFrom == null && m_hoursAvaliableTo == null))
+                if(switch_chef.isChecked())
                 {
-                    onBackPressed();
-                }
-                /*else
-                {
-                    if(m_hoursAvaliableFrom != null && m_hoursAvaliableTo != null)
+                    if(input_foodType.getText() != null && input_foodType.getText().toString() != "")
                     {
+                        m_currentUser.setFoodType(input_foodType.getText().toString());
 
-                        //to-do set loading bar
-                        UpdateMealCallback umc = new UpdateMealCallback();
-                        DatabaseCommunicator dbComms = new DatabaseCommunicator();
-                        umc.SetMessage("UPDATE " + dbComms.m_mealTable + " SET hoursAvaliableFrom='" + m_hoursAvaliableFrom + "' WHERE owner_user_id='" + LocalSettings.LocalUser.Id + "';");
-                        dbComms.GenericUpload(umc);
+                        if(m_hoursAvaliableFrom != null && m_hoursAvaliableTo != null)
+                        {
+                            //to-do set loading bar
+                            //UpdateMealCallback umc = new UpdateMealCallback();
+                            //DatabaseCommunicator dbComms = new DatabaseCommunicator();
+                            //umc.SetMessage("UPDATE " + dbComms.m_mealTable + " SET hoursAvaliableFrom='" + m_hoursAvaliableFrom + "' WHERE owner_user_id='" + LocalSettings.LocalUser.Id + "';");
+                            //dbComms.GenericUpload(umc);
 
+                            //For now...
+                            LocalSettings.UpdateLocalUser(m_currentUser);
+                            onBackPressed();
+                        }
+                        else
+                        {
+                            SetError("Make sure both time to & from are set for meal times.");
+                        }
                     }
                     else
                     {
-                        SetError("Make sure both time to & from are set for meal times.");
+                        SetError("Please enter in a food speciality.");
                     }
-                }*/
+                }
+                else
+                {
+                    LocalSettings.UpdateLocalUser(m_currentUser);
+                    onBackPressed();
+                }
             }
         });
 
@@ -115,24 +123,24 @@ public class ChefAccountSettings extends AppCompatActivity
                 {
                     input_foodType.setVisibility(View.VISIBLE);
                     findViewById(R.id.txt_foodSpeciality).setVisibility(View.VISIBLE);
-                    //m_txt_pickDateFrom.setVisibility(View.VISIBLE);
-                    //m_txt_pickDateTo.setVisibility(View.VISIBLE);
-                    //m_txt_hoursAvaliableFrom.setVisibility(View.VISIBLE);
-                    //m_txt_hoursAvaliableTo.setVisibility(View.VISIBLE);
+                    m_txt_pickDateFrom.setVisibility(View.VISIBLE);
+                    m_txt_pickDateTo.setVisibility(View.VISIBLE);
+                    m_txt_hoursAvaliableFrom.setVisibility(View.VISIBLE);
+                    m_txt_hoursAvaliableTo.setVisibility(View.VISIBLE);
                 }
                 else
                 {
                     input_foodType.setVisibility(View.INVISIBLE);
                     findViewById(R.id.txt_foodSpeciality).setVisibility(View.INVISIBLE);
-                    //m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
-                    //m_txt_pickDateTo.setVisibility(View.INVISIBLE);
-                    //m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
-                    //m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+                    m_txt_pickDateFrom.setVisibility(View.INVISIBLE);
+                    m_txt_pickDateTo.setVisibility(View.INVISIBLE);
+                    m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
+                    m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        /*
+
         m_onHoursFromSetListener = new TimePickerDialog.OnTimeSetListener()
         {
             @Override
@@ -178,7 +186,6 @@ public class ChefAccountSettings extends AppCompatActivity
         };
         m_txt_pickDateTo.setOnClickListener(pickDateToListener);
         m_txt_hoursAvaliableTo.setOnClickListener(pickDateToListener);
-         */
     }
 
     private void SetError(String errorString)
