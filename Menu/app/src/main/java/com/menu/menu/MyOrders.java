@@ -1,6 +1,7 @@
 package com.menu.menu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,9 +55,9 @@ public class MyOrders extends Fragment
         {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                //Intent intent = new Intent(getContext(), MealView.class);
-                //intent.putExtra("meal", m_orders.get(position).getMealId());
-                //startActivity(intent);
+                Intent intent = new Intent(getContext(), MeetupChat.class);
+                intent.putExtra("orderId", m_displayedOrders.get(position).getId());
+                startActivity(intent);
             }
         });
 
@@ -80,6 +81,7 @@ public class MyOrders extends Fragment
 
         GetOrdersCallback goc = new GetOrdersCallback();
         goc.SetMessage("SELECT * FROM " + m_dbComms.m_orderTable + " WHERE meal_chef_id = '"+ LocalSettings.GetLocalUser().getId() +"' OR meal_eater_id='"+LocalSettings.GetLocalUser().getId()+"'");
+        m_dbComms.RequestOrderData(goc);
     }
 
     private void SetError(String errorString)
@@ -181,7 +183,7 @@ public class MyOrders extends Fragment
             View itemView = convertView;
             if (itemView == null)
             {
-                itemView = (LayoutInflater.from(getContext())).inflate(R.layout.layout_basket_item, parent, false);
+                itemView = (LayoutInflater.from(getContext())).inflate(R.layout.layout_order_info, parent, false);
             }
 
             final Order currentOrder = m_orderItemListRef.get(position);
@@ -192,10 +194,10 @@ public class MyOrders extends Fragment
 
             //Ammount
             final TextView txt_orderAmount = itemView.findViewById(R.id.li_top2);
-            txt_orderAmount.setText(currentOrder.getNumberOfPortions());
+            txt_orderAmount.setText("Portions :" + currentOrder.getNumberOfPortions());
 
             //Price
-            ((TextView)itemView.findViewById(R.id.li_text)).setText(currentOrder.getMeal().getName() );
+            ((TextView)itemView.findViewById(R.id.li_text)).setText(currentOrder.getMeal().getName());
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);
