@@ -28,7 +28,7 @@ public class SearchResults extends AppCompatActivity
 {
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
     private ArrayList<Meal> m_mealInfoArray = new ArrayList<>();
-    private List<User> m_userInfoArray = new ArrayList<>();
+    private ArrayList<User> m_userInfoArray = new ArrayList<>();
     private ListView m_displayList;
     private EditText m_searchText;
     private Boolean m_bShowingUsers = true;
@@ -111,11 +111,13 @@ public class SearchResults extends AppCompatActivity
         m_progressBar.startNestedScroll(1);
         m_progressBar.setVisibility(View.VISIBLE);
 
+        m_userInfoArray.clear();
+
         SearchResults.GetChefsListCallback gclc = new SearchResults.GetChefsListCallback();
         String message = "SELECT * FROM " + m_dbComms.m_userTable + " WHERE is_chef = 'true' ";
         if(where != null)
         {
-            message += "AND " + where;
+            message += "AND name LIKE '%"+where+"%'";
         }
         gclc.SetMessage(message + ";");
         m_displayList.setAdapter(new SearchResults.UserListAdaptor());
@@ -127,11 +129,13 @@ public class SearchResults extends AppCompatActivity
         m_progressBar.startNestedScroll(1);
         m_progressBar.setVisibility(View.VISIBLE);
 
+        m_mealInfoArray.clear();
+
         SearchResults.GetMealsListCallback gmlc = new SearchResults.GetMealsListCallback();
         String message = "SELECT * FROM " + m_dbComms.m_mealTable + " ";
         if(where != null)
         {
-            message += where;
+            message += "WHERE meal_name LIKE '%"+where+"%''";;
         }
         gmlc.SetMessage(message + ";");
         m_displayList.setAdapter(new MealListViewItem(getApplicationContext(),m_mealInfoArray));
@@ -219,14 +223,17 @@ public class SearchResults extends AppCompatActivity
                 @Override
                 public void run()
                 {
-                    if(!m_users.isEmpty())
+                    if(m_users != null && !m_users.isEmpty())
                     {
                         m_userInfoArray = m_users;
                         m_displayList.setAdapter(new SearchResults.UserListAdaptor());
                     }
                     else
                     {
-                        SetError(m_message);
+                        if(m_users == null)
+                            SetError("Check internet connection!");
+                        else
+                            SetError("No chefs found.");
                     }
                     m_progressBar.setVisibility(View.INVISIBLE);
                     m_progressBar.stopNestedScroll();

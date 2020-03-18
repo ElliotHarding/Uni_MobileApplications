@@ -28,7 +28,6 @@ public class MeetupChat extends AppCompatActivity
 {
     private User m_eater = null;
     private User m_chef = null;
-    private boolean m_bThisIsChef = false;
     private boolean m_bTakeaway = false;
 
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
@@ -37,7 +36,6 @@ public class MeetupChat extends AppCompatActivity
     private TextView txt_addressLine3;
     private TextView txt_postCode;
     private TextView txt_meetingName;
-    private TextView txt_state;
     private EditText input_message;
     private ListView listView_messages;
     private ProgressBar m_progressBar;
@@ -66,7 +64,6 @@ public class MeetupChat extends AppCompatActivity
         txt_addressLine2.setVisibility(View.INVISIBLE);
         txt_addressLine3.setVisibility(View.INVISIBLE);
         txt_postCode.setVisibility(View.INVISIBLE);
-        txt_state.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey("orderId"))
@@ -335,11 +332,6 @@ public class MeetupChat extends AppCompatActivity
                                 txt_addressLine2.setVisibility(View.VISIBLE);
                                 txt_addressLine3.setVisibility(View.VISIBLE);
                                 txt_postCode.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                txt_state.setText("On route");
-                                txt_state.setVisibility(View.VISIBLE);
                             }
                         }
                     }

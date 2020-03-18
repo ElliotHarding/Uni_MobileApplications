@@ -32,7 +32,7 @@ public class Order
     public String getInsertString()
     {
         final String d = "','";
-        return m_startInsert + "(" + m_id + m_mealId + d + m_mealChefId + d + m_mealEaterId + d + m_numOfPortions + d + m_currentState + d + m_isTakeaway + d + getMessages_sql() + "');";
+        return m_startInsert + "(" + m_id + ",'" + m_mealId + d + m_mealChefId + d + m_mealEaterId + d + m_numOfPortions + d + m_currentState + d + m_isTakeaway + d + getMessages_sql() + "');";
     }
 
     public String getUpdateString()
