@@ -72,6 +72,7 @@ public class MainHub extends AppCompatActivity
                         break;
 
                     case R.id.nav_signOut:
+                        LocalSettings.SignOutUser(getApplicationContext());
                         startActivity(new Intent(MainHub.this, Login.class));
                         break;
 

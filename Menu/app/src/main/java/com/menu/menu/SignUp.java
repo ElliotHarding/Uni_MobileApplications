@@ -46,8 +46,10 @@ public class SignUp extends AppCompatActivity
         final TextView txt_edit_dob = findViewById(R.id.txt_edit_dob);
         final EditText input_password = findViewById(R.id.input_password);
         m_img_image = findViewById(R.id.img_image);
+        m_img_image.setImageResource(R.drawable.ic_meal);
 
-        m_currentUser = LocalSettings.GetLocalUser();
+        m_currentUser = new User();
+        LocalSettings.UpdateLocalUser(m_currentUser);
 
         findViewById(R.id.btn_signUp).setOnClickListener(new View.OnClickListener()
         {
@@ -107,12 +109,12 @@ public class SignUp extends AppCompatActivity
         m_onDobSetListener = new DatePickerDialog.OnDateSetListener()
         {
             @Override
-            public void onDateSet(DatePicker datePicker, int day, int month, int year)
+            public void onDateSet(DatePicker datePicker, int year, int month, int day)
             {
                 Date d = new Date(day, month, year);
                 if (d.before(Date.from(Instant.now())))
                 {
-                    String dob = year + "-" + month + "-" + day;
+                    String dob = day + "-" + (month+1) + "-" +  year;
                     m_currentUser.setDOB(dob);
                     txt_edit_dob.setText(dob);
                 }
@@ -132,21 +134,7 @@ public class SignUp extends AppCompatActivity
                 int month = 1;
                 int year = 2000;
 
-                String dob = m_currentUser.getDOB();
-                if(dob != null)
-                {
-                    try
-                    {
-                        day = Integer.parseInt(dob.split("-")[0]);
-                        month = Integer.parseInt(dob.split("-")[1]);
-                        year = Integer.parseInt(dob.split("-")[2]);
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUp.this, m_onDobSetListener, day, month, year);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUp.this, m_onDobSetListener, year, month, day);
                 datePickerDialog.setTitle("Date of Birth");
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 datePickerDialog.show();
@@ -183,7 +171,7 @@ public class SignUp extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        m_currentUser = LocalSettings.GetLocalUser();
+        //m_currentUser = LocalSettings.GetLocalUser(); todo check why this is here
     }
 
     public static String ValidateSettings(User u)
@@ -219,14 +207,21 @@ public class SignUp extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            if(m_message.equals("null"))
+            runOnUiThread(new Runnable()
             {
-                startActivity(new Intent(SignUp.this, MainHub.class));
-            }
-            else
-            {
-                SetError("Failed to add user! Check internet connection");
-            }
+                @Override
+                public void run()
+                {
+                    if(m_message.equals("null"))
+                    {
+                        startActivity(new Intent(SignUp.this, MainHub.class));
+                    }
+                    else
+                    {
+                        SetError("Failed to add user! Check internet connection");
+                    }
+                }
+            });
             return null;
         }
     }

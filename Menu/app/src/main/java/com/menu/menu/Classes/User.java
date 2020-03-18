@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class User extends SerializableBitmap implements Serializable
 {
     private String m_id = "NEWID()";
-    private String m_username = "elliot"; //todo testing...
-    private String m_password = "elliot";
+    private String m_username = null; //todo testing...
+    private String m_password = null;
     private String m_fullName = null;
     private String m_addressLine1 = null;
     private String m_addressLine2 = null;
@@ -23,13 +23,13 @@ public class User extends SerializableBitmap implements Serializable
     private String m_longitude = null;
     private String m_isChef = null;
     private String m_foodType = null;
-    private final static String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,is_chef,latitude,longitude,food_type) VALUES ";
+    private final static String m_userInsert = "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_post_code,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,is_chef,latitude,longitude,food_type,picture_id) VALUES ";
 
     public String GetInsertString()
     {
         final String d = "','";
         return m_userInsert + "(" + getId() + ",'" + getUsername() + d + getPassword() + d + getFullName() + d + getAddressLine1() + d + getAddressLine2() + d + getAddressLine3() + d +
-                getAddressPostCode() + d + getAddressDescription() + d + getDOB() + d + getLoggedIn() + d + getEmail() + d + getPhone() + d + getRating() + d + getIsAdmin() + d + pictureToSql() + d + getIsChef() + d + getLatitude() + d + getLongitude() + d + getFoodType() + d + pictureToSql() + "')";
+                getAddressPostCode() + d + getAddressDescription() + d + getDOB() + d + getLoggedIn() + d + getEmail() + d + getPhone() + d + getRating() + d + getIsAdmin() + d + getIsChef() + d + getLatitude() + d + getLongitude() + d + getFoodType() + d + pictureToSql() + "')";
     }
 
     public String GetUpdateString()
@@ -195,6 +195,8 @@ public class User extends SerializableBitmap implements Serializable
 
     public Boolean getIsChef_b()
     {
+        if(m_isChef == null)
+            return false;
         return m_isChef.equals("true");
     }
 

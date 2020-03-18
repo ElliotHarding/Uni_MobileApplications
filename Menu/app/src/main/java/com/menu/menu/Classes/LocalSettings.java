@@ -17,6 +17,12 @@ public class LocalSettings
         m_localUser.setPassword(userSettings.getString("Password", ""));
     }
 
+    public static void SignOutUser(Context context)
+    {
+        SaveLoginDetails(null, null, context);
+        m_localUser = new User();
+    }
+
     public static void UpdateLocalUser(User u)
     {
         m_localUser = u;
