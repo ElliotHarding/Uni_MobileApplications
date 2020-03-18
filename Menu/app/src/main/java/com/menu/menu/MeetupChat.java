@@ -70,10 +70,9 @@ public class MeetupChat extends AppCompatActivity
         txt_state.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null && extras.containsKey("orderId") && extras.containsKey("forChef"))
+        if(extras != null && extras.containsKey("orderId"))
         {
             m_orderId = extras.getString("orderId");
-            //m_bForChef = extras.getBoolean("forChef");
 
             GetOrderInfoCallback goic = new GetOrderInfoCallback();
             goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + m_orderId + "';");
@@ -183,7 +182,6 @@ public class MeetupChat extends AppCompatActivity
             {
                 m_bContinueUpdate = false;
                 m_updateThread = null;
-                //Basket.basketItems.clear();
                 startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
             else
@@ -256,20 +254,16 @@ public class MeetupChat extends AppCompatActivity
         {
             if(m_orders != null && !m_orders.isEmpty())
             {
-                String[] names = m_orders.get(0).getId().split(" --- ");
-                m_bTakeaway = m_orders.get(0).getIsTakeaway();
-
                 OtherUserInfoCallback ouic = new OtherUserInfoCallback();
-
-                if(names[0].equals(LocalSettings.GetLocalUser().getId()))
+                if(m_orders.get(0).getEaterId().equals(LocalSettings.GetLocalUser().getId()))
                 {
                     m_eater = LocalSettings.GetLocalUser();
-                    ouic.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE id='" + names[1] +"';");
+                    ouic.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE id='" + m_orders.get(0).getChefId() +"';");
                 }
                 else
                 {
                     m_chef = LocalSettings.GetLocalUser();
-                    ouic.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE id='" + names[0] +"';");
+                    ouic.SetMessage("SELECT * FROM " + m_dbComms.m_userTable + " WHERE id='" + m_orders.get(0).getEaterId() +"';");
                 }
 
                 m_dbComms.RequestUserData(ouic);

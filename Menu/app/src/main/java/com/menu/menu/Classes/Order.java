@@ -124,6 +124,11 @@ public class Order
         m_mealChefId = id;
     }
 
+    public String getChefId()
+    {
+        return m_mealChefId;
+    }
+
     public enum State
     {
         AwatingResponse,

@@ -61,8 +61,6 @@ public class MyOrders extends Fragment
             }
         });
 
-        update();
-
         return root;
     }
 
@@ -78,6 +76,7 @@ public class MyOrders extends Fragment
         m_progressBar.startNestedScroll(1);
         m_progressBar.setVisibility(View.VISIBLE);
 
+        m_displayedOrders = new ArrayList<>();
 
         GetOrdersCallback goc = new GetOrdersCallback();
         goc.SetMessage("SELECT * FROM " + m_dbComms.m_orderTable + " WHERE meal_chef_id = '"+ LocalSettings.GetLocalUser().getId() +"' OR meal_eater_id='"+LocalSettings.GetLocalUser().getId()+"'");
