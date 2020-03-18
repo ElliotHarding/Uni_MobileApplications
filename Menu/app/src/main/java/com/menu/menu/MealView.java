@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menu.menu.Classes.DatabaseCommunicator;
+import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.Meal;
 import com.menu.menu.Classes.BasketItem;
+import com.menu.menu.Classes.Order;
 import com.menu.menu.Classes.UsersCallback;
 
 public class MealView extends AppCompatActivity
@@ -101,7 +103,7 @@ public class MealView extends AppCompatActivity
                     try
                     {
                         int orderedDishes = Integer.parseInt(input_numDishesOrdered.getText().toString());
-                        if(!(orderedDishes < Integer.parseInt(m_meal.getMaxNoPortions()) && orderedDishes > 0))
+                        if(!(orderedDishes <= Integer.parseInt(m_meal.getMaxNoPortions()) && orderedDishes > 0))
                         {
                             SetError("Number of dishes to order surpasses the maximum " + m_meal.getMaxNoPortions());
                             return;
@@ -137,8 +139,8 @@ public class MealView extends AppCompatActivity
                             }
                         };
 
-                        //Add meal to basket
-                        Basket.basketItems.add(new BasketItem(m_meal, input_numDishesOrdered.getText().toString(), switch_takeaway.isChecked()));
+                        //Add order
+                        Basket.addOrder(new Order(m_meal, m_meal.getOwnerId(), LocalSettings.GetLocalUser().getId(), input_numDishesOrdered.getText().toString(), switch_takeaway.isChecked()));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MealView.this);
                         builder.setMessage("Continue shopping?")

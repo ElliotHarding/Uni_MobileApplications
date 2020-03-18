@@ -4,19 +4,41 @@ import java.util.ArrayList;
 
 public class Order
 {
-    private String m_id = null;
-    private ArrayList<String> m_mealIds = new ArrayList<>();
-    private ArrayList<String> m_numOfPortionsList = new ArrayList<>();
+    private String m_id = "NEWID()";
+    private String m_mealId = null;
+    private Meal m_meal = null;
+    private String m_mealChefId = null;
+    private String m_mealEaterId = null;
+    private String m_numOfPortions = null;
     private String m_currentState = null;
-    private String m_mealOrdererId = null;
-    private final static String m_startInsert = "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway,messages) VALUES ";
     private String m_isTakeaway = null;
     private ArrayList<String> m_messages = new ArrayList<>();
 
-    public String GetInsertString()
+    public Order()
+    {
+    }
+
+    public Order(Meal meal, String mealChefId, String mealEaterId, String numberOfPortions, boolean isTakeaway)
+    {
+        m_mealId = meal.getId();
+        m_meal = meal;
+        m_mealChefId = mealChefId;
+        m_mealEaterId = mealEaterId;
+        m_numOfPortions = numberOfPortions;
+        setIsTakeaway_b(isTakeaway);
+    }
+
+    private final static String m_startInsert = "INSERT INTO " + DatabaseCommunicator.m_orderTable + " (id, meal_id, meal_chef_id, meal_eater_id, num_portions_ordered, current_state, is_takeaway, messages) VALUES ";
+    public String getInsertString()
     {
         final String d = "','";
-        return m_startInsert + "('" + m_id + d + getNumOfPortionsList_sql() + d + getMealIds_sql() + d + getMealOrdererId() + d + getCurrentState() + d + m_isTakeaway + d + getMessages_sql() + "');";
+        return m_startInsert + "('" + m_id + d + m_mealId + d + m_mealChefId + d + m_mealEaterId + d + m_numOfPortions + d + m_currentState + d + m_isTakeaway + d + getMessages_sql() + "');";
+    }
+
+    public String getUpdateString()
+    {
+        final String d = "','";
+        return "UPDATE" + DatabaseCommunicator.m_orderTable + " SET meal_id='"+m_mealId+"', meal_chef_id='"+m_mealChefId+"', meal_eater_id='"+m_mealEaterId+"', num_portions_ordered='"+m_numOfPortions+"', current_state='"+m_currentState+"', is_takeaway='"+m_isTakeaway+"', messages='" + getMessages_sql() + "' WHERE id='"+m_id+"'";
     }
 
     public String getId()
@@ -29,70 +51,37 @@ public class Order
         this.m_id = id;
     }
 
-    public ArrayList<String> getMealIds()
+    public void setNumberOfPortions(String numOfPortions)
     {
-        return m_mealIds;
+        m_numOfPortions = numOfPortions;
     }
 
-    private String getMealIds_sql()
+    public void setNumberOfPortions(int numberOfPortions)
     {
-        if(m_mealIds.size() == 0)
-            return "";
-
-        String retString = "";
-        for (String s : m_mealIds)
-        {
-            retString += s + "$";
-        }
-
-        return retString.substring(0, retString.length()-1);
+        m_numOfPortions = String.valueOf(numberOfPortions);
     }
 
-    public void setMealIds(ArrayList<String> mealIds)
+    public String getNumberOfPortions()
     {
-        this.m_mealIds = mealIds;
+        return m_numOfPortions;
     }
 
-    public void setMealIds_sql(String string)
+    public int getNumberOfPortions_n()
     {
-        String[] list = string.split("$");
-        for (String s : list)
-        {
-            m_mealIds.add(s);
-        }
+        if(m_numOfPortions == null)
+            return 0;
+
+        return Integer.parseInt(m_numOfPortions);
     }
 
-    private String getNumOfPortionsList_sql()
+    public String getMealId()
     {
-        if(m_numOfPortionsList.size() == 0)
-            return "";
-
-        String retString = "";
-        for (String s : m_numOfPortionsList)
-        {
-            retString += s + "$";
-        }
-
-        return retString.substring(0, retString.length()-1);
+        return m_mealId;
     }
 
-    public ArrayList<String> getNumOfPortionsList()
+    public void setMealId(String mealId)
     {
-        return m_numOfPortionsList;
-    }
-
-    public void setNumOfPortionsList_sql(String string)
-    {
-        String[] list = string.split("$");
-        for (String s : list)
-        {
-            m_numOfPortionsList.add(s);
-        }
-    }
-
-    public void setNumOfPortionsList(ArrayList<String> numOfPortionsList)
-    {
-        this.m_numOfPortionsList = numOfPortionsList;
+        m_mealId = mealId;
     }
 
     public String getCurrentState()
@@ -105,14 +94,14 @@ public class Order
         this.m_currentState = currentState;
     }
 
-    public void setMealOrdererId(String userElement)
+    public void setEaterId(String id)
     {
-        m_mealOrdererId = userElement;
+        m_mealEaterId = id;
     }
 
-    public String getMealOrdererId()
+    public String getEaterId()
     {
-        return m_mealOrdererId;
+        return m_mealEaterId;
     }
 
     public boolean getIsTakeaway()
@@ -128,6 +117,11 @@ public class Order
     public void setIsTakeaway(String isTakeaway)
     {
         m_isTakeaway = isTakeaway;
+    }
+
+    public void setChefId(String id)
+    {
+        m_mealChefId = id;
     }
 
     public enum State
@@ -221,5 +215,15 @@ public class Order
         }
 
         return combinedMessages.substring(0, combinedMessages.length() - 5);
+    }
+
+    public void setMeal(Meal meal)
+    {
+        m_meal = meal;
+    }
+
+    public Meal GetMeal()
+    {
+        return m_meal;
     }
 }

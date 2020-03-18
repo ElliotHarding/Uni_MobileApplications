@@ -28,8 +28,9 @@ public class MeetupChat extends AppCompatActivity
 {
     private User m_eater = null;
     private User m_chef = null;
-    private boolean m_bForChef = false;
+    private boolean m_bThisIsChef = false;
     private boolean m_bTakeaway = false;
+
     private DatabaseCommunicator m_dbComms = new DatabaseCommunicator();
     private TextView txt_addressLine1;
     private TextView txt_addressLine2;
@@ -72,7 +73,7 @@ public class MeetupChat extends AppCompatActivity
         if(extras != null && extras.containsKey("orderId") && extras.containsKey("forChef"))
         {
             m_orderId = extras.getString("orderId");
-            m_bForChef = extras.getBoolean("forChef");
+            //m_bForChef = extras.getBoolean("forChef");
 
             GetOrderInfoCallback goic = new GetOrderInfoCallback();
             goic.SetMessage("Select * FROM " + m_dbComms.m_orderTable + " WHERE id = '" + m_orderId + "';");
@@ -182,7 +183,7 @@ public class MeetupChat extends AppCompatActivity
             {
                 m_bContinueUpdate = false;
                 m_updateThread = null;
-                Basket.basketItems.clear();
+                //Basket.basketItems.clear();
                 startActivity(new Intent(MeetupChat.this, MainHub.class));
             }
             else

@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class DatabaseCommunicator
 {
-    public final String m_userTable = "[menudatabase].[dbo].[User]";
-    public final String m_orderTable = "[menudatabase].[dbo].[Order]";
-    public final String m_mealTable = "[menudatabase].[dbo].[meal]";
+    public static final String m_userTable = "[menudatabase].[dbo].[User]";
+    public static final String m_orderTable = "[menudatabase].[dbo].[Order]";
+    public static final String m_mealTable = "[menudatabase].[dbo].[meal]";
     private final String m_dbRequestUrl = "http://themenuapp.gearhostpreview.com/databaseAPI.php?request=";
     private final String m_dbPostUrl = "http://themenuapp.gearhostpreview.com/databaseAPIpost.php";
 
@@ -205,11 +205,12 @@ public class DatabaseCommunicator
 
                         Order o = new Order();
                         o.setId(userElements[0]);
-                        o.setMealIds_sql(userElements[1]);
-                        o.setNumOfPortionsList_sql(userElements[2]);
-                        o.setMealOrdererId(userElements[3]);
-                        o.setCurrentState(userElements[4]);
-                        o.setIsTakeaway(userElements[5]);
+                        o.setMealId(userElements[1]);
+                        o.setChefId(userElements[2]);
+                        o.setEaterId(userElements[3]);
+                        o.setNumberOfPortions(userElements[4]);
+                        o.setCurrentState(userElements[5]);
+                        o.setIsTakeaway(userElements[6]);
                         o.setMessages_sql(userElements[6]);
 
                         basketItems.add(o);
