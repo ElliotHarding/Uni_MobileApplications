@@ -20,6 +20,7 @@ import com.menu.menu.Classes.BaseCallback;
 import com.menu.menu.Classes.DatabaseCommunicator;
 import com.menu.menu.Classes.LocalSettings;
 import com.menu.menu.Classes.User;
+import com.menu.menu.Classes.UsersCallback;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -171,7 +172,6 @@ public class SignUp extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        //m_currentUser = LocalSettings.GetLocalUser(); todo check why this is here
     }
 
     public static String ValidateSettings(User u)
@@ -214,6 +214,14 @@ public class SignUp extends AppCompatActivity
                 {
                     if(m_message.equals("null"))
                     {
+                        String select = "SELECT * FROM " + m_dbComms.m_userTable + " WHERE name = '" + m_currentUser.getUsername() + "' and password = '" + m_currentUser.getPassword() + "' or contact_email = '"
+                                + m_currentUser.getEmail() + "' and password = '" + m_currentUser.getPassword() + "';";
+
+                        UserDataCallback ucb = new UserDataCallback();
+                        ucb.SetMessage(select);
+                        m_dbComms.RequestUserData(ucb);
+
+                        LocalSettings.SaveLoginDetails(m_currentUser.getUsername(), m_currentUser.getPassword(), getApplicationContext());
                         startActivity(new Intent(SignUp.this, MainHub.class));
                     }
                     else
@@ -222,6 +230,32 @@ public class SignUp extends AppCompatActivity
                     }
                 }
             });
+            return null;
+        }
+    }
+
+    private class UserDataCallback extends UsersCallback
+    {
+        @Override
+        public Void call() throws Exception
+        {
+            if (m_users != null && !m_users.isEmpty()) //Correct user found
+            {
+                LocalSettings.UpdateLocalUser(m_users.get(0));
+                LocalSettings.SaveLoginDetails(m_users.get(0).getUsername(), m_users.get(0).getPassword(), SignUp.this);
+                startActivity(new Intent(SignUp.this, MainHub.class));
+            }
+            else
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        SetError("Incorrect Details");
+                    }
+                });
+            }
             return null;
         }
     }

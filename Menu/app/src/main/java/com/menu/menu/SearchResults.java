@@ -159,11 +159,14 @@ public class SearchResults extends AppCompatActivity
 
             User currentUser = m_userInfoArray.get(position);
 
-            TextView subjectText = itemView.findViewById(R.id.li_text);
+            TextView subjectText = itemView.findViewById(R.id.li_infoLeft);
             subjectText.setText(currentUser.getUsername());
 
-            TextView onSale = itemView.findViewById(R.id.li_infoRight);
-            onSale.setText(currentUser.getFoodType());
+            TextView foodType = itemView.findViewById(R.id.li_text);
+            foodType.setText("Food speciality: " + currentUser.getFoodType());
+
+            TextView rating = itemView.findViewById(R.id.li_infoRight);
+            rating.setText(currentUser.getRating() + "/5");
 
             //Img
             ImageView img = itemView.findViewById(R.id.img);

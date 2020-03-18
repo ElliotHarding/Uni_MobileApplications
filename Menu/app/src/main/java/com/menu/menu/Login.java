@@ -65,7 +65,6 @@ public class Login extends AppCompatActivity
         t.show();
     }
 
-
     private class UserDataCallback extends UsersCallback
     {
         @Override
