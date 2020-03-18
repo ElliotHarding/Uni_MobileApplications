@@ -57,7 +57,6 @@ public class MeetupChat extends AppCompatActivity
         txt_addressLine3 = findViewById(R.id.txt_addressLine3);
         txt_postCode = findViewById(R.id.txt_addressPostCode);
         txt_meetingName = findViewById(R.id.txt_meetingName);
-        txt_state = findViewById(R.id.txt_state);
         input_message = findViewById(R.id.txt_messageInput);
         listView_messages = findViewById(R.id.listView_messages);
         m_progressBar = findViewById(R.id.progressBar);
