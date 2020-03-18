@@ -160,7 +160,7 @@ public class MainHub extends AppCompatActivity
         }
     }
 
-    private void NavigateToFragment(String tag)
+    public void NavigateToFragment(String tag)
     {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
         if (fragment == null || !fragment.isVisible())

@@ -160,6 +160,11 @@ public class Basket extends Fragment
                     {
                         m_basketItems.remove(m_order);
                         m_displayList.setAdapter(new BasketListViewItem(getContext(), m_basketItems));
+
+                        if(m_basketItems.size() == 0)
+                        {
+                            ((MainHub)getActivity()).NavigateToFragment(MainHub.MyOrdersFragmentTag);
+                        }
                     }
                     else
                     {
