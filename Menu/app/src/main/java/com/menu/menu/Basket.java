@@ -199,7 +199,7 @@ public class Basket extends Fragment
             }
 
             final Order currentBasketItem = m_basketItemListRef.get(position);
-            final Meal currentMeal = currentBasketItem.GetMeal();
+            final Meal currentMeal = currentBasketItem.getMeal();
 
             //Subject text
             final TextView txt_subject = itemView.findViewById(R.id.li_top);
@@ -226,7 +226,7 @@ public class Basket extends Fragment
                 public void onClick(View view)
                 {
                     int mealNumber = currentBasketItem.getNumberOfPortions_n();
-                    if(mealNumber < currentBasketItem.GetMeal().getMaxNoPortions_n())
+                    if(mealNumber < currentBasketItem.getMeal().getMaxNoPortions_n())
                     {
                         mealNumber+=1;
                         currentBasketItem.setNumberOfPortions(mealNumber);

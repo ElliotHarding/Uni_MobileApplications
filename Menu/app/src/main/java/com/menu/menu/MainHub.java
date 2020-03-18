@@ -38,6 +38,7 @@ public class MainHub extends AppCompatActivity
     public static final String BasketFragmentTag = "BASKET_FRAGMENT";
     public static final String SettingsFragmentTag = "SETTINGS_FRAGMENT";
     public static final String MyMealsFragmentTag = "MY_MEALS_FRAGMENT";
+    public static final String MyOrdersFragmentTag = "MY_ORDERS_FRAGMENT";
 
     private NavigationView m_navigationView;
 
@@ -88,10 +89,7 @@ public class MainHub extends AppCompatActivity
 
                     case R.id.nav_currentOrders:
                         m_navigationView.getMenu().getItem(0).setChecked(true);
-                        GetOrderInfoCallback goic = new GetOrderInfoCallback();
-                        DatabaseCommunicator dbComms = new DatabaseCommunicator();
-                        goic.SetMessage("SELECT * FROM " + dbComms.m_orderTable + " WHERE CHARINDEX('"+LocalSettings.GetLocalUser().getId()+"', id) > 0;");
-                        dbComms.RequestOrderData(goic);
+                        NavigateToFragment(MyOrdersFragmentTag);
                         break;
 
                     case R.id.nav_home:
@@ -192,6 +190,12 @@ public class MainHub extends AppCompatActivity
                     ((MyMeals)fragment).SetDrawerButtonListner(m_drawerLisner);
                     tag = MyMealsFragmentTag;
                     break;
+
+                case MyOrdersFragmentTag:
+                    fragment = new MyOrders();
+                    ((MyOrders)fragment).SetDrawerButtonListner(m_drawerLisner);
+                    tag = MyOrdersFragmentTag;
+                    break;
             }
 
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -236,33 +240,5 @@ public class MainHub extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    private class GetOrderInfoCallback extends OrdersCallback
-    {
-        @Override
-        public Void call() throws Exception
-        {
-            if(m_orders != null && !m_orders.isEmpty())
-            {
-                Intent intent = new Intent(MainHub.this, MeetupChat.class);
-                intent.putExtra("orderId", m_orders.get(0).getId());
-                intent.putExtra("forChef", LocalSettings.GetLocalUser().getId() != m_orders.get(0).getId().split("---")[0]);
-                startActivity(intent);
-            }
-            else
-            {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        SetError("No current orders");
-                    }
-                });
-
-            }
-            return null;
-        }
     }
 }

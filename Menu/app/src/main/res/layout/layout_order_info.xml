@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/li_text"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/li_top"
+        android:layout_alignBottom="@+id/img"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/btn_portionsSub"
+        android:layout_toEndOf="@+id/img"
+        android:text="Text"
+        android:textAlignment="textStart"
+        android:textSize="18sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:srcCompat="@drawable/ic_meal" />
+
+    <TextView
+        android:id="@+id/li_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/btn_remove"
+        android:layout_toEndOf="@+id/img"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/li_top2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="234dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toEndOf="@+id/img"
+        android:text="TextView" />
+
+</RelativeLayout>
