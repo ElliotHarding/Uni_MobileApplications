@@ -10,21 +10,19 @@ public class UserTests
     /*
     TODO TALK ABOUT UNIT TESTS AND THEIR BENIFITS
     */
-
     //Test variable
     private User m_testUser = new User();
-
 
     @Test
     public void Test_InsertString()
     {
-        assertEquals(m_testUser.GetInsertString(), "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,picture_id,is_chef,latitude,longitude,food_type) VALUES (NEWID(),'elliot','elliot','null','null','null','null','null','null','null','null','null','null','5','null','null','null','null','null','null','null')");
+        assertEquals(m_testUser.GetInsertString(), "INSERT INTO [menudatabase].[dbo].[User] (id,name,password,full_name,address_line_1,address_line_2,address_city,address_post_code,address_description,date_of_birth,logged_in,contact_email,contact_phone,rating,is_admin,is_chef,latitude,longitude,food_type,picture_id) VALUES (NEWID(),'null','null','null','null','null','null','null','null','null','null','null','null','5','null','null','null','null','null','null')");
     }
 
     @Test
     public void Test_UpdateString()
     {
-        assertEquals(m_testUser.GetUpdateString(), "name='elliot',password='elliot',full_name='null',address_line_1='null',address_line_2='null',address_city='null',address_post_code='null',address_description='null',date_of_birth='null',logged_in='null',contact_email='null',contact_phone='null',rating='5',is_admin='null',picture_id='null',is_chef='null',latitude='null',longitude='null',food_type='null'");
+        assertEquals(m_testUser.GetUpdateString(), "name='null',password='null',full_name='null',address_line_1='null',address_line_2='null',address_city='null',address_post_code='null',address_description='null',date_of_birth='null',logged_in='null',contact_email='null',contact_phone='null',rating='5',is_admin='null',picture_id='null',is_chef='null',latitude='null',longitude='null',food_type='null'");
     }
 
     @Test

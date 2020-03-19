@@ -13,12 +13,6 @@ public class OrderTests
     Order m_testOrder = new Order();
 
     @Test
-    public void Test_InsertString()
-    {
-        assertEquals(m_testOrder.GetInsertString(), "INSERT INTO [menudatabase].[dbo].[Order] (id,meal_id,num_portions_ordered,meal_orderer_id,currentState,isTakeaway,messages) VALUES ('null','','','null','null','null','null');");
-    }
-
-    @Test
     public void Test_Id()
     {
         m_testOrder.setId("id");
@@ -26,23 +20,19 @@ public class OrderTests
     }
 
     @Test
-    public void Test_MealIds()
+    public void Test_MealId()
     {
-        ArrayList<String> mealIds = new ArrayList<>();
-        mealIds.add("s");
-        m_testOrder.setMealIds_sql("s");
-        assertEquals(m_testOrder.getMealIds(), mealIds);
-        m_testOrder.setMealIds(mealIds);
-        assertEquals(m_testOrder.getMealIds(), mealIds);
+        m_testOrder.setMealId("S");
+        assertEquals(m_testOrder.getMealId(), "S");
     }
 
     @Test
-    public void Test_NumOfPortionsList()
+    public void Test_NumOfPortions()
     {
-        ArrayList<String> numOfPortions = new ArrayList<>();
-        numOfPortions.add("s");
-        m_testOrder.setNumOfPortionsList(numOfPortions);
-        assertEquals(m_testOrder.getNumOfPortionsList(), numOfPortions);
+        String numOfPortions = "22";
+        m_testOrder.setNumberOfPortions(22);
+        assertEquals(m_testOrder.getNumberOfPortions(), numOfPortions);
+        assertEquals(m_testOrder.getNumberOfPortions_n(), 22);
     }
 
     @Test
@@ -61,11 +51,19 @@ public class OrderTests
     }
 
     @Test
-    public void Test_MealOrdererId()
+    public void Test_MealEaterId()
     {
-        m_testOrder.setMealOrdererId("yyy");
-        assertEquals(m_testOrder.getMealOrdererId(), "yyy");
+        m_testOrder.setEaterId("eater");
+        assertEquals(m_testOrder.getEaterId(), "eater");
     }
+
+    @Test
+    public void Test_MealChefId()
+    {
+        m_testOrder.setEaterId("chef");
+        assertEquals(m_testOrder.getEaterId(), "chef");
+    }
+
 
     @Test
     public void Test_Takeaway()
