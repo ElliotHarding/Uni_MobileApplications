@@ -7,9 +7,6 @@ import static org.junit.Assert.assertEquals;
 
 public class UserTests
 {
-    /*
-    TODO TALK ABOUT UNIT TESTS AND THEIR BENIFITS
-    */
     //Test variable
     private User m_testUser = new User();
 
