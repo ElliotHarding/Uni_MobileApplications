@@ -23,12 +23,6 @@ public class CallbackTests
         Waiting
     }
 
-    @Test
-    public void addition_isCorrect() throws Exception
-    {
-        assertEquals(4, 2 + 2);
-    }
-
     DatabaseCallbackState testRequestUserDataState = DatabaseCallbackState.Waiting;
     @Test
     public void Test_RequestUserData()
