@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Menu.iml" filepath="$PROJECT_DIR$/Menu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Menu-app.iml" filepath="$PROJECT_DIR$/app/Menu-app.iml" group="Menu/app" />
+      <module fileurl="file://$PROJECT_DIR$/Uni_MobileApplications-Menu.iml" filepath="$PROJECT_DIR$/Uni_MobileApplications-Menu.iml" group="Menu" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
