@@ -83,7 +83,10 @@ public class Login extends AppCompatActivity
                     @Override
                     public void run()
                     {
-                        SetError("Incorrect Details");
+                        if(m_bInternetIssue)
+                            SetError("Failed to connect! Check internet?");
+                        else
+                            SetError("Incorrect Details");
                     }
                 });
             }

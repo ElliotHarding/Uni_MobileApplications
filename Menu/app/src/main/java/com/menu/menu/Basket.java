@@ -215,6 +215,15 @@ public class Basket extends Fragment
             txt_orderAmount.setText(currentBasketItem.getNumberOfPortions());
 
             //Price
+            String price = currentMeal.getPrice();
+            Double cost = 0.00;
+            try
+            {
+                cost = Double.parseDouble(price) * currentBasketItem.getNumberOfPortions_n();
+            }
+            catch (Exception e)
+            {
+            }
             ((TextView)itemView.findViewById(R.id.li_text)).setText(currentMeal.getPrice() + "£");
 
             //Img

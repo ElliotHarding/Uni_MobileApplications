@@ -189,7 +189,16 @@ public class MyOrders extends Fragment
 
             //Subject text
             final TextView txt_subject = itemView.findViewById(R.id.li_top);
-            txt_subject.setText(currentOrder.getMeal().getPrice() + "£");
+            String price = currentOrder.getMeal().getPrice();
+            Double cost = 0.00;
+            try
+            {
+                cost = Double.parseDouble(price) * currentOrder.getNumberOfPortions_n();
+            }
+            catch (Exception e)
+            {
+            }
+            txt_subject.setText(cost + "£");
 
             //Ammount
             final TextView txt_orderAmount = itemView.findViewById(R.id.li_top2);

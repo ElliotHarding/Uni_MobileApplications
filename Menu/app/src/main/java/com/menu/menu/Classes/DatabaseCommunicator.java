@@ -53,6 +53,9 @@ public class DatabaseCommunicator
                 InputStream res = connection.getInputStream();
 
                 String webResponse = IOUtils.toString(res, StandardCharsets.UTF_8);
+                if(webResponse != null)
+                    params[0].m_bInternetIssue = false;
+
                 if(webResponse!=null && new Character(webResponse.charAt(0)).equals('['))
                 {
                     ArrayList<User> users = new ArrayList<>();
