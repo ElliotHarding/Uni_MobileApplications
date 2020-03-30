@@ -124,11 +124,11 @@ public class MealView extends AppCompatActivity
                             {
                                 switch (which)
                                 {
-                                    case DialogInterface.BUTTON_POSITIVE:
+                                    case DialogInterface.BUTTON_NEGATIVE:
                                         onBackPressed();
                                         break;
 
-                                    case DialogInterface.BUTTON_NEGATIVE:
+                                    case DialogInterface.BUTTON_POSITIVE:
 
                                         Intent intent = new Intent(MealView.this, MainHub.class);
                                         intent.putExtra("fragment", MainHub.BasketFragmentTag);
@@ -144,8 +144,8 @@ public class MealView extends AppCompatActivity
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MealView.this);
                         builder.setMessage("Continue shopping?")
-                                .setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("Check Out", dialogClickListener).show();
+                                .setPositiveButton("Check Out", dialogClickListener)
+                                .setNegativeButton("Yes", dialogClickListener).show();
                     }
                     else
                     {
