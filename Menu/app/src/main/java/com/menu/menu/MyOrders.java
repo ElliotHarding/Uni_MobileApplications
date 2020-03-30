@@ -202,7 +202,7 @@ public class MyOrders extends Fragment
 
             //Ammount
             final TextView txt_orderAmount = itemView.findViewById(R.id.li_top2);
-            txt_orderAmount.setText("Portions :" + currentOrder.getNumberOfPortions());
+            txt_orderAmount.setText("Portions: " + currentOrder.getNumberOfPortions());
 
             //Price
             ((TextView)itemView.findViewById(R.id.li_text)).setText(currentOrder.getMeal().getName());
