@@ -69,7 +69,7 @@ public class MyMeals extends Fragment
                 Intent intent = new Intent(getActivity(), MealRegistration.class);
                 Meal parcelMeal = m_mealInfoArray.get(position);
                 MealRegistration.FailedBitmap = parcelMeal.getPicture();
-                parcelMeal.setPicture(null);
+                //parcelMeal.setPicture(null);
                 intent.putExtra("meal", parcelMeal);
                 startActivity(intent);
             }

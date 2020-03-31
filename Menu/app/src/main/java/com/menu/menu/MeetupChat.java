@@ -1,7 +1,10 @@
 package com.menu.menu;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,9 +117,50 @@ public class MeetupChat extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                MarkCompleteCallback mcc = new MarkCompleteCallback();
-                mcc.SetMessage("DELETE FROM " + m_dbComms.m_orderTable + " WHERE id='" + m_orderId + "';");
-                m_dbComms.GenericUpload(mcc);
+                final Dialog ratingDialog = new Dialog(MeetupChat.this);
+                ratingDialog.setContentView(R.layout.dialog_rating);
+                ratingDialog.show();
+
+                ratingDialog.findViewById(R.id.btn_done).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        RatingBar ratingBar = ratingDialog.findViewById(R.id.ratingBar);
+                        float numStars = ratingBar.getRating();
+                        //todo update counter user's rating with this rating
+
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                switch (which)
+                                {
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        MarkCompleteCallback mcc = new MarkCompleteCallback();
+                                        mcc.SetMessage("DELETE FROM " + m_dbComms.m_orderTable + " WHERE id='" + m_orderId + "';");
+                                        m_dbComms.GenericUpload(mcc);
+
+                                        m_progressBar.startNestedScroll(1);
+                                        m_progressBar.setVisibility(View.VISIBLE);
+
+                                        break;
+
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        break;
+                                }
+                            }
+                        };
+
+                        ratingDialog.hide();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MeetupChat.this);
+                        builder.setMessage("Finish Order?")
+                                .setPositiveButton("No", dialogClickListener)
+                                .setNegativeButton("Yes", dialogClickListener).show();
+                    }
+                });
             }
         });
 
@@ -174,6 +219,8 @@ public class MeetupChat extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
+            m_progressBar.setVisibility(View.INVISIBLE);
+            m_progressBar.stopNestedScroll();
             if(m_message.equals("null"))
             {
                 m_bContinueUpdate = false;
@@ -220,25 +267,26 @@ public class MeetupChat extends AppCompatActivity
         @Override
         public Void call() throws Exception
         {
-            runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
+            if(m_bContinueUpdate)
+                runOnUiThread(new Runnable()
                 {
-                    if(m_orders != null && !m_orders.isEmpty())
+                    @Override
+                    public void run()
                     {
-                        m_messages = m_orders.get(0).getMessages();
-                        if(m_messages.get(0).equals("null"))
-                            m_messages.remove(0);
+                        if(m_orders != null && !m_orders.isEmpty())
+                        {
+                            m_messages = m_orders.get(0).getMessages();
+                            if(m_messages.get(0).equals("null"))
+                                m_messages.remove(0);
 
-                        listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
+                            listView_messages.setAdapter(new MessageListViewAdapter(getApplicationContext(), m_messages));
+                        }
+                        else
+                        {
+                            SetError("Failed to update chat! Check internet?");
+                        }
                     }
-                    else
-                    {
-                        SetError("Failed to update chat! Check internet?");
-                    }
-                }
-            });
+                });
             return null;
         }
     }

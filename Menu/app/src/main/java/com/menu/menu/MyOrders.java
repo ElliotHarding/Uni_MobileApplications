@@ -198,7 +198,7 @@ public class MyOrders extends Fragment
             catch (Exception e)
             {
             }
-            txt_subject.setText(cost + "£");
+            txt_subject.setText(String.format("%.2f", cost) + "£");
 
             //Ammount
             final TextView txt_orderAmount = itemView.findViewById(R.id.li_top2);
