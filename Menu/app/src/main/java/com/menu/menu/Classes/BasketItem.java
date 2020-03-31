@@ -81,12 +81,12 @@ public class BasketItem implements Serializable
         m_numberOfMeals = String.valueOf(num);
     }
 
-    public Boolean getTakeaway()
+    public Boolean GetTakeaway()
     {
         return m_isTakeaway;
     }
 
-    public void setTakeaway(Boolean takeaway)
+    public void SetTakeaway(Boolean takeaway)
     {
         m_isTakeaway = takeaway;
     }
