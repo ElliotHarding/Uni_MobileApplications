@@ -27,6 +27,7 @@ public class ChefAccountSettings extends AppCompatActivity
     TextView m_txt_pickDateTo = null;
     TextView m_txt_hoursAvaliableFrom = null;
     TextView m_txt_hoursAvaliableTo = null;
+    TextView m_txt_mealTimes = null;
     TimePickerDialog.OnTimeSetListener m_onHoursFromSetListener = null;
     TimePickerDialog.OnTimeSetListener m_onHoursToSetListener = null;
     String m_hoursAvaliableFrom = null;
@@ -45,6 +46,7 @@ public class ChefAccountSettings extends AppCompatActivity
         m_txt_pickDateTo = findViewById(R.id.txt_chooseDateTo);
         m_txt_hoursAvaliableFrom = findViewById(R.id.txt_hoursAvaliableFrom);
         m_txt_hoursAvaliableTo = findViewById(R.id.txt_hoursAvaliableTo);
+        m_txt_mealTimes = findViewById(R.id.txt_mealTimes);
 
         //May remove...
         //m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
@@ -68,6 +70,7 @@ public class ChefAccountSettings extends AppCompatActivity
                 m_txt_pickDateTo.setVisibility(View.INVISIBLE);
                 m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
                 m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+                m_txt_mealTimes.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -127,6 +130,7 @@ public class ChefAccountSettings extends AppCompatActivity
                     m_txt_pickDateTo.setVisibility(View.VISIBLE);
                     m_txt_hoursAvaliableFrom.setVisibility(View.VISIBLE);
                     m_txt_hoursAvaliableTo.setVisibility(View.VISIBLE);
+                    m_txt_mealTimes.setVisibility(View.VISIBLE);
                 }
                 else
                 {
@@ -136,6 +140,7 @@ public class ChefAccountSettings extends AppCompatActivity
                     m_txt_pickDateTo.setVisibility(View.INVISIBLE);
                     m_txt_hoursAvaliableFrom.setVisibility(View.INVISIBLE);
                     m_txt_hoursAvaliableTo.setVisibility(View.INVISIBLE);
+                    m_txt_mealTimes.setVisibility(View.INVISIBLE);
                 }
             }
         });
