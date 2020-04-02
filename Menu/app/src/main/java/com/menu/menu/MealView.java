@@ -55,6 +55,20 @@ public class MealView extends AppCompatActivity
             ((TextView)findViewById(R.id.txt_numberMeals)).setText("Number of dishes (Max : " + m_meal.getMaxNoPortions() + ")");
             ((TextView)findViewById(R.id.input_ingredients)).setText(m_meal.getIngredients());
 
+            if (!(m_meal.IsTakeaway() && m_meal.IsEatIn()))
+            {
+                if(m_meal.IsEatIn())
+                {
+                    switch_takeaway.setVisibility(View.INVISIBLE);
+                    switch_eatIn.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    switch_takeaway.setVisibility(View.VISIBLE);
+                    switch_eatIn.setVisibility(View.INVISIBLE);
+                }
+            }
+
             Bitmap bmp = m_meal.getPicture();
             if(bmp != null)
                 ((ImageView)findViewById(R.id.img_image)).setImageBitmap(bmp);

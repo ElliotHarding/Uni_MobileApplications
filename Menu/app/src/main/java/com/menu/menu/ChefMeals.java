@@ -61,6 +61,12 @@ public class ChefMeals extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        startActivity(new Intent(ChefMeals.this, MainHub.class));
+    }
+
     private void SetError(String errorString)
     {
         Toast t = Toast.makeText(ChefMeals.this, errorString,  Toast.LENGTH_LONG);
